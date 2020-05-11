@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-1 bg-white shadow text-center" >
+      <div class="sidebar">
+        <div *ngFor="let info of menu">
+        <a (click)="cerrarSesion(info)">
+          <p class="material-icons">{{info.icono}}</p>
+              <p>{{info.nombre}}</p>
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

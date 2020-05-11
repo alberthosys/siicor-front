@@ -1,0 +1,41 @@
+<app-header [title]="'- S I C O R -'" ></app-header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4 text-center" style="margin-top: 5%;">
+      <div class="card shadow" >
+        <div class="card-header" style="background-color: #00476d;color: white">
+          <h3>Iniciar Sesión</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+            <br/>
+            <img src="../../assets/imagenes/logoUTEZ.jpg" style="width: 40%;height:40%">
+            <br/>
+            <div style="margin-top: 5%;margin-bottom: 20%" class="input-group form-group">
+              <div class="input-group-prepend bg-white" style="padding-top: 1%;margin-left:20%">
+                 <span class="material-icons">
+                vpn_key
+                 </span>
+              </div>
+              <input [maxLength]="15" #element (input)="element.value=element.value.trim()" (click)="requiredIP=true" required (keydown.enter)="buscarIP()" formControlName="ip" type="text" class="form-control input-sm" style="margin-left: 5%;margin-right: 20%" placeholder="Ip de tu dispositivo">
+
+            </div>
+          </form>
+
+          <p style="color:red;margin-top: -10%" *ngIf="requiredIP && form.controls.ip.errors?.required">
+            Se requiere ingresar la Ip
+          </p>
+          <p style="color:red;margin-top: -10%" *ngIf="requiredIP && form.controls.ip.errors?.pattern">
+            La Ip es invalida
+          </p>
+
+          <button [disabled]="!form.valid" (click)="form.valid?buscarIP():null" class="btn btn-outline-success">Ingresar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
