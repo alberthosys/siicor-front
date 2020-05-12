@@ -1,7 +1,74 @@
-<div class="container-fluid">
+<div class="container-fluid" style="width: auto">
   <div class="row">
-    <div class="col-md-12 pt-2 text-center">
-      <p class="display-4">¡Benvenido a S I C O R !</p>
+    <div class="col-md-10 pt-4  text-center">
+      <img *ngIf="router" src="https://image.flaticon.com/icons/svg/2867/2867586.svg" style="width: 10%"
+           class="img img-fluid">
+      <img *ngIf="!router" src="https://image.flaticon.com/icons/svg/2847/2847837.svg" style="width: 10%"
+           class="img img-fluid">
+    </div>
+
+    <div class="col-md-10 pt-5 d-flex justify-content-center">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <div class="col-md-12 pt-4 text-center">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <p class="material-icons" style="height: 9px">computer</p>
+          </span>
+            </div>
+            <input required type="text" class="form-control" formControlName="dispositivo" disabled="true" placeholder="Dispositivo"
+                   data-placement="top" title="Dispositivo"
+            >
+          </div>
+        </div>
+        <div class="col-md-12 pt-4 text-center">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <p class="material-icons" style="height: 9px">device_hub</p>
+          </span>
+            </div>
+            <input required type="text" class="form-control" formControlName="hostname" placeholder="Host name"
+                   data-placement="top" title="Host name"
+
+            >
+          </div>
+        </div>
+        <div class="col-md-12  pt-4  text-center">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <p class="material-icons" style="height: 9px">double_arrow</p>
+          </span>
+            </div>
+            <input required type="text" class="form-control" formControlName="version" disabled="true" placeholder="Versión"
+                   data-placement="top" title="Versión">
+          </div>
+        </div>
+        <div class="col-md-12 pt-4   text-center">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <p class="material-icons" style="height: 9px">calendar_today</p>
+          </span>
+            </div>
+            <input required type="text" class="form-control" disabled="true" formControlName="fechaModificacion"
+                   placeholder="Última fecha de modificación"
+                   data-toggle="tooltip"
+                   data-placement="top" title="Última fecha de modificación"
+            >
+          </div>
+        </div>
       </div>
+    </form>
+    </div>
+    <div class="col-md-10 pt-4   text-center">
+      <button type="button" class="btn btn-lg btn-outline-success" data-toggle="tooltip"
+              data-placement="top" title="Guardar">
+        <p class="material-icons" style="height:5px">save</p>
+
+      </button>
+    </div>
   </div>
 </div>

@@ -4,7 +4,8 @@
       <div class="sidebar">
         <div *ngFor="let info of menu">
         <a (click)="cerrarSesion(info)">
-          <p class="material-icons">{{info.icono}}</p>
+          <img src="{{info.icono}}" width="21%" class="img img-fluid">
+<!--          <p class="material-icons">{{info.icono}}</p>-->
               <p>{{info.nombre}}</p>
         </a>
         </div>
