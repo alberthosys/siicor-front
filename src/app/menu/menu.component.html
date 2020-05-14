@@ -1,16 +1,15 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-1 bg-white shadow text-center" >
+    <div class="col-md-1 bg-white shadow text-center">
       <div class="sidebar">
         <div *ngFor="let info of menu">
-        <a (click)="cerrarSesion(info)" [routerLink]="info.path">
-          <img src="{{info.icono}}" width="21%" class="img img-fluid">
-<!--          <p class="material-icons">{{info.icono}}</p>-->
-              <p>{{info.nombre}}</p>
-        </a>
+          <a (click)="cerrarSesion(info)" [routerLink]="info.path">
+            <img src="{{ info.icono }}" width="21%" class="img img-fluid" />
+            <!--          <p class="material-icons">{{info.icono}}</p>-->
+            <p>{{ info.nombre }}</p>
+          </a>
         </div>
       </div>
     </div>
   </div>
 </div>
-

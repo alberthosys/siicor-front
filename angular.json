@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "SICOR-front"
+  "defaultProject": "SICOR-front",
+  "cli": {
+    "analytics": "f9e9b3be-bcbe-478e-afa8-ebb913f1ed0b"
+  }
 }
