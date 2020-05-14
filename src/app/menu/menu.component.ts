@@ -14,6 +14,7 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.menu.push({icono: 'https://image.flaticon.com/icons/png/512/553/553416.png', nombre: 'Página Incial',path:'/configuracion'})
     this.menu.push({icono: 'https://image.flaticon.com/icons/svg/833/833418.svg', nombre: 'Configuración básica',path:'/configuracionBasica'})
     this.menu.push({icono: 'https://image.flaticon.com/icons/svg/724/724820.svg', nombre: 'Direccionamiento',path:'/direccionamiento'})
