@@ -33,9 +33,8 @@ export class HomeComponent implements OnInit {
   }
 
   sesion() {
-    if (!this.sesionInfo) {
+    if (this.sesionInfo) {
       this.router.navigate(['/configuracion'])
-
     }
   }
 
