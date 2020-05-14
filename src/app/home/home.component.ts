@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   }
 
   sesion() {
-    if (this.sesionInfo) {
+    if (this.sesionInfo.getSesion()) {
       this.router.navigate(['/configuracion'])
     }
   }
