@@ -8,6 +8,11 @@ import { HeaderComponent } from './header/header.component';
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { MenuComponent } from './menu/menu.component';
 import { HomeConfiguracionComponent } from './home-configuracion/home-configuracion.component';
+import { DireccionamientoComponent } from './direccionamiento/direccionamiento.component';
+import { EnrutamientoComponent } from './enrutamiento/enrutamiento.component';
+import { AclComponent } from './acl/acl.component';
+import { VlanComponent } from './vlan/vlan.component';
+import { ConfiguracionBasicaComponent } from './configuracion-basica/configuracion-basica.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +22,11 @@ import { HomeConfiguracionComponent } from './home-configuracion/home-configurac
     ConfiguracionComponent,
     MenuComponent,
     HomeConfiguracionComponent,
+    DireccionamientoComponent,
+    EnrutamientoComponent,
+    AclComponent,
+    VlanComponent,
+    ConfiguracionBasicaComponent,
   ],
   imports: [
     BrowserModule,
