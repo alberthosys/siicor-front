@@ -8,7 +8,7 @@
 <!--&lt;!&ndash;          <p class="material-icons">{{info.icono}}</p>&ndash;&gt;-->
 <!--              <p>{{info.nombre}}</p>-->
 <!--        </a>-->
-          <a [routerLink]="info.path">
+          <a (click)="cerrarSesion(info)" [routerLink]="info.path">
           <div class="card">
             <div class="card-body">
               <img style="width: 20%" src="{{info.icono}}" class="img img-fluid">

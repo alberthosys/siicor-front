@@ -6,24 +6,24 @@
         <div class="col-md-2">
           <app-menu></app-menu>
         </div>
-        <div class="col-md-10">
-
-          <div class="container">
+        <div class="col-md-10"e>
+          <div class="container-fluid">
             <div class="row">
               <!--         MENU-->
               <div class="col-md-12 justify-content-center">
                 <div class="row">
-                  <div class="col-md-10 pt-4 text-center">
-                    <b class="display-4" style="font-size: 150%;color:#002f5d">
+                  <div class="col-md-12 pt-4 text-center" style="background-color:#002f5d;color:white; ">
+                    <b class="display-4" style="font-size: 150%;">
                       Configuración básica
                     </b>
+                    <pre></pre>
                   </div>
                   <div class="col-md-4">
                   </div>
                   <div class="col-md-2 pt-4">
-                    <button class="btn btn-outline-dark">
+                    <button (click)="this.ventana=false;" class="btn btn-outline-dark">
                       <span>
-                        <img class="img img-fluid" style="width:50%"
+                        <img class="img img-fluid" style="width:30%"
                              src="https://image.flaticon.com/icons/svg/438/438901.svg">
                       </span>
                       <span>
@@ -32,9 +32,9 @@
                     </button>
                   </div>
                   <div class="col-md-2 pt-4">
-                    <button class="btn btn-outline-dark">
+                    <button (click)="this.ventana=true;" class="btn btn-outline-dark">
                       <span>
-                        <img class="img img-fluid" style="width:50%"
+                        <img class="img img-fluid" style="width:30%"
                              src="https://image.flaticon.com/icons/svg/860/860220.svg">
                       </span>
                       <span>
@@ -46,9 +46,258 @@
               </div>
               <!--          MENU-->
               <!--              BODY-->
-              <div class="col-md-12">
+              <div id="CONSOLE" class="col-md-12 pt-4 justify-content-center" *ngIf="!ventana">
+                <form [formGroup]="formConsole">
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <b class="display-4" style="font-size: 180%;color:#009574">Console</b>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Enabled
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="enabled" disabled="true">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Configure terminal
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="config_terminal" disabled="true">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Line console 0
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="line_console_0" disabled="true">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Password
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="password" required
+                                 placeholder="password"
+                                 data-toggle="tooltip"
+                                 data-placement="top" title="password"
+                          >
+                        </div>
+                      </div>
+
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Login
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="login" disabled="true">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Exit
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="exit" disabled="true">
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pt-4 justify-content-center">
+                        <button class="btn btn-success"
+                                data-toggle="tooltip"
+                                data-placement="top" title="Guardar"
+                        >
+                          <p class="material-icons" style="height: 9px">save</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
               </div>
-              <div class="col-md-12">
+              <div id="VTY" class="col-md-12 pt-4 justify-content-center" *ngIf="ventana">
+                <form [formGroup]="formVty">
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <b class="display-4" style="font-size: 180%;color:#009574">VTY</b>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Enabled
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="enabled" disabled="true">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Configure terminal
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="config_terminal" disabled="true">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Line console 0
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="line_vty" disabled="true">
+                        </div>
+                      </div>
+                      <div class="col-sm-12 ">
+                        <div class="container-fluid">
+                          <div class="row content-center">
+                            <div class="col-sm-2 text-center">
+                              <p class="display-4" style="font-size:140%;color:#002f5d">0</p>
+                                <img *ngIf="this.formVty.controls.cero.value" (click)="this.formVty.controls.cero.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
+                                <img *ngIf="!this.formVty.controls.cero.value" (click)="this.formVty.controls.cero.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
+                            </div>
+                            <div class="col-sm-2 text-center">
+                              <p class="display-4" style="font-size:140%;color:#002f5d">1</p>
+                              <img *ngIf="this.formVty.controls.uno.value" (click)="this.formVty.controls.uno.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
+                              <img *ngIf="!this.formVty.controls.uno.value" (click)="this.formVty.controls.uno.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
+                            </div>
+                            <div class="col-sm-2 text-center">
+                              <p class="display-4" style="font-size:140%;color:#002f5d">2</p>
+                              <img *ngIf="this.formVty.controls.dos.value" (click)="this.formVty.controls.dos.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
+                              <img *ngIf="!this.formVty.controls.dos.value" (click)="this.formVty.controls.dos.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
+                            </div>
+                            <div class="col-sm-2 text-center">
+                              <p class="display-4" style="font-size:140%;color:#002f5d">3</p>
+                              <img *ngIf="this.formVty.controls.tres.value" (click)="this.formVty.controls.tres.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
+                              <img *ngIf="!this.formVty.controls.tres.value" (click)="this.formVty.controls.tres.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
+                            </div>
+                            <div class="col-sm-2 text-center">
+                              <p class="display-4" style="font-size:140%;color:#002f5d">4</p>
+                              <img *ngIf="this.formVty.controls.cuatro.value" (click)="this.formVty.controls.cuatro.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
+                              <img *ngIf="!this.formVty.controls.cuatro.value" (click)="this.formVty.controls.cuatro.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Password
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="password" required
+                                 placeholder="password"
+                                 data-toggle="tooltip"
+                                 data-placement="top" title="password"
+                          >
+                        </div>
+                      </div>
+
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Login
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="login" disabled="true">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Exit
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" formControlName="exit" disabled="true">
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pt-4 justify-content-center">
+                        <button class="btn btn-success"
+                                data-toggle="tooltip"
+                                data-placement="top" title="Guardar"
+                        >
+                          <p class="material-icons" style="height: 9px">save</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
               <!--              BODY-->
 
