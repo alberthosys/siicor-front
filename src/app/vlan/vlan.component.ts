@@ -34,9 +34,9 @@ export class VlanComponent implements OnInit {
     }
   }
 
+
   guardarDatos(vlan_numero, vlan_nombre, position: number) {
     this.vlans[position] = {vlan_numero: vlan_numero, vlan_name_string: vlan_nombre}
-    console.log("FORMULARIO->", this.vlans)
   }
   eliminarVlan(pos:number){
     let vlanTemp:VlanModel[]=[]
