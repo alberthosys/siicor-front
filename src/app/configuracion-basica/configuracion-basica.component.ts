@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Sesion} from "../Sesion/sesion";
 import {Alert} from "../Alerts/Alert";
 import {Router} from "@angular/router";
-import {Routers} from "../Modelos/Routers";
-import {Switch} from "../Modelos/Switch";
+import {Routers} from "../ModelosComando/Routers";
+import {Switch} from "../ModelosComando/Switch";
 import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({

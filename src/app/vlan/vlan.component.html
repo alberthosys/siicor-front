@@ -7,12 +7,37 @@
           <app-menu></app-menu>
         </div>
         <div class="col-md-10">
-          <h1 class="display-1">Vlan title</h1>
+          <div class="row">
+            <div class="col-md-4 pt-4">
+              <form [formGroup]="formVLAN">
+                <input formControlName="numero" type="number">
+              </form>
+              <br>
+              <button (click)="agregarVLAN()" (click)="this.formVLAN.controls.numero.setValue(0)" class="btn btn-success">Añadir</button>
+            </div>
+            <div class=" pt-4 col-md-8">
+              <button class="btn btn-success" (click)="this.formVLAN.controls.numero.setValue(0)" (click)="enviarDatosAlBack()">Guardar</button>
+            </div>
+
+            <div class="pt-4 col-md-4" *ngFor="let vlan of vlans;index as i">
+                <div class="card">
+                  <div class="card-body">
+                    <input type="number" [value]="vlan.vlan_numero?vlan.vlan_numero:null" #numero placeholder="numero"
+                           (change)="guardarDatos(numero.value,nombre.value,i)"
+                    >
+                    <input type="text" [value]="vlan.vlan_name_string?vlan.vlan_name_string:null" #nombre placeholder="nombre"
+                           (change)="guardarDatos(numero.value,nombre.value,i)"
+                    >
+                  </div>
+                </div>
+              <button class="btn btn-danger" (click)="eliminarVlan(i)"  >
+                Eliminar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
 

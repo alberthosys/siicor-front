@@ -13,6 +13,7 @@ import { EnrutamientoComponent } from './enrutamiento/enrutamiento.component';
 import { AclComponent } from './acl/acl.component';
 import { VlanComponent } from './vlan/vlan.component';
 import { ConfiguracionBasicaComponent } from './configuracion-basica/configuracion-basica.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ConfiguracionBasicaComponent } from './configuracion-basica/configuraci
     AclComponent,
     VlanComponent,
     ConfiguracionBasicaComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
