@@ -162,12 +162,8 @@
                           </div>
                           <input
                             type="number"
-                            [value]="vlan.vlan_numero ? vlan.vlan_numero : null"
-                            #numero
+                            [(ngModel)]="vlans[i].vlan_numero"
                             placeholder="VLAN número"
-                            (change)="
-                              guardarDatos(numero.value, nombre.value, i)
-                            "
                             required
                           />
                         </div>
@@ -186,16 +182,8 @@
                           </div>
                           <input
                             type="text"
-                            [value]="
-                              vlan.vlan_name_string
-                                ? vlan.vlan_name_string
-                                : null
-                            "
-                            #nombre
+                            [(ngModel)]="vlans[i].vlan_name_string"
                             placeholder="nombre"
-                            (change)="
-                              guardarDatos(numero.value, nombre.value, i)
-                            "
                             required
                           />
                         </div>
