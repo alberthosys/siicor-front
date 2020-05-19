@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Sesion } from "../Sesion/sesion";
 import { Alert } from "../Alerts/Alert";
-import { Routers } from "../Modelos/Routers";
-import { Switch } from "../Modelos/Switch";
 import { Router } from "@angular/router";
 import { Form, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { VlanModel } from "../Modelos/VlanModel";
 
 @Component({
   selector: "app-vlan",
@@ -14,27 +13,12 @@ import { Form, FormBuilder, FormGroup, Validators } from "@angular/forms";
 export class VlanComponent implements OnInit {
   public sesion = new Sesion();
   public alerta = new Alert();
-  public routerComand = new Routers();
-  public switchComand = new Switch();
+  public vlans: VlanModel[] = [];
+  public formVLAN: FormGroup;
   public ventana: number = 1;
-  public cantidadVlan: number = 0;
-  public formNumeroVlans: FormGroup;
-  public formCrearVlan: FormGroup;
-  public formAsignarPuertos: FormGroup;
-  public formTrunk: FormGroup;
-  public formRuteo: FormGroup;
-  public i = Array;
-  public vlans: Vlans[] = [{ vlan_number: null, name_name: null }];
-
-  constructor(public ruta: Router, public formBuilder: FormBuilder) {
-    this.formCrearVlan = formBuilder.group({
-      vlan_number: [""],
-      name_name: [""],
-      exit: [this.switchComand.exit],
-    });
-    this.formAsignarPuertos = formBuilder.group({});
-    this.formNumeroVlans = formBuilder.group({
-      cantidad: [1],
+  constructor(public ruta: Router, public formBuildder: FormBuilder) {
+    this.formVLAN = formBuildder.group({
+      numero: [0],
     });
   }
 
@@ -42,31 +26,37 @@ export class VlanComponent implements OnInit {
     this.checksesion();
   }
 
-  crearVlan() {
-    console.log("VLAN->", this.vlans);
+  agregarVLAN() {
+    for (let i = 0; i < this.formVLAN.controls.numero.value; i++) {
+      this.vlans.push({ vlan_numero: null, vlan_name_string: null });
+    }
   }
+
+  guardarDatos(vlan_numero, vlan_nombre, position: number) {
+    this.vlans[position] = {
+      vlan_numero: vlan_numero,
+      vlan_name_string: vlan_nombre,
+    };
+  }
+
+  eliminarVlan(pos: number) {
+    let vlanTemp: VlanModel[] = [];
+    this.vlans.forEach((item, index) => {
+      if (index != pos) {
+        vlanTemp.push(item);
+      }
+    });
+    this.vlans = vlanTemp;
+  }
+
   checksesion() {
     if (!this.sesion.getSesion()) {
       this.alerta.alertError("¡ No se ha iniciado sesión !");
       this.ruta.navigate([""]);
     }
   }
-  cargarCantidad() {
-    //this.cantidadVlan = this.formNumeroVlans.controls.cantidad.value;
-    /*  let vlans = {
-      vlan_number: [""],
-      name_name: [""],
-      exit: [""],
-    };
-    this.vlans.push(vlans);
-    console.log(this.vlans);*/
-  }
-  submit() {
-    console.log(this.formCrearVlan);
-  }
-}
 
-class Vlans {
-  vlan_number: number;
-  name_name: string;
+  enviarDatosAlBack() {
+    console.log(this.vlans);
+  }
 }

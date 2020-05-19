@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {Routes, RouterModule, Router} from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {ConfiguracionComponent} from "./configuracion/configuracion.component";
 import {DireccionamientoComponent} from "./direccionamiento/direccionamiento.component";
@@ -7,6 +7,7 @@ import {EnrutamientoComponent} from "./enrutamiento/enrutamiento.component";
 import {AclComponent} from "./acl/acl.component";
 import {VlanComponent} from "./vlan/vlan.component";
 import {ConfiguracionBasicaComponent} from "./configuracion-basica/configuracion-basica.component";
+import {NotFoundComponent} from "./not-found/not-found.component";
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   , {
     path: 'configuracionBasica',
     component: ConfiguracionBasicaComponent
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
   }
 ];
 
@@ -43,6 +48,11 @@ const routes: Routes = [
   ]
 })
 export class AppRoutingModule {
+  constructor(private router: Router) {
+    this.router.errorHandler = (error: any) => {
+      this.router.navigate(['/404']); // or redirect to default route
+    }
+  }
 }
 
 export const routingComponents = [
