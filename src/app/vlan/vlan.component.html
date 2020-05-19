@@ -1,4 +1,4 @@
-<div class="container-fluid" style="width: 102.4%">
+<div class="container-fluid" style="width: 102.4%;">
   <div class="row">
     <div class="col-md-12" style="margin-left: -1.6%;">
       <app-header [title]="'Configuración'"></app-header>
@@ -8,34 +8,222 @@
         </div>
         <div class="col-md-10">
           <div class="row">
-            <div class="col-md-4 pt-4">
-              <form [formGroup]="formVLAN">
-                <input formControlName="numero" type="number">
-              </form>
-              <br>
-              <button (click)="agregarVLAN()" (click)="this.formVLAN.controls.numero.setValue(0)" class="btn btn-success">Añadir</button>
+            <!--         MENU-->
+            <div class="col-md-12 justify-content-center">
+              <div class="row">
+                <div
+                  class="col-md-12 pt-4 text-center"
+                  style="background-color: #002f5d; color: white;"
+                >
+                  <b class="display-4" style="font-size: 150%;">
+                    Configuración de VLAN
+                  </b>
+                  <pre></pre>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2 pt-4">
+                  <button
+                    (click)="this.ventana = 1"
+                    class="btn btn-outline-dark"
+                  >
+                    <span>
+                      <img
+                        class="img img-fluid"
+                        style="width: 30%;"
+                        src="https://image.flaticon.com/icons/svg/438/438901.svg"
+                      />
+                    </span>
+                    <span>
+                      Crear VLAN
+                    </span>
+                  </button>
+                </div>
+                <div class="col-md-2 pt-4">
+                  <button
+                    (click)="this.ventana = 2"
+                    class="btn btn-outline-dark"
+                  >
+                    <span>
+                      <img
+                        class="img img-fluid"
+                        style="width: 30%;"
+                        src="https://image.flaticon.com/icons/svg/860/860220.svg"
+                      />
+                    </span>
+                    <span>
+                      Asignar puertos
+                    </span>
+                  </button>
+                </div>
+                <div class="col-md-2 pt-4">
+                  <button
+                    (click)="this.ventana = 3"
+                    class="btn btn-outline-dark"
+                  >
+                    <span>
+                      <img
+                        class="img img-fluid"
+                        style="width: 30%;"
+                        src="https://image.flaticon.com/icons/svg/860/860220.svg"
+                      />
+                    </span>
+                    <span>
+                      Puertos Trunk
+                    </span>
+                  </button>
+                </div>
+                <div class="col-md-2 pt-4">
+                  <button
+                    (click)="this.ventana = 4"
+                    class="btn btn-outline-dark"
+                  >
+                    <span>
+                      <img
+                        class="img img-fluid"
+                        style="width: 30%;"
+                        src="https://image.flaticon.com/icons/svg/860/860220.svg"
+                      />
+                    </span>
+                    <span>
+                      Ruteo
+                    </span>
+                  </button>
+                </div>
+                <div class="col-md-2 pt-4">
+                  <button
+                    (click)="this.ventana = 5"
+                    class="btn btn-outline-dark"
+                  >
+                    <span>
+                      <img
+                        class="img img-fluid"
+                        style="width: 30%;"
+                        src="https://image.flaticon.com/icons/svg/860/860220.svg"
+                      />
+                    </span>
+                    <span>
+                      Ver configuración
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class=" pt-4 col-md-8">
-              <button class="btn btn-success" (click)="this.formVLAN.controls.numero.setValue(0)" (click)="enviarDatosAlBack()">Guardar</button>
-            </div>
+            <!--          MENU-->
+            <div
+              id="CREAR"
+              class="col-md-12 pt-4 justify-content-center"
+              *ngIf="ventana == 1"
+            >
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <b class="display-4" style="font-size: 180%; color: #009574;"
+                    >Creación de VLAN</b
+                  >
+                </div>
+                <div class="col-md-12 pt-4 text-center">
+                  <form [formGroup]="formVLAN">
+                    <input formControlName="numero" type="number" />
+                  </form>
+                  <br />
+                  <button
+                    (click)="agregarVLAN()"
+                    (click)="this.formVLAN.controls.numero.setValue(0)"
+                    class="btn btn-outline-success"
+                  >
+                    <i class="material-icons" style="height: 9px;">
+                      add_to_queue
+                    </i>
+                  </button>
+                  <button
+                    class="btn btn-outline-success"
+                    style="margin-left: 40px;"
+                    (click)="this.formVLAN.controls.numero.setValue(0)"
+                    (click)="enviarDatosAlBack()"
+                  >
+                    Guardar
+                  </button>
+                </div>
 
-            <div class="pt-4 col-md-4" *ngFor="let vlan of vlans;index as i">
-                <div class="card">
-                  <div class="card-body">
-                    <input type="number"  [(ngModel)]="vlans[i].vlan_numero" placeholder="numero">
-                    <input type="text"  [(ngModel)]="vlans[i].vlan_name_string" placeholder="nombre">
+                <div
+                  class="pt-4 col-md-4"
+                  *ngFor="let vlan of vlans; index as i"
+                >
+                  <div class="card" id="card">
+                    <div class="card-body">
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="number"
+                            [value]="vlan.vlan_numero ? vlan.vlan_numero : null"
+                            #numero
+                            placeholder="VLAN número"
+                            (change)="
+                              guardarDatos(numero.value, nombre.value, i)
+                            "
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            [value]="
+                              vlan.vlan_name_string
+                                ? vlan.vlan_name_string
+                                : null
+                            "
+                            #nombre
+                            placeholder="nombre"
+                            (change)="
+                              guardarDatos(numero.value, nombre.value, i)
+                            "
+                            required
+                          />
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-outline-danger mt-2"
+                        style="margin-left: 15px;"
+                        (click)="eliminarVlan(i)"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete_forever
+                        </i>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              <button class="btn btn-danger" (click)="eliminarVlan(i)"  >
-                Eliminar</button>
+              </div>
             </div>
+            <!-- Segundo submenú-->
+            <div
+              id="CREAR"
+              class="col-md-12 justify-content-center"
+              *ngIf="ventana == 2"
+            ></div>
+            <!-- Términa el segundo submenú-->
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
-
-
-
+</div>
