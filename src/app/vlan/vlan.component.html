@@ -22,12 +22,8 @@
             <div class="pt-4 col-md-4" *ngFor="let vlan of vlans;index as i">
                 <div class="card">
                   <div class="card-body">
-                    <input type="number" [value]="vlan.vlan_numero?vlan.vlan_numero:null" #numero placeholder="numero"
-                           (change)="guardarDatos(numero.value,nombre.value,i)"
-                    >
-                    <input type="text" [value]="vlan.vlan_name_string?vlan.vlan_name_string:null" #nombre placeholder="nombre"
-                           (change)="guardarDatos(numero.value,nombre.value,i)"
-                    >
+                    <input type="number"  [(ngModel)]="vlans[i].vlan_numero" placeholder="numero">
+                    <input type="text"  [(ngModel)]="vlans[i].vlan_name_string" placeholder="nombre">
                   </div>
                 </div>
               <button class="btn btn-danger" (click)="eliminarVlan(i)"  >

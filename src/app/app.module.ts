@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import {AppRoutingModule, routingComponents} from './app-routing.module';
 import { AppComponent } from './app.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HeaderComponent } from './header/header.component';
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { MenuComponent } from './menu/menu.component';
@@ -30,11 +30,12 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ConfiguracionBasicaComponent,
     NotFoundComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
