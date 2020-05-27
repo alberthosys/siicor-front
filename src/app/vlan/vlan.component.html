@@ -140,7 +140,7 @@
                     (click)="this.formVLAN.controls.numero.setValue(0)"
                     (click)="enviarDatosAlBack()"
                   >
-                    Guardar
+                    <i class="material-icons" style="height: 9px;">save</i>
                   </button>
                 </div>
 
@@ -205,10 +205,348 @@
             <!-- Segundo submenú-->
             <div
               id="CREAR"
-              class="col-md-12 justify-content-center"
+              class="col-md-12 pt-4 justify-content-center"
               *ngIf="ventana == 2"
-            ></div>
+            >
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <b class="display-4" style="font-size: 180%; color: #009574;"
+                    >Asignar Vlan a puertos</b
+                  >
+                </div>
+                <div class="col-md-12 pt-4 text-center">
+                  <form [formGroup]="formPuertos">
+                    <input formControlName="numero" type="number" />
+                  </form>
+                  <br />
+                  <button
+                    (click)="agregarPuerto()"
+                    (click)="this.formPuertos.controls.numero.setValue(0)"
+                    class="btn btn-outline-success"
+                  >
+                    <i class="material-icons" style="height: 9px;">
+                      add_to_queue
+                    </i>
+                  </button>
+                  <button
+                    class="btn btn-outline-success"
+                    style="margin-left: 40px;"
+                    (click)="this.formPuertos.controls.numero.setValue(0)"
+                    (click)="enviarDatosAlBack()"
+                  >
+                    <i class="material-icons" style="height: 9px;">save</i>
+                  </button>
+                </div>
+                <div
+                  class="pt-4 col-md-4"
+                  *ngFor="let vlan of puertos; index as p"
+                >
+                  <div class="card" id="card">
+                    <div class="card-body">
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            [(ngModel)]="puertos[p].puerto_rango"
+                            placeholder="fa0/1"
+                            required
+                          />
+                          <i class="material-icons" style="height: 9px;"
+                            >minimize</i
+                          >
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            [(ngModel)]="puertos[p].puerto_rangoDos"
+                            placeholder="3"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="puertos[p].puerto_vlan"
+                            placeholder="VLAN 10"
+                            required
+                          >
+                            <option [value]="item" *ngFor="let item of lista">{{
+                              item
+                            }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-outline-danger mt-2"
+                        style="margin-left: 15px;"
+                        (click)="eliminarPuerto(p)"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete_forever
+                        </i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- Términa el segundo submenú-->
+            <!-- Empieza el tercer submenú-->
+            <div
+              class="col-md-12 pt-4 justify-content-center"
+              *ngIf="ventana == 3"
+            >
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <b class="display-4" style="font-size: 180%; color: #009574;"
+                    >Asignar puertos Trunk</b
+                  >
+                </div>
+                <div class="col-md-12 pt-4 text-center">
+                  <form [formGroup]="formPuertosTrunk">
+                    <input formControlName="numero" type="number" />
+                  </form>
+                  <br />
+                  <button
+                    (click)="agregarPuertosTrunk()"
+                    (click)="this.formPuertosTrunk.controls.numero.setValue(0)"
+                    class="btn btn-outline-success"
+                  >
+                    <i class="material-icons" style="height: 9px;">
+                      add_to_queue
+                    </i>
+                  </button>
+                  <button
+                    class="btn btn-outline-success"
+                    style="margin-left: 40px;"
+                    (click)="this.formPuertosTrunk.controls.numero.setValue(0)"
+                    (click)="enviarDatosAlBack()"
+                  >
+                    <i class="material-icons" style="height: 9px;">save</i>
+                  </button>
+                </div>
+                <div
+                  class="pt-4 col-md-4"
+                  *ngFor="let vlan of puertosTrunk; index as t"
+                >
+                  <div class="card" id="card">
+                    <div class="card-body">
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            [(ngModel)]="puertosTrunk[t].vlan_trunk_rango"
+                            placeholder="fa0/1"
+                            required
+                          />
+                          <i class="material-icons" style="height: 9px;"
+                            >minimize</i
+                          >
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            [(ngModel)]="puertosTrunk[t].vlan_trunk_rangoDos"
+                            placeholder="3"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="puertosTrunk[t].vlan_trunk"
+                            placeholder="VLAN 10"
+                            required
+                          >
+                            <option [value]="item" *ngFor="let item of lista">{{
+                              item
+                            }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-outline-danger mt-2"
+                        style="margin-left: 15px;"
+                        (click)="eliminarPuertosTrunk(t)"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete_forever
+                        </i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Términa el tercer submenú-->
+            <!-- Empieza el cuarto submenú-->
+            <div
+              class="col-md-12 pt-4 justify-content-center"
+              *ngIf="ventana == 4"
+            >
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <b class="display-4" style="font-size: 180%; color: #009574;"
+                    >Ruteo entre VLANs</b
+                  >
+                </div>
+                <div class="col-md-12 pt-4 text-center">
+                  <form [formGroup]="formRuteo">
+                    <input formControlName="numero" type="number" />
+                  </form>
+                  <br />
+                  <button
+                    (click)="agregarRuteo()"
+                    (click)="this.formRuteo.controls.numero.setValue(0)"
+                    class="btn btn-outline-success"
+                  >
+                    <i class="material-icons" style="height: 9px;">
+                      add_to_queue
+                    </i>
+                  </button>
+                  <button
+                    class="btn btn-outline-success"
+                    style="margin-left: 40px;"
+                    (click)="this.formRuteo.controls.numero.setValue(0)"
+                    (click)="enviarDatosAlBack()"
+                  >
+                    <i class="material-icons" style="height: 9px;">save</i>
+                  </button>
+                </div>
+                <div
+                  class="pt-4 col-md-4"
+                  *ngFor="let vlan of ruteo; index as r"
+                >
+                  <div class="card" id="card">
+                    <div class="card-body">
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="ruteo[r].vlan_interface"
+                            placeholder="VLAN 10"
+                            required
+                          >
+                            <option [value]="item" *ngFor="let item of lista">{{
+                              item
+                            }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            [(ngModel)]="ruteo[r].vlan_ip"
+                            placeholder="Dirección ip"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            [(ngModel)]="ruteo[r].vlan_mascara"
+                            placeholder="Máscara"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-outline-danger mt-2"
+                        style="margin-left: 15px;"
+                        (click)="eliminarRuteo(r)"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete_forever
+                        </i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Términa el cuarto submenú-->
           </div>
         </div>
       </div>
