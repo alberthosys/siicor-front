@@ -1,12 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { Sesion } from "../Sesion/sesion";
-import { Alert } from "../Alerts/Alert";
-import { Router } from "@angular/router";
-import { Form, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { VlanModel } from "../Modelos/VlanModel";
-import { PuertoModel } from "../Modelos/PuertoModel";
-import { VlanTrunkModel } from "../Modelos/VlanTrunkModel";
-import { VlanRuteoModel } from "../Modelos/VlanRuteoModel";
+import {Component, OnInit} from "@angular/core";
+import {Sesion} from "../Sesion/sesion";
+import {Alert} from "../Alerts/Alert";
+import {Router} from "@angular/router";
+import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {VlanModel} from "../Modelos/VlanModel";
+import {PuertoModel} from "../Modelos/PuertoModel";
+import {VlanTrunkModel} from "../Modelos/VlanTrunkModel";
+import {VlanRuteoModel} from "../Modelos/VlanRuteoModel";
+import {Switch} from "../ModelosComando/Switch";
 
 @Component({
   selector: "app-vlan",
@@ -17,6 +18,7 @@ export class VlanComponent implements OnInit {
   public sesion = new Sesion();
   public alerta = new Alert();
   public vlans: VlanModel[] = [];
+  public vlansEditar: VlanModel[] = [];
   public formVLAN: FormGroup;
   public puertos: PuertoModel[] = [];
   public formPuertos: FormGroup;
@@ -25,6 +27,7 @@ export class VlanComponent implements OnInit {
   public ruteo: VlanRuteoModel[] = [];
   public formRuteo: FormGroup;
   public ventana: number = 1;
+  public comando = new Switch();
 
   lista: string[] = ["10", "20", "40"];
 
@@ -45,11 +48,15 @@ export class VlanComponent implements OnInit {
 
   ngOnInit() {
     this.checksesion();
+    this.vlansEditar.push({vlan_numero: 10, vlan_name_string: "DATIC"})
+    this.vlansEditar.push({vlan_numero: 20, vlan_name_string: "DACEA"})
+    console.log("EDIT->", this.vlansEditar)
   }
+
   // Creación de VLAN
   agregarVLAN() {
     for (let i = 0; i < this.formVLAN.controls.numero.value; i++) {
-      this.vlans.push({ vlan_numero: null, vlan_name_string: null });
+      this.vlans.push({vlan_numero: null, vlan_name_string: null});
     }
   }
 
@@ -62,6 +69,21 @@ export class VlanComponent implements OnInit {
     });
     this.vlans = vlanTemp;
   }
+
+  eliminarVlanCrada(pos: number) {
+    let comandos: string[] = [];
+    comandos.push(this.comando.no_vlan + this.vlansEditar[pos].vlan_numero);
+    console.log("Eliminar VLAN->", comandos)
+    // this.ngOnInit();
+  }
+
+  editarVlan(pos: number) {
+    let comandos: string[] = [];
+    comandos.push(this.comando.vlan_number + this.vlansEditar[pos].vlan_numero);
+    comandos.push(this.comando.vlan_name + this.vlansEditar[pos].vlan_name_string)
+    console.log("Editar VLAN->", comandos)
+  }
+
   // Asignar puertos
   agregarPuerto() {
     for (let i = 0; i < this.formPuertos.controls.numero.value; i++) {
@@ -82,6 +104,7 @@ export class VlanComponent implements OnInit {
     });
     this.puertos = puertoTemp;
   }
+
   // Puertos Trunk
   agregarPuertosTrunk() {
     for (let i = 0; i < this.formPuertosTrunk.controls.numero.value; i++) {
@@ -102,6 +125,7 @@ export class VlanComponent implements OnInit {
     });
     this.puertosTrunk = trunkTemp;
   }
+
   //Ruteo
   agregarRuteo() {
     for (let i = 0; i < this.formRuteo.controls.numero.value; i++) {
@@ -122,6 +146,7 @@ export class VlanComponent implements OnInit {
     });
     this.ruteo = ruteoTemp;
   }
+
   checksesion() {
     if (!this.sesion.getSesion()) {
       this.alerta.alertError("¡ No se ha iniciado sesión !");
@@ -131,5 +156,16 @@ export class VlanComponent implements OnInit {
 
   enviarDatosAlBack() {
     console.log(this.vlans);
+    let comandos: string[] = [];
+    this.vlans.forEach((item)=>{
+      comandos.push(this.comando.vlan_number+item.vlan_numero);
+      comandos.push(this.comando.vlan_name+item.vlan_name_string);
+      comandos.push(this.comando.exit);
+    })
+    // vlan 10
+    // name SICOR
+    // exit
+    console.log("ENVIANDO-AL-BACK", comandos)
+
   }
 }

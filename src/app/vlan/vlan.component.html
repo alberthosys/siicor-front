@@ -116,15 +116,13 @@
             >
               <div class="row">
                 <div class="col-md-12 text-center">
-                  <b class="display-4" style="font-size: 180%; color: #009574;"
-                    >Creación de VLAN</b
-                  >
+                  <b class="display-4" style="font-size: 180%; color: #009574;">Creación de VLAN</b>
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formVLAN">
-                    <input formControlName="numero" type="number" />
+                    <input formControlName="numero" type="number"/>
                   </form>
-                  <br />
+                  <br/>
                   <button
                     (click)="agregarVLAN()"
                     (click)="this.formVLAN.controls.numero.setValue(0)"
@@ -143,12 +141,74 @@
                     <i class="material-icons" style="height: 9px;">save</i>
                   </button>
                 </div>
+<!--                Editar-->
+                <div class="pt-4 col-md-4"  *ngFor="let vlan of vlansEditar; index as i">
+                  <div class="card">
+                    <div class="card-body" style="background-color: #F1F4FC">
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            [disabled]="true"
+                            type="number"
+                            [(ngModel)]="vlansEditar[i].vlan_numero"
+                            placeholder="VLAN número"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            [(ngModel)]="vlansEditar[i].vlan_name_string"
+                            placeholder="nombre"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-outline-danger mt-2"
+                        style="margin-left: 15px;"
+                        (click)="eliminarVlanCrada(i)"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete_forever
+                        </i>
+                      </button>
+                      <button
+                        class="btn btn-outline-info mt-2"
+                        style="margin-left: 15px;"
+                        (click)="editarVlan(i)"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          edit
+                        </i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+<!--                Editar-->
 
-                <div
-                  class="pt-4 col-md-4"
-                  *ngFor="let vlan of vlans; index as i"
-                >
-                  <div class="card" id="card">
+                <div class="pt-4 col-md-4"  *ngFor="let vlan of vlans; index as i">
+                  <div class="card">
                     <div class="card-body">
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">VLAN</label>
@@ -200,6 +260,13 @@
                     </div>
                   </div>
                 </div>
+
+
+
+
+
+
+
               </div>
             </div>
             <!-- Segundo submenú-->
@@ -211,14 +278,14 @@
               <div class="row">
                 <div class="col-md-12 text-center">
                   <b class="display-4" style="font-size: 180%; color: #009574;"
-                    >Asignar Vlan a puertos</b
+                  >Asignar Vlan a puertos</b
                   >
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formPuertos">
-                    <input formControlName="numero" type="number" />
+                    <input formControlName="numero" type="number"/>
                   </form>
-                  <br />
+                  <br/>
                   <button
                     (click)="agregarPuerto()"
                     (click)="this.formPuertos.controls.numero.setValue(0)"
@@ -262,7 +329,7 @@
                             required
                           />
                           <i class="material-icons" style="height: 9px;"
-                            >minimize</i
+                          >minimize</i
                           >
                           <input
                             type="number"
@@ -296,7 +363,7 @@
                           >
                             <option [value]="item" *ngFor="let item of lista">{{
                               item
-                            }}</option>
+                              }}</option>
                           </select>
                         </div>
                       </div>
@@ -323,14 +390,14 @@
               <div class="row">
                 <div class="col-md-12 text-center">
                   <b class="display-4" style="font-size: 180%; color: #009574;"
-                    >Asignar puertos Trunk</b
+                  >Asignar puertos Trunk</b
                   >
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formPuertosTrunk">
-                    <input formControlName="numero" type="number" />
+                    <input formControlName="numero" type="number"/>
                   </form>
-                  <br />
+                  <br/>
                   <button
                     (click)="agregarPuertosTrunk()"
                     (click)="this.formPuertosTrunk.controls.numero.setValue(0)"
@@ -374,7 +441,7 @@
                             required
                           />
                           <i class="material-icons" style="height: 9px;"
-                            >minimize</i
+                          >minimize</i
                           >
                           <input
                             type="number"
@@ -408,7 +475,7 @@
                           >
                             <option [value]="item" *ngFor="let item of lista">{{
                               item
-                            }}</option>
+                              }}</option>
                           </select>
                         </div>
                       </div>
@@ -435,14 +502,14 @@
               <div class="row">
                 <div class="col-md-12 text-center">
                   <b class="display-4" style="font-size: 180%; color: #009574;"
-                    >Ruteo entre VLANs</b
+                  >Ruteo entre VLANs</b
                   >
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formRuteo">
-                    <input formControlName="numero" type="number" />
+                    <input formControlName="numero" type="number"/>
                   </form>
-                  <br />
+                  <br/>
                   <button
                     (click)="agregarRuteo()"
                     (click)="this.formRuteo.controls.numero.setValue(0)"
@@ -488,7 +555,7 @@
                           >
                             <option [value]="item" *ngFor="let item of lista">{{
                               item
-                            }}</option>
+                              }}</option>
                           </select>
                         </div>
                       </div>

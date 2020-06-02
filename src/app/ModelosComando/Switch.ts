@@ -1,7 +1,8 @@
 import { Universal } from "./Universal";
 
 export class Switch extends Universal {
-  vlan_number: string = "vlan";
-  name_name: string = "name";
+  no_vlan:string="no vlan "
+  vlan_number: string = "vlan ";
+  vlan_name: string = "name ";
   exit: string = "exit";
 }

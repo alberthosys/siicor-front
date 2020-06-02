@@ -36,7 +36,7 @@ export class MenuComponent implements OnInit {
       path: '/enrutamiento'
     })
     this.menu.push({
-      icono: 'https://www.flaticon.com/premium-icon/icons/svg/2859/2859731.svg',
+      icono: 'https://image.flaticon.com/icons/svg/2972/2972258.svg',
       nombre: 'ACL',
       path: '/acl'
     })
