@@ -116,17 +116,20 @@
             >
               <div class="row">
                 <div class="col-md-12 text-center">
-                  <b class="display-4" style="font-size: 180%; color: #009574;">Creación de VLAN</b>
+                  <b class="display-4" style="font-size: 180%; color: #009574;"
+                    >Creación de VLAN</b
+                  >
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formVLAN">
-                    <input formControlName="numero" type="number"/>
+                    <input formControlName="numero" type="number" />
                   </form>
-                  <br/>
+                  <br />
                   <button
                     (click)="agregarVLAN()"
                     (click)="this.formVLAN.controls.numero.setValue(0)"
                     class="btn btn-outline-success"
+                    title="Agregar"
                   >
                     <i class="material-icons" style="height: 9px;">
                       add_to_queue
@@ -137,14 +140,18 @@
                     style="margin-left: 40px;"
                     (click)="this.formVLAN.controls.numero.setValue(0)"
                     (click)="enviarDatosAlBack()"
+                    title="Guardar"
                   >
                     <i class="material-icons" style="height: 9px;">save</i>
                   </button>
                 </div>
-<!--                Editar-->
-                <div class="pt-4 col-md-4"  *ngFor="let vlan of vlansEditar; index as i">
+                <!--                Editar-->
+                <div
+                  class="pt-4 col-md-4"
+                  *ngFor="let vlan of vlansEditar; index as i"
+                >
                   <div class="card">
-                    <div class="card-body" style="background-color: #F1F4FC">
+                    <div class="card-body" style="background-color: #f1f4fc;">
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">VLAN</label>
                         <div class="input-group">
@@ -188,6 +195,7 @@
                         class="btn btn-outline-danger mt-2"
                         style="margin-left: 15px;"
                         (click)="eliminarVlanCrada(i)"
+                        title="Eliminar"
                       >
                         <i class="material-icons" style="height: 9px;">
                           delete_forever
@@ -197,6 +205,7 @@
                         class="btn btn-outline-info mt-2"
                         style="margin-left: 15px;"
                         (click)="editarVlan(i)"
+                        title="Editar"
                       >
                         <i class="material-icons" style="height: 9px;">
                           edit
@@ -205,9 +214,12 @@
                     </div>
                   </div>
                 </div>
-<!--                Editar-->
+                <!--                Editar-->
 
-                <div class="pt-4 col-md-4"  *ngFor="let vlan of vlans; index as i">
+                <div
+                  class="pt-4 col-md-4"
+                  *ngFor="let vlan of vlans; index as i"
+                >
                   <div class="card">
                     <div class="card-body">
                       <div class="col-sm-12 pt-1 my-1">
@@ -252,6 +264,7 @@
                         class="btn btn-outline-danger mt-2"
                         style="margin-left: 15px;"
                         (click)="eliminarVlan(i)"
+                        title="Eliminar"
                       >
                         <i class="material-icons" style="height: 9px;">
                           delete_forever
@@ -260,13 +273,6 @@
                     </div>
                   </div>
                 </div>
-
-
-
-
-
-
-
               </div>
             </div>
             <!-- Segundo submenú-->
@@ -278,18 +284,19 @@
               <div class="row">
                 <div class="col-md-12 text-center">
                   <b class="display-4" style="font-size: 180%; color: #009574;"
-                  >Asignar Vlan a puertos</b
+                    >Asignar Vlan a puertos</b
                   >
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formPuertos">
-                    <input formControlName="numero" type="number"/>
+                    <input formControlName="numero" type="number" />
                   </form>
-                  <br/>
+                  <br />
                   <button
                     (click)="agregarPuerto()"
                     (click)="this.formPuertos.controls.numero.setValue(0)"
                     class="btn btn-outline-success"
+                    title="Agregar"
                   >
                     <i class="material-icons" style="height: 9px;">
                       add_to_queue
@@ -300,16 +307,43 @@
                     style="margin-left: 40px;"
                     (click)="this.formPuertos.controls.numero.setValue(0)"
                     (click)="enviarDatosAlBack()"
+                    title="Guardar"
                   >
                     <i class="material-icons" style="height: 9px;">save</i>
                   </button>
                 </div>
+                <!-- Editar -->
                 <div
                   class="pt-4 col-md-4"
-                  *ngFor="let vlan of puertos; index as p"
+                  *ngFor="let vlan of rangos; index as p"
                 >
                   <div class="card" id="card">
                     <div class="card-body">
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="rangos[p].puerto_vlan"
+                            placeholder="VLAN 10"
+                            required
+                          >
+                            <option [value]="item" *ngFor="let item of lista">{{
+                              item
+                            }}</option>
+                          </select>
+                        </div>
+                      </div>
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">VLAN</label>
                         <div class="input-group">
@@ -320,28 +354,67 @@
                               </p>
                             </div>
                           </div>
-                          <input
-                            type="number"
-                            min="0"
-                            max="100"
-                            [(ngModel)]="puertos[p].puerto_rango"
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="rangos[p].puerto_rango"
                             placeholder="fa0/1"
                             required
-                          />
-                          <i class="material-icons" style="height: 9px;"
-                          >minimize</i
                           >
-                          <input
-                            type="number"
-                            min="0"
-                            max="100"
-                            [(ngModel)]="puertos[p].puerto_rangoDos"
-                            placeholder="3"
+                            <option
+                              [value]="item"
+                              *ngFor="let item of lista_puerto"
+                              >{{ item }}</option
+                            >
+                          </select>
+                          <i class="material-icons" style="height: 9px;"
+                            >minimize</i
+                          >
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="rangos[p].puerto_rangoDos"
+                            placeholder="fa0/5"
                             required
-                          />
+                          >
+                            <option
+                              [value]="item"
+                              *ngFor="let item of lista_puerto"
+                              >{{ item }}</option
+                            >
+                          </select>
                         </div>
                       </div>
-
+                      <button
+                        class="btn btn-outline-danger mt-2"
+                        style="margin-left: 15px;"
+                        (click)="eliminarPuertoCreado(p)"
+                        title="Eliminar"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete_forever
+                        </i>
+                      </button>
+                      <button
+                        class="btn btn-outline-info mt-2"
+                        style="margin-left: 15px;"
+                        (click)="editarPuerto(p)"
+                        title="Editar"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          edit
+                        </i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Bloque editar-->
+                <div
+                  class="pt-4 col-md-4"
+                  *ngFor="let vlan of puertos; index as p"
+                >
+                  <div class="card" id="card">
+                    <div class="card-body">
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
                           name
@@ -363,7 +436,48 @@
                           >
                             <option [value]="item" *ngFor="let item of lista">{{
                               item
-                              }}</option>
+                            }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="puertos[p].puerto_rango"
+                            placeholder="fa0/1"
+                            required
+                          >
+                            <option
+                              [value]="item"
+                              *ngFor="let item of lista_puerto"
+                              >{{ item }}</option
+                            >
+                          </select>
+                          <i class="material-icons" style="height: 9px;"
+                            >minimize</i
+                          >
+                          <select
+                            name="miselect"
+                            style="width: 100px;"
+                            [(ngModel)]="puertos[p].puerto_rangoDos"
+                            placeholder="fa0/5"
+                            required
+                          >
+                            <option
+                              [value]="item"
+                              *ngFor="let item of lista_puerto"
+                              >{{ item }}</option
+                            >
                           </select>
                         </div>
                       </div>
@@ -371,6 +485,7 @@
                         class="btn btn-outline-danger mt-2"
                         style="margin-left: 15px;"
                         (click)="eliminarPuerto(p)"
+                        title="Eliminar"
                       >
                         <i class="material-icons" style="height: 9px;">
                           delete_forever
@@ -390,18 +505,19 @@
               <div class="row">
                 <div class="col-md-12 text-center">
                   <b class="display-4" style="font-size: 180%; color: #009574;"
-                  >Asignar puertos Trunk</b
+                    >Asignar puertos Trunk</b
                   >
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formPuertosTrunk">
-                    <input formControlName="numero" type="number"/>
+                    <input formControlName="numero" type="number" />
                   </form>
-                  <br/>
+                  <br />
                   <button
                     (click)="agregarPuertosTrunk()"
                     (click)="this.formPuertosTrunk.controls.numero.setValue(0)"
                     class="btn btn-outline-success"
+                    title="Agregar"
                   >
                     <i class="material-icons" style="height: 9px;">
                       add_to_queue
@@ -412,6 +528,7 @@
                     style="margin-left: 40px;"
                     (click)="this.formPuertosTrunk.controls.numero.setValue(0)"
                     (click)="enviarDatosAlBack()"
+                    title="Guardar"
                   >
                     <i class="material-icons" style="height: 9px;">save</i>
                   </button>
@@ -441,7 +558,7 @@
                             required
                           />
                           <i class="material-icons" style="height: 9px;"
-                          >minimize</i
+                            >minimize</i
                           >
                           <input
                             type="number"
@@ -475,7 +592,7 @@
                           >
                             <option [value]="item" *ngFor="let item of lista">{{
                               item
-                              }}</option>
+                            }}</option>
                           </select>
                         </div>
                       </div>
@@ -483,6 +600,7 @@
                         class="btn btn-outline-danger mt-2"
                         style="margin-left: 15px;"
                         (click)="eliminarPuertosTrunk(t)"
+                        title="Eliminar"
                       >
                         <i class="material-icons" style="height: 9px;">
                           delete_forever
@@ -502,18 +620,19 @@
               <div class="row">
                 <div class="col-md-12 text-center">
                   <b class="display-4" style="font-size: 180%; color: #009574;"
-                  >Ruteo entre VLANs</b
+                    >Ruteo entre VLANs</b
                   >
                 </div>
                 <div class="col-md-12 pt-4 text-center">
                   <form [formGroup]="formRuteo">
-                    <input formControlName="numero" type="number"/>
+                    <input formControlName="numero" type="number" />
                   </form>
-                  <br/>
+                  <br />
                   <button
                     (click)="agregarRuteo()"
                     (click)="this.formRuteo.controls.numero.setValue(0)"
                     class="btn btn-outline-success"
+                    title="Agregar"
                   >
                     <i class="material-icons" style="height: 9px;">
                       add_to_queue
@@ -524,6 +643,7 @@
                     style="margin-left: 40px;"
                     (click)="this.formRuteo.controls.numero.setValue(0)"
                     (click)="enviarDatosAlBack()"
+                    title="Guardar"
                   >
                     <i class="material-icons" style="height: 9px;">save</i>
                   </button>
@@ -555,7 +675,7 @@
                           >
                             <option [value]="item" *ngFor="let item of lista">{{
                               item
-                              }}</option>
+                            }}</option>
                           </select>
                         </div>
                       </div>
@@ -603,6 +723,7 @@
                         class="btn btn-outline-danger mt-2"
                         style="margin-left: 15px;"
                         (click)="eliminarRuteo(r)"
+                        title="Eliminar"
                       >
                         <i class="material-icons" style="height: 9px;">
                           delete_forever
