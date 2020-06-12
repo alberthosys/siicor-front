@@ -1,17 +1,165 @@
+<app-header [title]="'Configuración'"></app-header>
+
 <div class="container-fluid" style="width: 102.4%">
   <div class="row">
-    <div class="col-md-12" style="margin-left: -1.6%;">
-      <app-header [title]="'Configuración'"></app-header>
-      <div class="row">
-        <div class="col-md-2">
-          <app-menu></app-menu>
+    <div class="col-md-2">
+      <app-menu></app-menu>
+    </div>
+    <div class="col-md-10" style="margin-left: -1.6%;">
+      <div class="container-fluid">
+        <div class="row">
+          <!--         MENU-->
+          <div class="col-md-12 justify-content-center">
+            <div class="row">
+              <div class="col-md-12 pt-4 text-center" style="background-color:#002f5d;color:white; ">
+                <b class="display-4" style="font-size: 150%;">
+                  ACL
+                </b>
+                <pre></pre>
+              </div>
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-2 pt-4">
+                <button (click)="this.ventana=false;" class="btn btn-outline-dark">
+                      <span>
+                        <img class="img img-fluid" style="width:30%"
+                             src="https://image.flaticon.com/icons/svg/438/438901.svg">
+                      </span>
+                  <span>
+                      Estándar
+                      </span>
+                </button>
+              </div>
+              <div class="col-md-2 pt-4">
+                <button (click)="this.ventana=true;" class="btn btn-outline-dark">
+                      <span>
+                        <img class="img img-fluid" style="width:30%"
+                             src="https://image.flaticon.com/icons/svg/860/860220.svg">
+                      </span>
+                  <span>
+                      Extendida
+                      </span>
+                </button>
+              </div>
+              <div class="col-md-12 pt-4 text-center">
+                <b class="display-4" *ngIf="!ventana" style="font-size: 180%;color:#009574">Estándar</b>
+                <b class="display-4" *ngIf="ventana" style="font-size: 180%;color:#009574">Extendida</b>
+              </div>
+            </div>
+          </div>
+          <!--          MENU-->
+          <!--              BODY-->
+          <div id="estandar" class="col-md-12 pt-4 justify-content-center" *ngIf="!ventana">
+            <form [formGroup]="formAclEstandar">
+             <div class="container-fluid">
+               <div class="row">
+                 <div class="col-sm-3">
+                   <div class="col-sm-12 pt-1 my-1">
+                     <label class="sr-only">
+                       Enabled
+                     </label>
+                     <div class="input-group">
+                       <div class="input-group-prepend">
+                         <div class="input-group-text">
+                           <p class="material-icons" style="height:9px">code</p>
+                         </div>
+                       </div>
+                       <input type="text" placeholder="IP Origen" formControlName="ipEntrada">
+                     </div>
+                   </div>
+                 </div>
+                 <div class="col-sm-2">
+                   <div class="col-sm-12">
+                     <button class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Guardar"><p class="material-icons">save</p></button>
+                   </div>
+                 </div>
+               </div>
+             </div>
+              <div class="col-sm-12 pt-4">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th scope="col">Dirección origen</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>192.168.1.1</td>
+                    <td>
+                      <button class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><p class="material-icons" >delete</p></button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="col-md-10">
-          <h1 class="display-1">ACL title</h1>
+        <div id="extendida" class="col-md-12 pt-4 justify-content-center" *ngIf="ventana">
+          <form [formGroup]="formAclExtendida">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input type="text" placeholder="IP Origen" formControlName="ipEntrada">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input type="text" placeholder="IP Destino" formControlName="ipDestino">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Guardar"><p class="material-icons">save</p></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 pt-4">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">Dirección origen</th>
+                  <th scope="col">Dirección destino</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>192.168.1.1</td>
+                  <td>192.168.1.100</td>
+                  <td>
+                    <button class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><p class="material-icons" >delete</p></button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
         </div>
+        <!--              BODY-->
+
       </div>
     </div>
   </div>
 </div>
-
-

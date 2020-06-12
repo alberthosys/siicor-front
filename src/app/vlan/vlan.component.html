@@ -111,7 +111,7 @@
               </div>
               <!--          MENU-->
               <div
-                id="CREAR"
+                id="CREAR1"
                 class="col-md-12 pt-4 justify-content-center"
                 *ngIf="ventana == 1"
               >
@@ -148,77 +148,6 @@
                       <i class="material-icons" style="height: 9px;">save</i>
                     </button>
                   </div>
-                  <!--                Editar-->
-                  <div
-                    class="pt-4 col-md-4"
-                    *ngFor="let vlan of vlansEditar; index as i"
-                  >
-                    <div class="card">
-                      <div class="card-body" style="background-color: #f1f4fc;">
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">VLAN</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <input
-                              [disabled]="true"
-                              type="number"
-                              [(ngModel)]="vlansEditar[i].vlan_numero"
-                              placeholder="VLAN número"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">
-                            name
-                          </label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <input
-                              type="text"
-                              [(ngModel)]="vlansEditar[i].vlan_name_string"
-                              placeholder="nombre"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <button
-                          class="btn btn-outline-danger mt-2"
-                          style="margin-left: 15px;"
-                          (click)="eliminarVlanCrada(i)"
-                          title="Eliminar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            delete_forever
-                          </i>
-                        </button>
-                        <button
-                          class="btn btn-outline-info mt-2"
-                          style="margin-left: 15px;"
-                          (click)="editarVlan(i)"
-                          title="Editar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            edit
-                          </i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <!--                Editar-->
-
                   <div
                     class="pt-4 col-md-4"
                     *ngFor="let vlan of vlans; index as i"
@@ -276,11 +205,31 @@
                       </div>
                     </div>
                   </div>
+                  <!--                Editar-->
+                 <div class="col-md-12 pt-4">
+                   <table class="table">
+                     <thead>
+                     <tr>
+                       <th scope="col">Vlan</th>
+                       <th scope="col">Nombre</th>
+                       <th scope="col">Opciones</th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     <tr *ngFor="let vlan of vlansEditar; index as i">
+                       <td>{{vlan.vlan_numero}}</td>
+                       <td>{{vlan.vlan_name_string}}</td>
+                       <td><button class="btn btn-danger" (click)="eliminarVlan(i)"><p class="material-icons">delete</p></button></td>
+                     </tr>
+                     </tbody>
+                   </table>
+                 </div>
+                  <!--                Editar-->
                 </div>
               </div>
               <!-- Segundo submenú-->
               <div
-                id="CREAR"
+                id="CREAR2"
                 class="col-md-12 pt-4 justify-content-center"
                 *ngIf="ventana == 2"
               >
@@ -322,7 +271,7 @@
                     class="pt-4 col-md-4"
                     *ngFor="let vlan of rangos; index as p"
                   >
-                    <div class="card" id="card">
+                    <div class="card" id="card1">
                       <div class="card-body">
                         <div class="col-sm-12 pt-1 my-1">
                           <label class="sr-only">
@@ -552,7 +501,7 @@
                     class="pt-4 col-md-4"
                     *ngFor="let vlan of puertosTrunk; index as t"
                   >
-                    <div class="card" id="card">
+                    <div class="card" id="card2">
                       <div class="card-body">
                         <div class="col-sm-12 pt-1 my-1">
                           <label class="sr-only">VLAN</label>
@@ -671,7 +620,7 @@
                     class="pt-4 col-md-4"
                     *ngFor="let vlan of ruteo; index as r"
                   >
-                    <div class="card" id="card">
+                    <div class="card" id="card3">
                       <div class="card-body">
                         <div class="col-sm-12 pt-1 my-1">
                           <label class="sr-only">

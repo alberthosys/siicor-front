@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Sesion} from "../Sesion/sesion";
 import {Alert} from "../Alerts/Alert";
 import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-acl',
@@ -11,8 +12,21 @@ import {Router} from "@angular/router";
 export class AclComponent implements OnInit {
   public sesion = new Sesion();
   public alerta = new Alert();
+  public ventana: boolean = false;
+  public formAclEstandar: FormGroup;
+  public formAclExtendida: FormGroup;
 
-  constructor(public ruta:Router) {
+  constructor(
+    public ruta: Router,
+    public formBuilder: FormBuilder
+  ) {
+    this.formAclEstandar = formBuilder.group({
+      ipEntrada: [null, Validators.compose([Validators.required])]
+    });
+    this.formAclExtendida = formBuilder.group({
+      ipEntrada: [null, Validators.compose([Validators.required])],
+      ipDestino: [null, Validators.compose([Validators.required])]
+    });
   }
 
   ngOnInit() {
