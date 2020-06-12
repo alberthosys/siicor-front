@@ -17,9 +17,9 @@ export class EnrutamientoComponent implements OnInit {
   public routerComand = new Routers();
   public ventana: boolean = false;
   public formRip: FormGroup;
-  public eigrpModel: EigrpModel[] = [];
   public listaEigrpModel: EigrpModel[] = [];
   public asn: number = 0;
+  public listaRipModel: EigrpModel[] = [];
 
   constructor(public ruta: Router, public formBuilder: FormBuilder) {
     this.formRip = formBuilder.group({});
@@ -32,6 +32,12 @@ export class EnrutamientoComponent implements OnInit {
     this.listaEigrpModel.push({
       network: "192.168.30.1 0.0.0.255",
     });
+    this.listaRipModel.push({
+      network: "192.168.10.0",
+    });
+    this.listaRipModel.push({
+      network: "10.10.10.0",
+    });
     this.checksesion();
   }
 
@@ -42,12 +48,22 @@ export class EnrutamientoComponent implements OnInit {
     }
   }
 
-  enviarDatos() {
+  enviarDatosEigrp() {
     let comandos: string[] = [];
     comandos.push(this.routerComand.router_eigrp + this.asn);
     this.listaEigrpModel.forEach((item) => {
       comandos.push(this.routerComand.network + item.network);
     });
-    console.log("Comandos a enviar " + comandos);
+    console.log("EIGRP " + comandos);
+  }
+
+  enviarDatosRip() {
+    let comandos: string[] = [];
+    comandos.push(this.routerComand.router_rip);
+    comandos.push(this.routerComand.version_rip);
+    this.listaRipModel.forEach((item) => {
+      comandos.push(this.routerComand.network + item.network);
+    });
+    console.log("RIP " + comandos);
   }
 }
