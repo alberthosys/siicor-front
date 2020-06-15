@@ -99,10 +99,7 @@
                         />
                       </div>
                     </div>
-                    <div
-                      class="col-sm-12 pt-1 my-1"
-                      *ngFor="let ip of listaEigrpModel; index as i"
-                    >
+                    <div class="col-sm-12 pt-1 my-1">
                       <label class="sr-only">
                         Ip-Wildcard
                       </label>
@@ -114,13 +111,14 @@
                             </p>
                           </div>
                         </div>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="dato"
-                          [ngModel]="'network ' + listaEigrpModel[i].network"
-                          disabled="true"
-                        />
+                        <select class="form-control" [(ngModel)]="red">
+                          <option
+                            [value]="item.network"
+                            *ngFor="let item of listaEigrpModel"
+                          >
+                            {{ item.network }}</option
+                          >
+                        </select>
                       </div>
                     </div>
                     <div class="col-sm-12 pt-4 justify-content-center">
@@ -137,6 +135,37 @@
                       </button>
                     </div>
                   </div>
+                </div>
+                <div class="col-sm-12 pt-4">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">No. EIGRP</th>
+                        <th scope="col">Red</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let no of listaEigrpAsignadosModel; index as i"
+                      >
+                        <td>{{ listaEigrpAsignadosModel[i].router_eigrp }}</td>
+                        <td>{{ listaEigrpAsignadosModel[i].network }}</td>
+                        <td>
+                          <button
+                            class="btn btn-outline-danger"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Eliminar"
+                          >
+                            <i class="material-icons" style="height: 9px;">
+                              delete
+                            </i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
               <div
@@ -195,10 +224,7 @@
                       </div>
                     </div>
 
-                    <div
-                      class="col-sm-12 pt-1 my-1"
-                      *ngFor="let ip of listaRipModel; index as i"
-                    >
+                    <div class="col-sm-12 pt-1 my-1">
                       <label class="sr-only">
                         Ip
                       </label>
@@ -210,13 +236,14 @@
                             </p>
                           </div>
                         </div>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="dato"
-                          [ngModel]="'network ' + listaRipModel[i].network"
-                          disabled="true"
-                        />
+                        <select class="form-control" [(ngModel)]="redRip">
+                          <option
+                            [value]="item.network"
+                            *ngFor="let item of listaRipModel"
+                          >
+                            {{ item.network }}</option
+                          >
+                        </select>
                       </div>
                     </div>
                     <div class="col-sm-12 pt-4 justify-content-center">
@@ -233,6 +260,35 @@
                       </button>
                     </div>
                   </div>
+                </div>
+                <div class="col-sm-12 pt-4">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Versión</th>
+                        <th scope="col">Red</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let ip of listaRipAsignadosModel">
+                        <td>Versión 2</td>
+                        <td>{{ ip.network }}</td>
+                        <td>
+                          <button
+                            class="btn btn-outline-danger"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Eliminar"
+                          >
+                            <i class="material-icons" style="height: 9px;">
+                              delete
+                            </i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
               <!--   BODY-->

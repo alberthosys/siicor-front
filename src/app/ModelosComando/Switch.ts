@@ -14,4 +14,5 @@ export class Switch extends Universal {
   vlan_ruteo_ip: string = "ip address ";
   no_vlan_mode_acc: string = "no switchport access vlan ";
   no_vlan_mode_trunk: string = "no switchport trunk native vlan ";
+  no_ruteo_vlan: string = "no interface vlan ";
 }

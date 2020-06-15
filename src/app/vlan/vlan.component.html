@@ -21,7 +21,7 @@
                     </b>
                     <pre></pre>
                   </div>
-                  <div class="col-md-1"></div>
+                  <div class="col-md-2"></div>
                   <div class="col-md-2 pt-4">
                     <button
                       (click)="this.ventana = 1"
@@ -87,23 +87,6 @@
                       </span>
                       <span>
                         Ruteo
-                      </span>
-                    </button>
-                  </div>
-                  <div class="col-md-2 pt-4">
-                    <button
-                      (click)="this.ventana = 5"
-                      class="btn btn-outline-dark"
-                    >
-                      <span>
-                        <img
-                          class="img img-fluid"
-                          style="width: 30%;"
-                          src="https://image.flaticon.com/icons/svg/860/860220.svg"
-                        />
-                      </span>
-                      <span>
-                        Ver configuración
                       </span>
                     </button>
                   </div>
@@ -206,24 +189,33 @@
                     </div>
                   </div>
                   <!--                Editar-->
-                 <div class="col-md-12 pt-4">
-                   <table class="table">
-                     <thead>
-                     <tr>
-                       <th scope="col">Vlan</th>
-                       <th scope="col">Nombre</th>
-                       <th scope="col">Opciones</th>
-                     </tr>
-                     </thead>
-                     <tbody>
-                     <tr *ngFor="let vlan of vlansEditar; index as i">
-                       <td>{{vlan.vlan_numero}}</td>
-                       <td>{{vlan.vlan_name_string}}</td>
-                       <td><button class="btn btn-danger" (click)="eliminarVlan(i)"><p class="material-icons">delete</p></button></td>
-                     </tr>
-                     </tbody>
-                   </table>
-                 </div>
+                  <div class="col-md-12 pt-4">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Vlan</th>
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Opciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let vlan of vlansEditar; index as i">
+                          <td>{{ vlan.vlan_numero }}</td>
+                          <td>{{ vlan.vlan_name_string }}</td>
+                          <td>
+                            <button
+                              class="btn btn-outline-danger"
+                              (click)="eliminarVlanCreada(i)"
+                            >
+                              <i class="material-icons" style="height: 9px;">
+                                delete
+                              </i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <!--                Editar-->
                 </div>
               </div>
@@ -260,111 +252,12 @@
                       class="btn btn-outline-success"
                       style="margin-left: 40px;"
                       (click)="this.formPuertos.controls.numero.setValue(0)"
-                      (click)="enviarDatosAlBack()"
+                      (click)="enviarDatosAlBackPuertos()"
                       title="Guardar"
                     >
                       <i class="material-icons" style="height: 9px;">save</i>
                     </button>
                   </div>
-                  <!-- Editar -->
-                  <div
-                    class="pt-4 col-md-4"
-                    *ngFor="let vlan of rangos; index as p"
-                  >
-                    <div class="card" id="card1">
-                      <div class="card-body">
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">
-                            name
-                          </label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="rangos[p].puerto_vlan"
-                              placeholder="VLAN 10"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista"
-                                >{{ item }}</option
-                              >
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">VLAN</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <select
-                              name="miselect1"
-                              style="width: 100px;"
-                              [(ngModel)]="rangos[p].puerto_rango"
-                              placeholder="fa0/1"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista_puerto"
-                                >{{ item }}</option
-                              >
-                            </select>
-                            <i class="material-icons" style="height: 9px;"
-                              >minimize</i
-                            >
-                            <select
-                              name="miselect2"
-                              style="width: 100px;"
-                              [(ngModel)]="rangos[p].puerto_rangoDos"
-                              placeholder="fa0/5"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista_puerto"
-                                >{{ item }}</option
-                              >
-                            </select>
-                          </div>
-                        </div>
-                        <button
-                          class="btn btn-outline-danger mt-2"
-                          style="margin-left: 15px;"
-                          (click)="eliminarPuertoCreado(p)"
-                          title="Eliminar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            delete_forever
-                          </i>
-                        </button>
-                        <button
-                          class="btn btn-outline-info mt-2"
-                          style="margin-left: 15px;"
-                          (click)="editarPuerto(p)"
-                          title="Editar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            edit
-                          </i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Bloque editar-->
                   <div
                     class="pt-4 col-md-4"
                     *ngFor="let vlan of puertos; index as p"
@@ -453,6 +346,38 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-sm-12 pt-4">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">VLAN</th>
+                        <th scope="col">Rango</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let rango of rangos; index as i">
+                        <td>{{ rango.puerto_vlan }}</td>
+                        <td>
+                          {{ rango.puerto_rango }} - {{ rango.puerto_rangoDos }}
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-outline-danger"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            (click)="eliminarPuertoCreado(i)"
+                            title="Eliminar"
+                          >
+                            <i class="material-icons" style="height: 9px;">
+                              delete
+                            </i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <!-- Términa el segundo submenú-->
               <!-- Empieza el tercer submenú-->
@@ -491,7 +416,7 @@
                       (click)="
                         this.formPuertosTrunk.controls.numero.setValue(0)
                       "
-                      (click)="enviarDatosAlBack()"
+                      (click)="enviarDatosAlBackTrunk()"
                       title="Guardar"
                     >
                       <i class="material-icons" style="height: 9px;">save</i>
@@ -503,38 +428,6 @@
                   >
                     <div class="card" id="card2">
                       <div class="card-body">
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">VLAN</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <input
-                              type="number"
-                              min="0"
-                              max="100"
-                              [(ngModel)]="puertosTrunk[t].vlan_trunk_rango"
-                              placeholder="fa0/1"
-                              required
-                            />
-                            <i class="material-icons" style="height: 9px;"
-                              >minimize</i
-                            >
-                            <input
-                              type="number"
-                              min="0"
-                              max="100"
-                              [(ngModel)]="puertosTrunk[t].vlan_trunk_rangoDos"
-                              placeholder="3"
-                              required
-                            />
-                          </div>
-                        </div>
-
                         <div class="col-sm-12 pt-1 my-1">
                           <label class="sr-only">
                             name
@@ -562,6 +455,49 @@
                             </select>
                           </div>
                         </div>
+
+                        <div class="col-sm-12 pt-1 my-1">
+                          <label class="sr-only">VLAN</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <p class="material-icons" style="height: 9px;">
+                                  code
+                                </p>
+                              </div>
+                            </div>
+                            <select
+                              name="miselect"
+                              style="width: 100px;"
+                              [(ngModel)]="puertosTrunk[t].vlan_trunk_rango"
+                              placeholder="fa0/1"
+                              required
+                            >
+                              <option
+                                [value]="item"
+                                *ngFor="let item of lista_puerto"
+                                >{{ item }}</option
+                              >
+                            </select>
+                            <i class="material-icons" style="height: 9px;"
+                              >minimize</i
+                            >
+                            <select
+                              name="miselect"
+                              style="width: 100px;"
+                              [(ngModel)]="puertosTrunk[t].vlan_trunk_rangoDos"
+                              placeholder="fa0/5"
+                              required
+                            >
+                              <option
+                                [value]="item"
+                                *ngFor="let item of lista_puerto"
+                                >{{ item }}</option
+                              >
+                            </select>
+                          </div>
+                        </div>
+
                         <button
                           class="btn btn-outline-danger mt-2"
                           style="margin-left: 15px;"
@@ -575,6 +511,39 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="col-sm-12 pt-4">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">VLAN</th>
+                        <th scope="col">Rango</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let rangoTrunk of rangosTrunk; index as i">
+                        <td>{{ rangoTrunk.puerto_vlan }}</td>
+                        <td>
+                          {{ rangoTrunk.puerto_rango }} -
+                          {{ rangoTrunk.puerto_rangoDos }}
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-outline-danger"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            (click)="eliminarPuertoTrunkCreado(i)"
+                            title="Eliminar"
+                          >
+                            <i class="material-icons" style="height: 9px;">
+                              delete
+                            </i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
               <!-- Términa el tercer submenú-->
@@ -610,7 +579,7 @@
                       class="btn btn-outline-success"
                       style="margin-left: 40px;"
                       (click)="this.formRuteo.controls.numero.setValue(0)"
-                      (click)="enviarDatosAlBack()"
+                      (click)="enviarDatosAlBackSvi()"
                       title="Guardar"
                     >
                       <i class="material-icons" style="height: 9px;">save</i>
@@ -702,6 +671,36 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="col-sm-12 pt-4">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">VLAN</th>
+                        <th scope="col">Ip</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let ruteos of ruteoEstablecido; index as i">
+                        <td>10</td>
+                        <td>192.168.10.1 255.255.255.0</td>
+                        <td>
+                          <button
+                            class="btn btn-outline-danger"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            (click)="eliminarRuteoCreado(i)"
+                            title="Eliminar"
+                          >
+                            <i class="material-icons" style="height: 9px;">
+                              delete
+                            </i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
               <!-- Términa el cuarto submenú-->

@@ -17,16 +17,23 @@ import { Switch } from "../ModelosComando/Switch";
 export class VlanComponent implements OnInit {
   public sesion = new Sesion();
   public alerta = new Alert();
+  //VLAN
   public vlans: VlanModel[] = [];
   public vlansEditar: VlanModel[] = [];
-  public rangos: PuertoModel[] = [];
   public formVLAN: FormGroup;
+  //Asignar puertos
+  public rangos: PuertoModel[] = [];
   public puertos: PuertoModel[] = [];
   public formPuertos: FormGroup;
+  //puertos trunk
+  public rangosTrunk: PuertoModel[] = [];
   public puertosTrunk: VlanTrunkModel[] = [];
   public formPuertosTrunk: FormGroup;
+  //ruteo SVI
   public ruteo: VlanRuteoModel[] = [];
+  public ruteoEstablecido: VlanRuteoModel[] = [];
   public formRuteo: FormGroup;
+
   public ventana: number = 1;
   public comando = new Switch();
 
@@ -73,6 +80,16 @@ export class VlanComponent implements OnInit {
       puerto_rangoDos: "fa0/10",
       puerto_vlan: "20",
     });
+    this.rangosTrunk.push({
+      puerto_rango: "fa0/11",
+      puerto_rangoDos: "fa0/13",
+      puerto_vlan: "100",
+    });
+    this.ruteoEstablecido.push({
+      vlan_interface: 10,
+      vlan_ip: "192.168.10.1",
+      vlan_mascara: "255.255.255.0",
+    });
     console.log("EDIT->", this.vlansEditar);
   }
 
@@ -93,7 +110,7 @@ export class VlanComponent implements OnInit {
     this.vlans = vlanTemp;
   }
 
-  eliminarVlanCrada(pos: number) {
+  eliminarVlanCreada(pos: number) {
     let comandos: string[] = [];
     comandos.push(this.comando.no_vlan + this.vlansEditar[pos].vlan_numero);
     console.log("Eliminar VLAN->", comandos);
@@ -178,6 +195,18 @@ export class VlanComponent implements OnInit {
     this.puertosTrunk = trunkTemp;
   }
 
+  eliminarPuertoTrunkCreado(pos: number) {
+    let comandos: string[] = [];
+    comandos.push(
+      this.comando.vlan_rango_uno +
+        this.rangos[pos].puerto_rango +
+        "-" +
+        this.rangos[pos].puerto_rangoDos,
+      this.comando.no_vlan_mode_trunk + this.rangos[pos].puerto_vlan
+    );
+    console.log("Eliminar Puertos->", comandos);
+  }
+
   //Ruteo
   agregarRuteo() {
     for (let i = 0; i < this.formRuteo.controls.numero.value; i++) {
@@ -199,6 +228,14 @@ export class VlanComponent implements OnInit {
     this.ruteo = ruteoTemp;
   }
 
+  eliminarRuteoCreado(pos: number) {
+    let comandos: string[] = [];
+    comandos.push(
+      this.comando.no_ruteo_vlan + this.ruteoEstablecido[pos].vlan_interface
+    );
+    console.log("Eliminar Puertos->", comandos);
+  }
+
   checksesion() {
     if (!this.sesion.getSesion()) {
       this.alerta.alertError("¡ No se ha iniciado sesión !");
@@ -217,6 +254,50 @@ export class VlanComponent implements OnInit {
     // vlan 10
     // name SICOR
     // exit
+    console.log("ENVIANDO-AL-BACK", comandos);
+  }
+
+  enviarDatosAlBackPuertos() {
+    let comandos: string[] = [];
+    this.puertos.forEach((item) => {
+      comandos.push(
+        this.comando.vlan_rango_uno +
+          item.puerto_rango +
+          "-" +
+          item.puerto_rangoDos
+      );
+      comandos.push(this.comando.vlan_rango_mode_acc);
+      comandos.push(this.comando.vlan_rango_acc_vlan + item.puerto_vlan);
+      comandos.push(this.comando.exit);
+    });
+    console.log("ENVIANDO-AL-BACK", comandos);
+  }
+
+  enviarDatosAlBackTrunk() {
+    let comandos: string[] = [];
+    this.puertosTrunk.forEach((item) => {
+      comandos.push(
+        this.comando.vlan_rango_uno +
+          item.vlan_trunk_rango +
+          "-" +
+          item.vlan_trunk_rangoDos
+      );
+      comandos.push(this.comando.vlan_rango_mode_trunk);
+      comandos.push(this.comando.vlan_rango_trunk_native + item.vlan_trunk);
+      comandos.push(this.comando.exit);
+    });
+    console.log("ENVIANDO-AL-BACK", comandos);
+  }
+
+  enviarDatosAlBackSvi() {
+    let comandos: string[] = [];
+    this.ruteo.forEach((item) => {
+      comandos.push(this.comando.vlan_ruteo_vlan + item.vlan_interface);
+      comandos.push(
+        this.comando.vlan_ruteo_ip + item.vlan_ip + " " + item.vlan_mascara
+      );
+      comandos.push(this.comando.exit);
+    });
     console.log("ENVIANDO-AL-BACK", comandos);
   }
 }
