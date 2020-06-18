@@ -51,30 +51,89 @@
           <!--              BODY-->
           <div id="estandar" class="col-md-12 pt-4 justify-content-center" *ngIf="!ventana">
             <form [formGroup]="formAclEstandar">
-             <div class="container-fluid">
-               <div class="row">
-                 <div class="col-sm-3">
-                   <div class="col-sm-12 pt-1 my-1">
-                     <label class="sr-only">
-                       Enabled
-                     </label>
-                     <div class="input-group">
-                       <div class="input-group-prepend">
-                         <div class="input-group-text">
-                           <p class="material-icons" style="height:9px">code</p>
-                         </div>
-                       </div>
-                       <input type="text" placeholder="IP Origen" formControlName="ipEntrada">
-                     </div>
-                   </div>
-                 </div>
-                 <div class="col-sm-2">
-                   <div class="col-sm-12">
-                     <button class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Guardar"><p class="material-icons">save</p></button>
-                   </div>
-                 </div>
-               </div>
-             </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <input type="text" placeholder="IP Origen" formControlName="ipEntrada">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <input type="number" placeholder="Group" formControlName="group">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <select class="form-control" formControlName="cableEntrada">
+                          <option value="null">Selecciona un cable</option>
+                          <option [value]="item" *ngFor="let item of listClables">
+                            {{item}}
+                          </option>
+                        </select>
+                        <!--                       <input type="number" placeholder="Group" formControlName="cableEntrada">-->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <div class="col-md-12">
+                      <button class="btn btn-primary" (click)="in_out=!in_out">
+                        <p class="material-icons" style="margin-bottom:-20px" *ngIf="in_out">toggle_off</p>
+                        <p class="material-icons" style="margin-bottom:-20px" *ngIf="!in_out">toggle_on</p>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-sm-1 pt-2">
+                    <div class="col-md-12">
+                      <b class="display-4" style="font-size: 150%;" *ngIf="in_out">out</b>
+                      <b class="display-4" style="font-size: 150%;" *ngIf="!in_out">in</b>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <div class="col-sm-12">
+                      <button (click)="guardar()" class="btn btn-outline-success" data-toggle="tooltip"
+                              data-placement="top" title="Guardar"><p class="material-icons">save</p></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 pt-4 ">
+                <p class="display-4 text-center" style="font-size:150%">Comandos</p>
+                <div class="ex3">
+                  <p style="margin-top: 1px"></p>
+                  <p style="line-height : 2%;" *ngFor=" let comand of globalComands">{{comand}}</p>
+                </div>
+              </div>
               <div class="col-sm-12 pt-4">
                 <table class="table">
                   <thead>
@@ -84,10 +143,12 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>192.168.1.1</td>
+                  <tr *ngFor="let item of listACLlist">
+                    <td>{{item}}</td>
                     <td>
-                      <button class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><p class="material-icons" >delete</p></button>
+                      <button (click)="eliminar(item)" class="btn btn-outline-danger" data-toggle="tooltip"
+                              data-placement="top" title="Eliminar">
+                        <p class="material-icons">delete</p></button>
                     </td>
                   </tr>
                   </tbody>
@@ -131,7 +192,8 @@
                   </div>
                 </div>
                 <div class="col-sm-2">
-                  <button class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Guardar"><p class="material-icons">save</p></button>
+                  <button class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Guardar"><p
+                    class="material-icons">save</p></button>
                 </div>
               </div>
             </div>
@@ -145,11 +207,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>192.168.1.1</td>
-                  <td>192.168.1.100</td>
+                <tr *ngFor="let item of listACLlist">
+                  <td>{{item}}</td>
                   <td>
-                    <button class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><p class="material-icons" >delete</p></button>
+                    <button (click)="eliminar(item)" class="btn btn-outline-danger" data-toggle="tooltip"
+                            data-placement="top" title="Eliminar">
+                      <p class="material-icons">delete</p></button>
                   </td>
                 </tr>
                 </tbody>

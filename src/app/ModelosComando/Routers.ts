@@ -9,4 +9,8 @@ export class Routers extends Universal {
   no_network: string = "no network ";
   no_router_eigrp: string = "no router eigrp ";
   no_router_rip: string = "no router rip";
+  access_list: string = "access-list ";
+  deny_host: string = " deny host ";
+  permit_any: string = " permit any";
+  ip_acess_group: string = "ip access-group ";
 }
