@@ -7,4 +7,5 @@ export class Universal {
   line_vty: string = 'line vty'
   password: string = 'password'
   login: string = 'login'
+  int:string="int "
 }
