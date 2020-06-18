@@ -152,16 +152,34 @@
                         <td>{{ listaEigrpAsignadosModel[i].router_eigrp }}</td>
                         <td>{{ listaEigrpAsignadosModel[i].network }}</td>
                         <td>
-                          <button
-                            class="btn btn-outline-danger"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Eliminar"
-                          >
-                            <i class="material-icons" style="height: 9px;">
-                              delete
-                            </i>
-                          </button>
+                          <div class="btn-group">
+                            <button
+                              type="button"
+                              class="btn btn-outline-danger dropdown-toggle"
+                              data-toggle="dropdown"
+                              title="Eliminar"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              <i class="material-icons" style="height: 9px;">
+                                delete
+                              </i>
+                            </button>
+                            <div class="dropdown-menu">
+                              <button
+                                class="dropdown-item"
+                                (click)="eliminarEnrutamientoEigrp(i)"
+                              >
+                                Enrutamiento EIGRP
+                              </button>
+                              <button
+                                class="dropdown-item"
+                                (click)="eliminarDatosEigrp(i)"
+                              >
+                                solo la red
+                              </button>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -271,20 +289,38 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ip of listaRipAsignadosModel">
+                      <tr *ngFor="let ip of listaRipAsignadosModel; index as i">
                         <td>Versión 2</td>
                         <td>{{ ip.network }}</td>
                         <td>
-                          <button
-                            class="btn btn-outline-danger"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Eliminar"
-                          >
-                            <i class="material-icons" style="height: 9px;">
-                              delete
-                            </i>
-                          </button>
+                          <div class="btn-group">
+                            <button
+                              type="button"
+                              class="btn btn-outline-danger dropdown-toggle"
+                              data-toggle="dropdown"
+                              title="Eliminar"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              <i class="material-icons" style="height: 9px;">
+                                delete
+                              </i>
+                            </button>
+                            <div class="dropdown-menu">
+                              <button
+                                class="dropdown-item"
+                                (click)="eliminarEnrutamientoRip(i)"
+                              >
+                                Enrutamiento RIP
+                              </button>
+                              <button
+                                class="dropdown-item"
+                                (click)="eliminarDatosRip(i)"
+                              >
+                                solo la red
+                              </button>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
