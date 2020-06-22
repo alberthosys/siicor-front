@@ -24,9 +24,7 @@ export class HomeComponent implements OnInit {
       ip: [
         null,
         Validators.compose([
-          Validators.pattern(
-            "((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$"
-          ),
+          Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$"),
           Validators.required,
         ]),
       ],

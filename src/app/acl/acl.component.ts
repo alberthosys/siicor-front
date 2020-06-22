@@ -27,14 +27,16 @@ export class AclComponent implements OnInit {
     public formBuilder: FormBuilder
   ) {
     this.formAclEstandar = formBuilder.group({
-      ipEntrada: [null, Validators.compose([Validators.required])],
-      group: [null, Validators.compose([Validators.required])],
-      cableEntrada: [null, Validators.compose([Validators.required])]
+      ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
+      group: [null, Validators.compose([Validators.required,Validators.pattern('[0-9]*'),Validators.min(100)])],
+      cableEntrada: [null, Validators.compose([Validators.required,Validators.pattern("^fa[0-9]/[0-9]$")])]
     });
     this.formAclExtendida = formBuilder.group({
-      ipEntrada: [null, Validators.compose([Validators.required])],
-      ipDestino: [null, Validators.compose([Validators.required])],
-      group: [null, Validators.compose([Validators.required])]
+      ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
+      mask:[null],
+      ipDestino: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
+      group: [null, Validators.compose([Validators.required,Validators.pattern('[0-9]*'),Validators.min(100)])],
+
     });
   }
 
@@ -62,6 +64,7 @@ export class AclComponent implements OnInit {
       listComands.push(this.comandos.ip_acess_group + this.formAclEstandar.controls.group.value + " " + (this.in_out ? "out" : "in"));
       listComands.push(this.comandos.exit)
     } else {
+      this.alerta.alertError("Revisa que todos los campos se hayan llenado correctamente")
       //Validaciones
     }
     listComands.forEach((save) => {
