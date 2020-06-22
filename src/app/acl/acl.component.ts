@@ -29,7 +29,7 @@ export class AclComponent implements OnInit {
     this.formAclEstandar = formBuilder.group({
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
       group: [null, Validators.compose([Validators.required,Validators.pattern('[0-9]*'),Validators.min(100)])],
-      cableEntrada: [null, Validators.compose([Validators.required,Validators.pattern("^fa[0-9]/[0-9]$")])]
+      cableEntrada: [null, Validators.compose([Validators.required,Validators.pattern("^(fa|gig)[0-9]/[0-9]$")])]
     });
     this.formAclExtendida = formBuilder.group({
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
