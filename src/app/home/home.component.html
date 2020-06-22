@@ -20,14 +20,13 @@
                  </span>
               </div>
               <input [maxLength]="15" #element (input)="element.value=element.value.trim()" (click)="requiredIP=true" required (keydown.enter)="buscarIP()" formControlName="ip" type="text" class="form-control input-sm" style="margin-left: 5%;margin-right: 20%" placeholder="Ip de tu dispositivo">
-
             </div>
           </form>
 
-          <p style="color:red;margin-top: -10%" *ngIf="requiredIP && form.controls.ip.errors?.required">
+          <p style="color:red;margin-top: -10%" *ngIf="form.controls.ip.touched && form.controls.ip.hasError('required')">
             Se requiere ingresar la Ip
           </p>
-          <p style="color:red;margin-top: -10%" *ngIf="requiredIP && form.controls.ip.errors?.pattern">
+          <p style="color:red;margin-top: -10%" *ngIf="form.controls.ip.touched && form.controls.ip.hasError('pattern')">
             La Ip es invalida
           </p>
 
