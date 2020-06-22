@@ -64,7 +64,13 @@
                             <p class="material-icons" style="height:9px">code</p>
                           </div>
                         </div>
-                        <input type="text" placeholder="IP Origen" formControlName="ipEntrada">
+                        <input #ipEntradaEstandar type="text" placeholder="IP Origen" formControlName="ipEntrada" required>
+                      </div>
+                      <div class="errorsValidate" *ngIf="formAclEstandar.controls.ipEntrada.touched && formAclEstandar.controls.ipEntrada.hasError('pattern')">
+                        Revisa que el formato sea IPv4
+                      </div>
+                      <div class="errorsValidate" *ngIf="formAclEstandar.controls.ipEntrada.touched && formAclEstandar.controls.ipEntrada.hasError('required')">
+                        El campo es requierido
                       </div>
                     </div>
                   </div>
@@ -79,7 +85,16 @@
                             <p class="material-icons" style="height:9px">code</p>
                           </div>
                         </div>
-                        <input type="number" placeholder="Group" formControlName="group">
+                        <input type="number" placeholder="Group" formControlName="group" required>
+                        <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.group.touched && this.formAclEstandar.controls.group.hasError('required')">
+                          El campo es requerido
+                        </div>
+                        <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.group.touched && this.formAclEstandar.controls.group.hasError('pattern')">
+                          El formato solo admite números
+                        </div>
+                        <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.group.touched && this.formAclEstandar.controls.group.hasError('min')">
+                          El valor minimo debe ser 100
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -94,13 +109,18 @@
                             <p class="material-icons" style="height:9px">code</p>
                           </div>
                         </div>
-                        <select class="form-control" formControlName="cableEntrada">
+                         <select class="form-control" formControlName="cableEntrada" required>
                           <option value="null">Selecciona un cable</option>
                           <option [value]="item" *ngFor="let item of listClables">
                             {{item}}
                           </option>
                         </select>
-                        <!--                       <input type="number" placeholder="Group" formControlName="cableEntrada">-->
+                      </div>
+                      <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.cableEntrada.touched && this.formAclEstandar.controls.cableEntrada.hasError('required')">
+                        El campo es requerido
+                      </div>
+                      <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.cableEntrada.touched && this.formAclEstandar.controls.cableEntrada.hasError('pattern')">
+                        El formato debe ser fa0/0
                       </div>
                     </div>
                   </div>
