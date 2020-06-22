@@ -106,90 +106,82 @@
                       >Creación de VLAN</b
                     >
                   </div>
-                  <div class="col-md-12 pt-4 text-center">
-                    <form [formGroup]="formVLAN">
-                      <input formControlName="numero" type="number" />
-                    </form>
-                    <br />
-                    <button
-                      (click)="agregarVLAN()"
-                      (click)="this.formVLAN.controls.numero.setValue(0)"
-                      class="btn btn-outline-success"
-                      title="Agregar"
-                    >
-                      <i class="material-icons" style="height: 9px;">
-                        add_to_queue
-                      </i>
-                    </button>
-                    <button
-                      class="btn btn-outline-success"
-                      style="margin-left: 40px;"
-                      (click)="this.formVLAN.controls.numero.setValue(0)"
-                      (click)="enviarDatosAlBack()"
-                      title="Guardar"
-                    >
-                      <i class="material-icons" style="height: 9px;">save</i>
-                    </button>
-                  </div>
+
                   <div
-                    class="pt-4 col-md-4"
-                    *ngFor="let vlan of vlans; index as i"
+                    class="justify-content-center col-md-6"
+                    style="margin: 50px auto;"
                   >
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">VLAN</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
+                    <form [formGroup]="formVLAN">
+                      <div class="col-sm-8 pt-1 my-1">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
                             </div>
-                            <input
-                              type="number"
-                              [(ngModel)]="vlans[i].vlan_numero"
-                              placeholder="VLAN número"
-                              required
-                            />
                           </div>
+                          <input
+                            type="number"
+                            placeholder="VLAN número"
+                            class="form-control"
+                            formControlName="vlanNumero"
+                            required
+                          />
                         </div>
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">
-                            name
-                          </label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <input
-                              type="text"
-                              [(ngModel)]="vlans[i].vlan_name_string"
-                              placeholder="nombre"
-                              required minlength="3"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <button
-                          class="btn btn-outline-danger mt-2"
-                          style="margin-left: 15px;"
-                          (click)="eliminarVlan(i)"
-                          title="Eliminar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            delete_forever
-                          </i>
-                        </button>
                       </div>
+                      <div class="col-sm-8 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="nombre"
+                            required
+                            class="form-control"
+                            formControlName="vlanNombre"
+                            minlength="3"
+                          />
+                        </div>
+                      </div>
+                    </form>
+                    <div class="col-sm-3 pt-1 my-1">
+                      <button
+                        class="btn btn-outline-success"
+                        (click)="enviarDatosAlBack()"
+                        title="Guardar"
+                      >
+                        <i class="material-icons" style="height: 9px;">save</i>
+                      </button>
                     </div>
                   </div>
                   <!--                Editar-->
+                  <!-- MOSTRAR COMANDOS-->
+                  <div class="col-md-6 pt-4">
+                    <p class="display-4 text-center" style="font-size: 150%;">
+                      Comandos
+                    </p>
+                    <div class="ex3">
+                      <p style="margin-top: 1px;"></p>
+                      <p
+                        style="line-height: 2%;"
+                        *ngFor="let comand of comandosVlan"
+                      >
+                        {{ comand }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- MOSTRAR COMANDOS-->
                   <div class="col-md-12 pt-4">
                     <table class="table">
                       <thead>
@@ -315,9 +307,7 @@
                                 >{{ item }}</option
                               >
                             </select>
-                            <i class="material-icons" style="height: 9px;"
-                              >minimize</i
-                            >
+
                             <select
                               name="miselect"
                               style="width: 100px;"
@@ -347,6 +337,22 @@
                     </div>
                   </div>
                 </div>
+                <!-- MOSTRAR COMANDOS-->
+                <div class="col-md-4 pt-4">
+                  <p class="display-4 text-center" style="font-size: 150%;">
+                    Comandos
+                  </p>
+                  <div class="ex3">
+                    <p style="margin-top: 1px;"></p>
+                    <p
+                      style="line-height: 2%;"
+                      *ngFor="let comand of comandosModeAcc"
+                    >
+                      {{ comand }}
+                    </p>
+                  </div>
+                </div>
+                <!-- MOSTRAR COMANDOS-->
                 <div class="col-sm-12 pt-4">
                   <table class="table">
                     <thead>
@@ -480,9 +486,7 @@
                                 >{{ item }}</option
                               >
                             </select>
-                            <i class="material-icons" style="height: 9px;"
-                              >minimize</i
-                            >
+
                             <select
                               name="miselect"
                               style="width: 100px;"
@@ -513,6 +517,22 @@
                     </div>
                   </div>
                 </div>
+                <!-- MOSTRAR COMANDOS-->
+                <div class="col-md-4 pt-4">
+                  <p class="display-4 text-center" style="font-size: 150%;">
+                    Comandos
+                  </p>
+                  <div class="ex3">
+                    <p style="margin-top: 1px;"></p>
+                    <p
+                      style="line-height: 2%;"
+                      *ngFor="let comand of comandosModeTrunk"
+                    >
+                      {{ comand }}
+                    </p>
+                  </div>
+                </div>
+                <!-- MOSTRAR COMANDOS-->
                 <div class="col-sm-12 pt-4">
                   <table class="table">
                     <thead>
@@ -632,6 +652,7 @@
                               </div>
                             </div>
                             <input
+                              [maxLength]="15"
                               type="text"
                               [(ngModel)]="ruteo[r].vlan_ip"
                               placeholder="Dirección ip"
@@ -652,6 +673,7 @@
                               </div>
                             </div>
                             <input
+                              [maxLength]="15"
                               type="text"
                               [(ngModel)]="ruteo[r].vlan_mascara"
                               placeholder="Máscara"
@@ -673,6 +695,22 @@
                     </div>
                   </div>
                 </div>
+                <!-- MOSTRAR COMANDOS-->
+                <div class="col-md-4 pt-4">
+                  <p class="display-4 text-center" style="font-size: 150%;">
+                    Comandos
+                  </p>
+                  <div class="ex3">
+                    <p style="margin-top: 1px;"></p>
+                    <p
+                      style="line-height: 2%;"
+                      *ngFor="let comand of comandosSvi"
+                    >
+                      {{ comand }}
+                    </p>
+                  </div>
+                </div>
+                <!-- MOSTRAR COMANDOS-->
                 <div class="col-sm-12 pt-4">
                   <table class="table">
                     <thead>

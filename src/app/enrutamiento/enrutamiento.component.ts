@@ -25,6 +25,8 @@ export class EnrutamientoComponent implements OnInit {
   public redRip: string = "";
   public listaRipModel: RipModel[] = [];
   public listaRipAsignadosModel: RipModel[] = [];
+  public comandosEigrp: string[] = [];
+  public comandosRip: string[] = [];
 
   constructor(public ruta: Router, public formBuilder: FormBuilder) {
     this.formRip = formBuilder.group({});
@@ -89,60 +91,60 @@ export class EnrutamientoComponent implements OnInit {
   }
 
   enviarDatosEigrp() {
-    let comandos: string[] = [];
-    comandos.push(this.routerComand.router_eigrp + this.asn);
-    comandos.push(this.routerComand.network + this.red);
-    comandos.push(this.routerComand.exit);
-    console.log("EIGRP ", comandos);
+    //let comandos: string[] = [];
+    this.comandosEigrp.push(this.routerComand.router_eigrp + this.asn);
+    this.comandosEigrp.push(this.routerComand.network + this.red);
+    this.comandosEigrp.push(this.routerComand.exit);
+    console.log("EIGRP ", this.comandosEigrp);
   }
 
   enviarDatosRip() {
-    let comandos: string[] = [];
-    comandos.push(this.routerComand.router_rip);
-    comandos.push(this.routerComand.version_rip);
-    comandos.push(this.routerComand.network + this.redRip);
-    comandos.push(this.routerComand.no_auto_summary);
-    comandos.push(this.routerComand.exit);
-    console.log("RIP ", comandos);
+    //let comandos: string[] = [];
+    this.comandosRip.push(this.routerComand.router_rip);
+    this.comandosRip.push(this.routerComand.version_rip);
+    this.comandosRip.push(this.routerComand.network + this.redRip);
+    this.comandosRip.push(this.routerComand.no_auto_summary);
+    this.comandosRip.push(this.routerComand.exit);
+    console.log("RIP ", this.comandosRip);
   }
 
   eliminarEnrutamientoEigrp(posicion: number) {
-    let comandos: string[] = [];
-    comandos.push(
+    //let comandos: string[] = [];
+    this.comandosEigrp.push(
       this.routerComand.no_router_eigrp +
         this.listaEigrpAsignadosModel[posicion].router_eigrp
     );
-    console.log("EIGRP eliminar ", comandos);
+    console.log("EIGRP eliminar ", this.comandosEigrp);
   }
 
   eliminarDatosEigrp(posicion: number) {
-    let comandos: string[] = [];
-    comandos.push(
+    //let comandos: string[] = [];
+    this.comandosEigrp.push(
       this.routerComand.router_eigrp +
         this.listaEigrpAsignadosModel[posicion].router_eigrp
     );
-    comandos.push(
+    this.comandosEigrp.push(
       this.routerComand.no_network +
         this.listaEigrpAsignadosModel[posicion].network
     );
-    comandos.push(this.routerComand.exit);
-    console.log("EIGRP eliminar ", comandos);
+    this.comandosEigrp.push(this.routerComand.exit);
+    console.log("EIGRP eliminar ", this.comandosEigrp);
   }
 
   eliminarDatosRip(posicion: number) {
-    let comandos: string[] = [];
-    comandos.push(this.routerComand.router_rip);
-    comandos.push(
+    //let comandos: string[] = [];
+    this.comandosRip.push(this.routerComand.router_rip);
+    this.comandosRip.push(
       this.routerComand.no_network +
         this.listaRipAsignadosModel[posicion].network
     );
-    comandos.push(this.routerComand.exit);
-    console.log("RIP eliminar ", comandos);
+    this.comandosRip.push(this.routerComand.exit);
+    console.log("RIP eliminar ", this.comandosRip);
   }
 
   eliminarEnrutamientoRip(posicion: number) {
-    let comandos: string[] = [];
-    comandos.push(this.routerComand.no_router_rip);
-    console.log("RIP eliminar ", comandos);
+    //let comandos: string[] = [];
+    this.comandosRip.push(this.routerComand.no_router_rip);
+    console.log("RIP eliminar ", this.comandosRip);
   }
 }

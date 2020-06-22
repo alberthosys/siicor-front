@@ -33,6 +33,11 @@ export class VlanComponent implements OnInit {
   public ruteo: VlanRuteoModel[] = [];
   public ruteoEstablecido: VlanRuteoModel[] = [];
   public formRuteo: FormGroup;
+  //Comandos globales
+  public comandosVlan: string[] = [];
+  public comandosModeAcc: string[] = [];
+  public comandosModeTrunk: string[] = [];
+  public comandosSvi: string[] = [];
 
   public ventana: number = 1;
   public comando = new Switch();
@@ -53,7 +58,17 @@ export class VlanComponent implements OnInit {
 
   constructor(public ruta: Router, public formBuildder: FormBuilder) {
     this.formVLAN = formBuildder.group({
-      numero: [0],
+      vlanNumero: [
+        null,
+        Validators.compose([Validators.required, Validators.pattern("[0-9]*")]),
+      ],
+      vlanNombre: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern("[a-zA-Z0-9_-]*"),
+        ]),
+      ],
     });
     this.formPuertos = formBuildder.group({
       numero: [0],
@@ -64,10 +79,12 @@ export class VlanComponent implements OnInit {
     this.formRuteo = formBuildder.group({
       numero: [0],
     });
+    //Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")
   }
 
   ngOnInit() {
     this.checksesion();
+    this.vlans.push({ vlan_numero: null, vlan_name_string: null });
     this.vlansEditar.push({ vlan_numero: 10, vlan_name_string: "DATIC" });
     this.vlansEditar.push({ vlan_numero: 20, vlan_name_string: "DACEA" });
     this.rangos.push({
@@ -94,10 +111,13 @@ export class VlanComponent implements OnInit {
   }
 
   // Creación de VLAN
+  // agregarVLAN() {
+  //   for (let i = 0; i < this.formVLAN.controls.numero.value; i++) {
+  //     this.vlans.push({ vlan_numero: null, vlan_name_string: null });
+  //   }
+  // }
   agregarVLAN() {
-    for (let i = 0; i < this.formVLAN.controls.numero.value; i++) {
-      this.vlans.push({ vlan_numero: null, vlan_name_string: null });
-    }
+    this.vlans.push({ vlan_numero: null, vlan_name_string: null });
   }
 
   eliminarVlan(pos: number) {
@@ -111,9 +131,10 @@ export class VlanComponent implements OnInit {
   }
 
   eliminarVlanCreada(pos: number) {
-    let comandos: string[] = [];
-    comandos.push(this.comando.no_vlan + this.vlansEditar[pos].vlan_numero);
-    console.log("Eliminar VLAN->", comandos);
+    this.comandosVlan.push(
+      this.comando.no_vlan + this.vlansEditar[pos].vlan_numero
+    );
+    console.log("Eliminar VLAN->", this.comandosVlan);
     // this.ngOnInit();
   }
 
@@ -148,30 +169,28 @@ export class VlanComponent implements OnInit {
   }
 
   eliminarPuertoCreado(pos: number) {
-    let comandos: string[] = [];
-    comandos.push(
+    this.comandosModeAcc.push(
       this.comando.vlan_rango_uno +
         this.rangos[pos].puerto_rango +
         "-" +
         this.rangos[pos].puerto_rangoDos,
       this.comando.no_vlan_mode_acc + this.rangos[pos].puerto_vlan
     );
-    console.log("Eliminar Puertos->", comandos);
+    console.log("Eliminar Puertos->", this.comandosModeAcc);
   }
 
   editarPuerto(pos: number) {
-    let comandos: string[] = [];
-    comandos.push(
+    this.comandosModeAcc.push(
       this.comando.vlan_rango_uno +
         this.rangos[pos].puerto_rango +
         "-" +
         this.rangos[pos].puerto_rangoDos
     );
-    comandos.push(this.comando.vlan_rango_mode_acc);
-    comandos.push(
+    this.comandosModeAcc.push(this.comando.vlan_rango_mode_acc);
+    this.comandosModeAcc.push(
       this.comando.vlan_rango_acc_vlan + this.rangos[pos].puerto_vlan
     );
-    console.log("Editar VLAN->", comandos);
+    console.log("Editar VLAN->", this.comandosModeAcc);
   }
 
   // Puertos Trunk
@@ -196,15 +215,14 @@ export class VlanComponent implements OnInit {
   }
 
   eliminarPuertoTrunkCreado(pos: number) {
-    let comandos: string[] = [];
-    comandos.push(
+    this.comandosModeTrunk.push(
       this.comando.vlan_rango_uno +
         this.rangos[pos].puerto_rango +
         "-" +
         this.rangos[pos].puerto_rangoDos,
       this.comando.no_vlan_mode_trunk + this.rangos[pos].puerto_vlan
     );
-    console.log("Eliminar Puertos->", comandos);
+    console.log("Eliminar Puertos->", this.comandosModeTrunk);
   }
 
   //Ruteo
@@ -229,11 +247,10 @@ export class VlanComponent implements OnInit {
   }
 
   eliminarRuteoCreado(pos: number) {
-    let comandos: string[] = [];
-    comandos.push(
+    this.comandosSvi.push(
       this.comando.no_ruteo_vlan + this.ruteoEstablecido[pos].vlan_interface
     );
-    console.log("Eliminar Puertos->", comandos);
+    console.log("Eliminar Puertos->", this.comandosSvi);
   }
 
   checksesion() {
@@ -244,60 +261,64 @@ export class VlanComponent implements OnInit {
   }
 
   enviarDatosAlBack() {
-    console.log(this.vlans);
-    let comandos: string[] = [];
-    this.vlans.forEach((item) => {
-      comandos.push(this.comando.vlan_number + item.vlan_numero);
-      comandos.push(this.comando.vlan_name + item.vlan_name_string);
-      comandos.push(this.comando.exit);
-    });
+    if (this.formVLAN.valid) {
+      this.comandosVlan.push(
+        this.comando.vlan_number + this.formVLAN.controls.vlanNumero.value
+      );
+      this.comandosVlan.push(
+        this.comando.vlan_name + this.formVLAN.controls.vlanNombre.value
+      );
+      this.comandosVlan.push(this.comando.exit);
+    }
+
     // vlan 10
     // name SICOR
     // exit
-    console.log("ENVIANDO-AL-BACK", comandos);
+    console.log("ENVIANDO-AL-BACK", this.comandosVlan);
   }
 
   enviarDatosAlBackPuertos() {
-    let comandos: string[] = [];
     this.puertos.forEach((item) => {
-      comandos.push(
+      this.comandosModeAcc.push(
         this.comando.vlan_rango_uno +
           item.puerto_rango +
           "-" +
           item.puerto_rangoDos
       );
-      comandos.push(this.comando.vlan_rango_mode_acc);
-      comandos.push(this.comando.vlan_rango_acc_vlan + item.puerto_vlan);
-      comandos.push(this.comando.exit);
+      this.comandosModeAcc.push(this.comando.vlan_rango_mode_acc);
+      this.comandosModeAcc.push(
+        this.comando.vlan_rango_acc_vlan + item.puerto_vlan
+      );
+      this.comandosModeAcc.push(this.comando.exit);
     });
-    console.log("ENVIANDO-AL-BACK", comandos);
+    console.log("ENVIANDO-AL-BACK", this.comandosModeAcc);
   }
 
   enviarDatosAlBackTrunk() {
-    let comandos: string[] = [];
     this.puertosTrunk.forEach((item) => {
-      comandos.push(
+      this.comandosModeTrunk.push(
         this.comando.vlan_rango_uno +
           item.vlan_trunk_rango +
           "-" +
           item.vlan_trunk_rangoDos
       );
-      comandos.push(this.comando.vlan_rango_mode_trunk);
-      comandos.push(this.comando.vlan_rango_trunk_native + item.vlan_trunk);
-      comandos.push(this.comando.exit);
+      this.comandosModeTrunk.push(this.comando.vlan_rango_mode_trunk);
+      this.comandosModeTrunk.push(
+        this.comando.vlan_rango_trunk_native + item.vlan_trunk
+      );
+      this.comandosModeTrunk.push(this.comando.exit);
     });
-    console.log("ENVIANDO-AL-BACK", comandos);
+    console.log("ENVIANDO-AL-BACK", this.comandosModeTrunk);
   }
 
   enviarDatosAlBackSvi() {
-    let comandos: string[] = [];
     this.ruteo.forEach((item) => {
-      comandos.push(this.comando.vlan_ruteo_vlan + item.vlan_interface);
-      comandos.push(
+      this.comandosSvi.push(this.comando.vlan_ruteo_vlan + item.vlan_interface);
+      this.comandosSvi.push(
         this.comando.vlan_ruteo_ip + item.vlan_ip + " " + item.vlan_mascara
       );
-      comandos.push(this.comando.exit);
+      this.comandosSvi.push(this.comando.exit);
     });
-    console.log("ENVIANDO-AL-BACK", comandos);
+    console.log("ENVIANDO-AL-BACK", this.comandosSvi);
   }
 }
