@@ -13,4 +13,5 @@ export class Routers extends Universal {
   deny_host: string = " deny host ";
   permit_any: string = " permit any";
   ip_acess_group: string = "ip access-group ";
+  host:string=" host ";
 }
