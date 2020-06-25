@@ -74,6 +74,7 @@
                   </div>
                   <div class="col-md-4"></div>
                   <div class="col-md-4 justify-content-center">
+                  <form [formGroup] = "formEigrp">
                     <div class="col-sm-12 pt-1 my-1">
                       <label class="sr-only">
                         Valor ASN
@@ -90,14 +91,35 @@
                           type="number"
                           class="form-control"
                           required
+                          [maxLength]="65535"
                           max="65535"
                           min="1"
                           placeholder="1-65535"
-                          [(ngModel)]="asn"
+                          formControlName="asn"
                           data-toggle="tooltip"
                           data-placement="top"
                         />
                       </div>
+                      <div
+                          class="errorsValidate"
+                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('pattern')">
+                          Revisa que el formato sea números
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('required')">
+                          El campo es requierido
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('max')">
+                          No número no puede exceder de 65535
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('min')">
+                          El número no puede ser menor a 1
+                        </div>
                     </div>
                     <div class="col-sm-12 pt-1 my-1">
                       <label class="sr-only">
@@ -111,7 +133,8 @@
                             </p>
                           </div>
                         </div>
-                        <select class="form-control" [(ngModel)]="red">
+                        <select class="form-control" formControlName="redIp">
+                          <option value= "null">Seleccione una red IP</option>
                           <option
                             [value]="item.network"
                             *ngFor="let item of listaEigrpModel"
@@ -120,6 +143,16 @@
                           >
                         </select>
                       </div>
+                      <div
+                          class="errorsValidate"
+                          *ngIf="formEigrp.controls.redIp.touched && formEigrp.controls.redIp.hasError('pattern')">
+                          Revisa que el formato sea IPv4
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formEigrp.controls.redIp.touched && formEigrp.controls.redIp.hasError('required')">
+                          El campo es requierido
+                        </div>
                     </div>
                     <div class="col-sm-12 pt-4 justify-content-center">
                       <button
@@ -134,6 +167,21 @@
                         </p>
                       </button>
                     </div>
+                  </form>
+                  </div>
+                </div>
+                <div class="col-md-4 pt-4">
+                  <p class="display-4 text-center" style="font-size: 150%;">
+                    Comandos
+                  </p>
+                  <div class="ex3">
+                    <p style="margin-top: 1px;"></p>
+                    <p
+                      style="line-height: 2%;"
+                      *ngFor="let comand of comandosEigrp"
+                    >
+                      {{ comand }}
+                    </p>
                   </div>
                 </div>
                 <div class="col-sm-12 pt-4">
@@ -200,6 +248,7 @@
                   </div>
                   <div class="col-md-4"></div>
                   <div class="col-md-4 justify-content-center">
+                    <form [formGroup] = "formRip">
                     <div class="col-sm-12 pt-1 my-1">
                       <label class="sr-only">
                         Router rip
@@ -254,15 +303,22 @@
                             </p>
                           </div>
                         </div>
-                        <select class="form-control" [(ngModel)]="redRip">
-                          <option
-                            [value]="item.network"
-                            *ngFor="let item of listaRipModel"
-                          >
-                            {{ item.network }}</option
-                          >
+                        <select class="form-control" formControlName="redRip" required>
+                          <option value="null">Selecciona una red IP</option>
+                          <option [value]="item" *ngFor="let item of listaIp">
+                            {{ item }}</option>
                         </select>
                       </div>
+                      <div
+                          class="errorsValidate"
+                          *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('pattern')">
+                          Revisa que el formato sea IPv4
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('required')">
+                          El campo es requierido
+                        </div>
                     </div>
                     <div class="col-sm-12 pt-4 justify-content-center">
                       <button
@@ -277,6 +333,21 @@
                         </p>
                       </button>
                     </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-md-4 pt-4">
+                  <p class="display-4 text-center" style="font-size: 150%;">
+                    Comandos
+                  </p>
+                  <div class="ex3">
+                    <p style="margin-top: 1px;"></p>
+                    <p
+                      style="line-height: 2%;"
+                      *ngFor="let comand of comandosRip"
+                    >
+                      {{ comand }}
+                    </p>
                   </div>
                 </div>
                 <div class="col-sm-12 pt-4">

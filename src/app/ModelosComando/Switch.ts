@@ -6,6 +6,7 @@ export class Switch extends Universal {
   vlan_name: string = "name ";
   exit: string = "exit";
   vlan_rango_uno: string = "interface range ";
+  vlan_sin_rango: string = "interface "
   vlan_rango_mode_acc: string = "switchport mode access";
   vlan_rango_acc_vlan: string = "switchport access vlan ";
   vlan_rango_mode_trunk: string = "switchport mode trunk";
