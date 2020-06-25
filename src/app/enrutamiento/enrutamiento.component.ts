@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Sesion } from "../Sesion/sesion";
-import { Alert } from "../Alerts/Alert";
+import { Alert,alertConfirm } from "../Alerts/Alert";
 import { Router } from "@angular/router";
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Routers } from "../ModelosComando/Routers";
 import { EigrpModel } from "../Modelos/EigrpModel";
 import { RipModel } from "../Modelos/RipModel";
@@ -17,41 +17,46 @@ export class EnrutamientoComponent implements OnInit {
   public alerta = new Alert();
   public routerComand = new Routers();
   public ventana: boolean = false;
+  public formEigrp: FormGroup;
   public formRip: FormGroup;
   public listaEigrpModel: EigrpModel[] = [];
   public listaEigrpAsignadosModel: EigrpModel[] = [];
-  public asn: number = 1;
-  public red: string = "";
-  public redRip: string = "";
   public listaRipModel: RipModel[] = [];
   public listaRipAsignadosModel: RipModel[] = [];
   public comandosEigrp: string[] = [];
   public comandosRip: string[] = [];
+  listaIp: string[] = ["192.168.10.0", "10.10.10.0"];
 
   constructor(public ruta: Router, public formBuilder: FormBuilder) {
-    this.formRip = formBuilder.group({});
+    this.formEigrp = formBuilder.group({
+      asn: [null, Validators.compose([Validators.required, Validators.pattern("[0-9]*"), Validators.max(65535), Validators.min(1)])],
+      redIp: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])]
+    });
+    this.formRip = formBuilder.group({
+      redRip: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])]
+    });
   }
 
   ngOnInit() {
     this.listaEigrpModel.push({
       router_eigrp: "10",
-      network: "192.168.10.0 0.0.0.255",
+      network: "192.168.10.0",
     });
     this.listaEigrpModel.push({
       router_eigrp: "10",
-      network: "192.168.30.0 0.0.0.255",
+      network: "192.168.30.0",
     });
     this.listaEigrpModel.push({
       router_eigrp: "10",
-      network: "192.168.40.0 0.0.0.255",
+      network: "192.168.40.0",
     });
     this.listaEigrpAsignadosModel.push({
       router_eigrp: "10",
-      network: "192.168.10.0 0.0.0.255",
+      network: "192.168.10.0",
     });
     this.listaEigrpAsignadosModel.push({
       router_eigrp: "20",
-      network: "192.168.50.0 0.0.0.255",
+      network: "192.168.50.0",
     });
     for (let i = 0; i < this.listaEigrpModel.length; i++) {
       for (let l of this.listaEigrpAsignadosModel) {
@@ -92,59 +97,79 @@ export class EnrutamientoComponent implements OnInit {
 
   enviarDatosEigrp() {
     //let comandos: string[] = [];
-    this.comandosEigrp.push(this.routerComand.router_eigrp + this.asn);
-    this.comandosEigrp.push(this.routerComand.network + this.red);
+    if(this.formEigrp.valid){
+    this.comandosEigrp.push(this.routerComand.router_eigrp + this.formEigrp.controls.asn.value);
+    this.comandosEigrp.push(this.routerComand.network + this.formEigrp.controls.redIp.value);
     this.comandosEigrp.push(this.routerComand.exit);
+    }else {
+      this.alerta.alertError("Revisa que todos los campos se hayan llenado correctamente")
+    }
     console.log("EIGRP ", this.comandosEigrp);
   }
 
   enviarDatosRip() {
     //let comandos: string[] = [];
+    if(this.formRip.valid){
     this.comandosRip.push(this.routerComand.router_rip);
     this.comandosRip.push(this.routerComand.version_rip);
-    this.comandosRip.push(this.routerComand.network + this.redRip);
+    this.comandosRip.push(this.routerComand.network + this.formRip.controls.redRip.value);
     this.comandosRip.push(this.routerComand.no_auto_summary);
     this.comandosRip.push(this.routerComand.exit);
+    }else {
+      this.alerta.alertError("Revisa que todos los campos se hayan llenado correctamente")
+    }
     console.log("RIP ", this.comandosRip);
   }
 
-  eliminarEnrutamientoEigrp(posicion: number) {
-    //let comandos: string[] = [];
-    this.comandosEigrp.push(
-      this.routerComand.no_router_eigrp +
-        this.listaEigrpAsignadosModel[posicion].router_eigrp
-    );
-    console.log("EIGRP eliminar ", this.comandosEigrp);
+  eliminarEnrutamientoEigrp(posicion: number) { 
+    alertConfirm.fire({html:"Esta seguro que desea eliminar el enrutamiento EIGRP "+ this.listaEigrpAsignadosModel[posicion].router_eigrp}).then((response)=>{
+      if(response.value){
+        this.comandosEigrp.push(
+          this.routerComand.no_router_eigrp +
+            this.listaEigrpAsignadosModel[posicion].router_eigrp
+        );
+        console.log("EIGRP eliminar ", this.comandosEigrp);
+      }
+    });
   }
 
   eliminarDatosEigrp(posicion: number) {
-    //let comandos: string[] = [];
-    this.comandosEigrp.push(
-      this.routerComand.router_eigrp +
-        this.listaEigrpAsignadosModel[posicion].router_eigrp
-    );
-    this.comandosEigrp.push(
-      this.routerComand.no_network +
-        this.listaEigrpAsignadosModel[posicion].network
-    );
-    this.comandosEigrp.push(this.routerComand.exit);
-    console.log("EIGRP eliminar ", this.comandosEigrp);
+  alertConfirm.fire({html:"Esta seguro que desea eliminar la red para el protocolo EIGRP"}).then((response)=>{
+    if(response.value){
+      this.comandosEigrp.push(
+        this.routerComand.router_eigrp +
+          this.listaEigrpAsignadosModel[posicion].router_eigrp
+      );
+      this.comandosEigrp.push(
+        this.routerComand.no_network +
+          this.listaEigrpAsignadosModel[posicion].network
+      );
+      this.comandosEigrp.push(this.routerComand.exit);
+      console.log("EIGRP eliminar ", this.comandosEigrp);
+    }
+  });
   }
 
   eliminarDatosRip(posicion: number) {
-    //let comandos: string[] = [];
-    this.comandosRip.push(this.routerComand.router_rip);
-    this.comandosRip.push(
-      this.routerComand.no_network +
-        this.listaRipAsignadosModel[posicion].network
-    );
-    this.comandosRip.push(this.routerComand.exit);
-    console.log("RIP eliminar ", this.comandosRip);
+    alertConfirm.fire({html:"Esta seguro que desea eliminar la red para el protocolo RIP"}).then((response)=>{
+      if(response.value){
+        this.comandosRip.push(this.routerComand.router_rip);
+        this.comandosRip.push(
+        this.routerComand.no_network +
+        this.listaRipAsignadosModel[posicion].network);
+        this.comandosRip.push(this.routerComand.exit);
+        console.log("RIP eliminar ", this.comandosRip);
+      }
+    })
+    
   }
 
   eliminarEnrutamientoRip(posicion: number) {
-    //let comandos: string[] = [];
-    this.comandosRip.push(this.routerComand.no_router_rip);
-    console.log("RIP eliminar ", this.comandosRip);
+    alertConfirm.fire({html:"Esta seguro que desea eliminar el enrutamiento RIP"}).then((resolve)=>{
+      if(resolve.value){
+        this.comandosRip.push(this.routerComand.no_router_rip);
+        console.log("RIP eliminar ", this.comandosRip);
+      }
+    })
   }
 }

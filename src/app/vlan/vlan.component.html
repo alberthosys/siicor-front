@@ -21,7 +21,7 @@
                     </b>
                     <pre></pre>
                   </div>
-                  <div class="col-md-2"></div>
+                  <div class="col-md-3"></div>
                   <div class="col-md-2 pt-4">
                     <button
                       (click)="this.ventana = 1"
@@ -30,7 +30,7 @@
                       <span>
                         <img
                           class="img img-fluid"
-                          style="width: 30%;"
+                          style="width: 30%"
                           src="https://image.flaticon.com/icons/svg/438/438901.svg"
                         />
                       </span>
@@ -53,23 +53,6 @@
                       </span>
                       <span>
                         Asignar puertos
-                      </span>
-                    </button>
-                  </div>
-                  <div class="col-md-2 pt-4">
-                    <button
-                      (click)="this.ventana = 3"
-                      class="btn btn-outline-dark"
-                    >
-                      <span>
-                        <img
-                          class="img img-fluid"
-                          style="width: 30%;"
-                          src="https://image.flaticon.com/icons/svg/860/860220.svg"
-                        />
-                      </span>
-                      <span>
-                        Puertos Trunk
                       </span>
                     </button>
                   </div>
@@ -109,7 +92,7 @@
 
                   <div
                     class="justify-content-center col-md-6"
-                    style="margin: 50px auto;"
+                    style="margin: 60px auto;"
                   >
                     <form [formGroup]="formVLAN">
                       <div class="col-sm-8 pt-1 my-1">
@@ -129,6 +112,24 @@
                             formControlName="vlanNumero"
                             required
                           />
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="
+                            formVLAN.controls.vlanNumero.touched &&
+                            formVLAN.controls.vlanNumero.hasError('pattern')
+                          "
+                        >
+                          Revisa que el formato sea números
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="
+                            formVLAN.controls.vlanNumero.touched &&
+                            formVLAN.controls.vlanNumero.hasError('required')
+                          "
+                        >
+                          El campo es requierido
                         </div>
                       </div>
                       <div class="col-sm-8 pt-1 my-1">
@@ -152,9 +153,27 @@
                             minlength="3"
                           />
                         </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="
+                            formVLAN.controls.vlanNombre.touched &&
+                            formVLAN.controls.vlanNombre.hasError('pattern')
+                          "
+                        >
+                          Revisa que el formato sea números
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="
+                            formVLAN.controls.vlanNombre.touched &&
+                            formVLAN.controls.vlanNombre.hasError('required')
+                          "
+                        >
+                          El campo es requierido
+                        </div>
                       </div>
                     </form>
-                    <div class="col-sm-3 pt-1 my-1">
+                    <div class="col-sm-3 pt-4 my-1">
                       <button
                         class="btn btn-outline-success"
                         (click)="enviarDatosAlBack()"
@@ -226,133 +245,146 @@
                       >Asignar Vlan a puertos</b
                     >
                   </div>
-                  <div class="col-md-12 pt-4 text-center">
+                  
+                  <div class="pt-4 col-md-6" style="margin: 60px auto;">
+                    <!-- Radio Button - Puertos-->
+                    <div class="form-check form-check-inline" >
+                      <input class="form-check-input" name="radioButton" [(ngModel)]="radioButton" type="radio" [value]="true" [checked]="radioButton">
+                      <label class="form-check-label" for="inlineRadio1">Un puerto</label>
+                    </div>
+                    <div class="form-check form-check-inline" >
+                      <input class="form-check-input" name="radioButton" [(ngModel)]="radioButton" type="radio" [value]="false" [checked]="!radioButton">
+                      <label class="form-check-label" for="inlineRadio2">Rango</label>
+                    </div>
+                    <br>
+                    <!-- Radio Button-->
+                    
                     <form [formGroup]="formPuertos">
-                      <input formControlName="numero" type="number" />
-                    </form>
-                    <br />
-                    <button
-                      (click)="agregarPuerto()"
-                      (click)="this.formPuertos.controls.numero.setValue(0)"
-                      class="btn btn-outline-success"
-                      title="Agregar"
-                    >
-                      <i class="material-icons" style="height: 9px;">
-                        add_to_queue
-                      </i>
-                    </button>
-                    <button
-                      class="btn btn-outline-success"
-                      style="margin-left: 40px;"
-                      (click)="this.formPuertos.controls.numero.setValue(0)"
-                      (click)="enviarDatosAlBackPuertos()"
-                      title="Guardar"
-                    >
-                      <i class="material-icons" style="height: 9px;">save</i>
-                    </button>
-                  </div>
-                  <div
-                    class="pt-4 col-md-4"
-                    *ngFor="let vlan of puertos; index as p"
-                  >
-                    <div class="card" id="card">
-                      <div class="card-body">
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">
-                            name
-                          </label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
+                      
+                      <div class="col-sm-8 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
                             </div>
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="puertos[p].puerto_vlan"
-                              placeholder="VLAN 10"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista"
-                                >{{ item }}</option
-                              >
-                            </select>
                           </div>
+                          <select class="form-control" name="miselect" style="width: 100px;" formControlName="vlanNumero"
+                            placeholder="VLAN 10" required>
+                            <option value="null">Selecciona una VLAN</option>
+                            <option [value]="item" *ngFor="let item of lista">{{
+                              item}}</option>
+                          </select>
                         </div>
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">VLAN</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="puertos[p].puerto_rango"
-                              placeholder="fa0/1"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista_puerto"
-                                >{{ item }}</option
-                              >
-                            </select>
-
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="puertos[p].puerto_rangoDos"
-                              placeholder="fa0/5"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista_puerto"
-                                >{{ item }}</option
-                              >
-                            </select>
-                          </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formPuertos.controls.vlanNumero.touched && formPuertos.controls.vlanNumero.hasError('pattern')">
+                          Revisa que el formato sea números
                         </div>
-                        <button
-                          class="btn btn-outline-danger mt-2"
-                          style="margin-left: 15px;"
-                          (click)="eliminarPuerto(p)"
-                          title="Eliminar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            delete_forever
-                          </i>
-                        </button>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formPuertos.controls.vlanNumero.touched && formPuertos.controls.vlanNumero.hasError('required')">
+                          El campo es requierido
+                        </div>
                       </div>
+                      <div class="col-sm-8 pt-1 my-1">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <select class="form-control" name="miselect" style="width: 100px;" placeholder="fa0/1" formControlName="vlanRangoUno" required>
+                            <option value="null">Selecciona un cable</option>
+                            <option [value]="item"
+                              *ngFor="let item of lista_puerto">{{ item }}</option>
+                          </select>
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formPuertos.controls.vlanRangoUno.touched && formPuertos.controls.vlanRangoUno.hasError('pattern')">
+                          Revisa que el formato sea correcto
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formPuertos.controls.vlanRangoUno.touched && formPuertos.controls.vlanRangoUno.hasError('required')">
+                          El campo es requierido
+                        </div>
+                      </div>
+                      <div class="col-sm-8 pt-1 my-1" *ngIf="!radioButton">
+                        <label class="sr-only">VLAN</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
+                            </div>
+                          </div>
+                          <select class="form-control" name="miselect" style="width: 100px;" formControlName="vlanRangoDos"
+                             placeholder="fa0/5" required>
+                             <option value="null">Selecciona un cable</option>
+                            <option [value]="item"
+                              *ngFor="let item of lista_puerto">{{ item }}</option>
+                          </select>
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formPuertos.controls.vlanRangoDos.touched && formPuertos.controls.vlanRangoDos.hasError('pattern')">
+                          Revisa que el formato sea correcto
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formPuertos.controls.vlanRangoDos.touched && formPuertos.controls.vlanRangoDos.hasError('required')">
+                          El campo es requierido
+                        </div>
+                      </div>
+                    </form>
+                    <!-- Radio Button - modo(acceso-troncal)-->
+                    <div class="form-check form-check-inline" >
+                      <input class="form-check-input" name="radioButtonModo" [(ngModel)]="radioButtonModo" type="radio" [value]="true" [checked]="radioButtonModo">
+                      <label class="form-check-label" for="inlineRadio3">Modo acceso</label>
+                    </div>
+                    <div class="form-check form-check-inline" >
+                      <input class="form-check-input" name="radioButtonModo" [(ngModel)]="radioButtonModo" type="radio" [value]="false" [checked]="!radioButtonModo">
+                      <label class="form-check-label" for="inlineRadio4">Modo troncal</label>
+                    </div>
+                    <!-- Radio Button - modo(acceso-troncal)-->
+                    <div class="col-md-3 pt-4">
+                      <button
+                        class="btn btn-outline-success"
+                        (click)="enviarDatosAlBackPuertos()"
+                        title="Guardar"
+                      >
+                        <i class="material-icons" style="height: 9px;">save</i>
+                      </button>
                     </div>
                   </div>
-                </div>
-                <!-- MOSTRAR COMANDOS-->
-                <div class="col-md-4 pt-4">
-                  <p class="display-4 text-center" style="font-size: 150%;">
-                    Comandos
-                  </p>
-                  <div class="ex3">
-                    <p style="margin-top: 1px;"></p>
-                    <p
-                      style="line-height: 2%;"
-                      *ngFor="let comand of comandosModeAcc"
-                    >
-                      {{ comand }}
+                  <!-- MOSTRAR COMANDOS-->
+                  <div class="col-md-6 pt-4">
+                    <p class="display-4 text-center" style="font-size: 150%;">
+                      Comandos
                     </p>
+                    <div class="ex3">
+                      <p style="margin-top: 1px;"></p>
+                      <p
+                        style="line-height: 2%;"
+                        *ngFor="let comand of comandosModeAcc"
+                      >
+                        {{ comand }}
+                      </p>
+                    </div>
                   </div>
+                  <!-- MOSTRAR COMANDOS-->
                 </div>
-                <!-- MOSTRAR COMANDOS-->
+
                 <div class="col-sm-12 pt-4">
                   <table class="table">
                     <thead>
@@ -387,187 +419,7 @@
                 </div>
               </div>
               <!-- Términa el segundo submenú-->
-              <!-- Empieza el tercer submenú-->
-              <div
-                class="col-md-12 pt-4 justify-content-center"
-                *ngIf="ventana == 3"
-              >
-                <div class="row">
-                  <div class="col-md-12 text-center">
-                    <b
-                      class="display-4"
-                      style="font-size: 180%; color: #009574;"
-                      >Asignar puertos Trunk</b
-                    >
-                  </div>
-                  <div class="col-md-12 pt-4 text-center">
-                    <form [formGroup]="formPuertosTrunk">
-                      <input formControlName="numero" type="number" />
-                    </form>
-                    <br />
-                    <button
-                      (click)="agregarPuertosTrunk()"
-                      (click)="
-                        this.formPuertosTrunk.controls.numero.setValue(0)
-                      "
-                      class="btn btn-outline-success"
-                      title="Agregar"
-                    >
-                      <i class="material-icons" style="height: 9px;">
-                        add_to_queue
-                      </i>
-                    </button>
-                    <button
-                      class="btn btn-outline-success"
-                      style="margin-left: 40px;"
-                      (click)="
-                        this.formPuertosTrunk.controls.numero.setValue(0)
-                      "
-                      (click)="enviarDatosAlBackTrunk()"
-                      title="Guardar"
-                    >
-                      <i class="material-icons" style="height: 9px;">save</i>
-                    </button>
-                  </div>
-                  <div
-                    class="pt-4 col-md-4"
-                    *ngFor="let vlan of puertosTrunk; index as t"
-                  >
-                    <div class="card" id="card2">
-                      <div class="card-body">
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">
-                            name
-                          </label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="puertosTrunk[t].vlan_trunk"
-                              placeholder="VLAN 10"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista"
-                                >{{ item }}</option
-                              >
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-12 pt-1 my-1">
-                          <label class="sr-only">VLAN</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
-                            </div>
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="puertosTrunk[t].vlan_trunk_rango"
-                              placeholder="fa0/1"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista_puerto"
-                                >{{ item }}</option
-                              >
-                            </select>
-
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="puertosTrunk[t].vlan_trunk_rangoDos"
-                              placeholder="fa0/5"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista_puerto"
-                                >{{ item }}</option
-                              >
-                            </select>
-                          </div>
-                        </div>
-
-                        <button
-                          class="btn btn-outline-danger mt-2"
-                          style="margin-left: 15px;"
-                          (click)="eliminarPuertosTrunk(t)"
-                          title="Eliminar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            delete_forever
-                          </i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- MOSTRAR COMANDOS-->
-                <div class="col-md-4 pt-4">
-                  <p class="display-4 text-center" style="font-size: 150%;">
-                    Comandos
-                  </p>
-                  <div class="ex3">
-                    <p style="margin-top: 1px;"></p>
-                    <p
-                      style="line-height: 2%;"
-                      *ngFor="let comand of comandosModeTrunk"
-                    >
-                      {{ comand }}
-                    </p>
-                  </div>
-                </div>
-                <!-- MOSTRAR COMANDOS-->
-                <div class="col-sm-12 pt-4">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">VLAN</th>
-                        <th scope="col">Rango</th>
-                        <th scope="col">Opciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let rangoTrunk of rangosTrunk; index as i">
-                        <td>{{ rangoTrunk.puerto_vlan }}</td>
-                        <td>
-                          {{ rangoTrunk.puerto_rango }} -
-                          {{ rangoTrunk.puerto_rangoDos }}
-                        </td>
-                        <td>
-                          <button
-                            class="btn btn-outline-danger"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            (click)="eliminarPuertoTrunkCreado(i)"
-                            title="Eliminar"
-                          >
-                            <i class="material-icons" style="height: 9px;">
-                              delete
-                            </i>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!-- Términa el tercer submenú-->
+             
               <!-- Empieza el cuarto submenú-->
               <div
                 class="col-md-12 pt-4 justify-content-center"
@@ -581,38 +433,11 @@
                       >Ruteo entre VLANs</b
                     >
                   </div>
-                  <div class="col-md-12 pt-4 text-center">
-                    <form [formGroup]="formRuteo">
-                      <input formControlName="numero" type="number" />
-                    </form>
-                    <br />
-                    <button
-                      (click)="agregarRuteo()"
-                      (click)="this.formRuteo.controls.numero.setValue(0)"
-                      class="btn btn-outline-success"
-                      title="Agregar"
-                    >
-                      <i class="material-icons" style="height: 9px;">
-                        add_to_queue
-                      </i>
-                    </button>
-                    <button
-                      class="btn btn-outline-success"
-                      style="margin-left: 40px;"
-                      (click)="this.formRuteo.controls.numero.setValue(0)"
-                      (click)="enviarDatosAlBackSvi()"
-                      title="Guardar"
-                    >
-                      <i class="material-icons" style="height: 9px;">save</i>
-                    </button>
-                  </div>
+                  
                   <div
-                    class="pt-4 col-md-4"
-                    *ngFor="let vlan of ruteo; index as r"
-                  >
-                    <div class="card" id="card3">
-                      <div class="card-body">
-                        <div class="col-sm-12 pt-1 my-1">
+                    class="pt-4 col-md-6" style="margin: 60px auto">
+                    <form [formGroup] = "formRuteo">
+                        <div class="col-sm-8 pt-1 my-1">
                           <label class="sr-only">
                             name
                           </label>
@@ -624,22 +449,26 @@
                                 </p>
                               </div>
                             </div>
-                            <select
-                              name="miselect"
-                              style="width: 100px;"
-                              [(ngModel)]="ruteo[r].vlan_interface"
-                              placeholder="VLAN 10"
-                              required
-                            >
-                              <option
-                                [value]="item"
-                                *ngFor="let item of lista"
-                                >{{ item }}</option
-                              >
+                            <select class="form-control" name="miselect"
+                              style="width: 100px;" formControlName="vlanNumero"
+                              placeholder="VLAN 10" required>
+                              <option value="null">Seleccione una VLAN</option>
+                              <option [value]="item" *ngFor="let item of lista"
+                                >{{ item }}</option>
                             </select>
                           </div>
+                          <div
+                          class="errorsValidate"
+                          *ngIf="formRuteo.controls.vlanNumero.touched && formRuteo.controls.vlanNumero.hasError('pattern')">
+                          Revisa que el formato sea números
                         </div>
-                        <div class="col-sm-12 pt-1 my-1">
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formRuteo.controls.vlanNumero.touched && formRuteo.controls.vlanNumero.hasError('required')">
+                          El campo es requierido
+                        </div>
+                        </div>
+                        <div class="col-sm-8 pt-1 my-1">
                           <label class="sr-only">
                             name
                           </label>
@@ -652,15 +481,26 @@
                               </div>
                             </div>
                             <input
+                              class="form-control"
                               [maxLength]="15"
                               type="text"
-                              [(ngModel)]="ruteo[r].vlan_ip"
+                              formControlName = "vlanIp"
                               placeholder="Dirección ip"
                               required
                             />
                           </div>
+                          <div
+                          class="errorsValidate"
+                          *ngIf="formRuteo.controls.vlanIp.touched && formRuteo.controls.vlanIp.hasError('pattern')">
+                          Revisa que el formato sea IPv4
                         </div>
-                        <div class="col-sm-12 pt-1 my-1">
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formRuteo.controls.vlanIp.touched && formRuteo.controls.vlanIp.hasError('required')">
+                          El campo es requierido
+                        </div>
+                        </div>
+                        <div class="col-sm-8 pt-1 my-1">
                           <label class="sr-only">
                             name
                           </label>
@@ -673,30 +513,37 @@
                               </div>
                             </div>
                             <input
+                              class="form-control"
                               [maxLength]="15"
                               type="text"
-                              [(ngModel)]="ruteo[r].vlan_mascara"
+                              formControlName = "vlanMascara"
                               placeholder="Máscara"
                               required
                             />
                           </div>
+                          <div
+                          class="errorsValidate"
+                          *ngIf="formRuteo.controls.vlanMascara.touched && formRuteo.controls.vlanMascara.hasError('pattern')">
+                          Revisa que el formato sea la máscara de la IP
                         </div>
-                        <button
-                          class="btn btn-outline-danger mt-2"
-                          style="margin-left: 15px;"
-                          (click)="eliminarRuteo(r)"
-                          title="Eliminar"
-                        >
-                          <i class="material-icons" style="height: 9px;">
-                            delete_forever
-                          </i>
-                        </button>
-                      </div>
-                    </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formRuteo.controls.vlanMascara.touched && formRuteo.controls.vlanMascara.hasError('required')">
+                          El campo es requierido
+                        </div>
+                        </div>
+                    </form>
+                  <div class="col-md-3 pt-4">
+                    <button
+                      class="btn btn-outline-success"
+                      (click)="enviarDatosAlBackSvi()"
+                      title="Guardar">
+                      <i class="material-icons" style="height: 9px;">save</i>
+                    </button>
                   </div>
-                </div>
-                <!-- MOSTRAR COMANDOS-->
-                <div class="col-md-4 pt-4">
+                  </div>
+                  <!-- MOSTRAR COMANDOS-->
+                <div class="col-md-6 pt-4">
                   <p class="display-4 text-center" style="font-size: 150%;">
                     Comandos
                   </p>
@@ -711,6 +558,8 @@
                   </div>
                 </div>
                 <!-- MOSTRAR COMANDOS-->
+                </div>
+                
                 <div class="col-sm-12 pt-4">
                   <table class="table">
                     <thead>
