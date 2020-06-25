@@ -3,12 +3,7 @@
     <div class="col-md-12 shadow text-center">
       <div class="sidebar">
         <div *ngFor="let info of menu">
-          <!--        <a (click)="cerrarSesion(info)" [routerLink]="info.path">-->
-          <!--          <img src="{{info.icono}}" width="21%" class="img img-fluid">-->
-          <!--&lt;!&ndash;          <p class="material-icons">{{info.icono}}</p>&ndash;&gt;-->
-          <!--              <p>{{info.nombre}}</p>-->
-          <!--        </a>-->
-          <a [routerLink]="info.path">
+          <a (click)="cerrarSesion(info)" [routerLink]="info.path">
             <div class="card">
               <div class="card-body">
                 <img

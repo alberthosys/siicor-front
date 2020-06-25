@@ -116,17 +116,17 @@
                           </option>
                         </select>
                       </div>
-                      <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.cableEntrada.touched && this.formAclEstandar.controls.cableEntrada.hasError('required')">
+                      <div class="errorsValidate" *ngIf="this.formAclExtendida.controls.cableEntrada.touched && this.formAclExtendida.controls.cableEntrada.hasError('required')">
                         El campo es requerido
                       </div>
-                      <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.cableEntrada.touched && this.formAclEstandar.controls.cableEntrada.hasError('pattern')">
-                        El formato debe ser fa0/0
+                      <div class="errorsValidate" *ngIf="this.formAclExtendida.controls.cableEntrada.touched && this.formAclExtendida.controls.cableEntrada.hasError('pattern')">
+                        El formato debe ser fa0/0 o gig0/0
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-1">
                     <div class="col-md-12">
-                      <button class="btn btn-primary" (click)="in_out=!in_out">
+                      <button class="btn btn-sm btn-primary" (click)="in_out=!in_out">
                         <p class="material-icons" style="margin-bottom:-20px" *ngIf="in_out">toggle_off</p>
                         <p class="material-icons" style="margin-bottom:-20px" *ngIf="!in_out">toggle_on</p>
                       </button>
@@ -146,35 +146,40 @@
                   </div>
                 </div>
               </div>
-
-              <div class="col-md-4 pt-4 ">
-                <p class="display-4 text-center" style="font-size:150%">Comandos</p>
-                <div class="ex3">
-                  <p style="margin-top: 1px"></p>
-                  <p style="line-height : 2%;" *ngFor=" let comand of globalComands">{{comand}}</p>
+            </form>
+            <div class="col-md-12">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-4 pt-4 ">
+                    <p class="display-4 text-center" style="font-size:150%">Comandos</p>
+                    <div class="ex3">
+                      <p style="margin-top: 2px"></p>
+                      <p *ngFor=" let comand of globalComands">{{comand}}</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-8 pt-4">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th scope="col">Dirección origen</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let item of listACLlist">
+                        <td>{{item}}</td>
+                        <td>
+                          <button (click)="eliminar(item)" class="btn btn-outline-danger" data-toggle="tooltip"
+                                  data-placement="top" title="Eliminar">
+                            <p class="material-icons">delete</p></button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-              <div class="col-sm-12 pt-4">
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <th scope="col">Dirección origen</th>
-                    <th scope="col">Opciones</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let item of listACLlist">
-                    <td>{{item}}</td>
-                    <td>
-                      <button (click)="eliminar(item)" class="btn btn-outline-danger" data-toggle="tooltip"
-                              data-placement="top" title="Eliminar">
-                        <p class="material-icons">delete</p></button>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
         <div id="extendida" class="col-md-12 pt-4 justify-content-center" *ngIf="ventana">
@@ -192,7 +197,35 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input type="text" placeholder="IP Origen" formControlName="ipEntrada">
+                      <input type="text" placeholder="IP Origen" formControlName="ipEntrada" required>
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.ipEntrada.touched && formAclExtendida.controls.ipEntrada.hasError('pattern')">
+                      Revisa que el formato sea IPv4
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.ipEntrada.touched && formAclExtendida.controls.ipEntrada.hasError('required')">
+                      El campo es requierido
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input type="text" placeholder="Mascara" formControlName="mask" required>
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.mask.touched && formAclExtendida.controls.mask.hasError('pattern')">
+                      Revisa que el formato sea IPv4
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.mask.touched && formAclExtendida.controls.mask.hasError('required')">
+                      El campo es requierido
                     </div>
                   </div>
                 </div>
@@ -207,42 +240,208 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input type="text" placeholder="IP Destino" formControlName="ipDestino">
+                      <select class="form-control" formControlName="protocolo" required>
+                        <option value="null">Selecciona...</option>
+                        <option [value]="item" *ngFor="let item of listProcolos">
+                          {{item}}
+                        </option>
+                      </select>
+                    </div>
+<!--                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.protocolo.touched && formAclExtendida.controls.protocolo.hasError('pattern')">-->
+<!--                      Revisa que el formato sea IPv4-->
+<!--                    </div>-->
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.protocolo.touched && formAclExtendida.controls.mask.hasError('required')">
+                      El campo es requierido
                     </div>
                   </div>
                 </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input type="text" placeholder="IP Destino" formControlName="ipDestino" required>
+                    </div>
+                  </div>
+                  <div class="errorsValidate" *ngIf="formAclExtendida.controls.ipDestino.touched && formAclExtendida.controls.ipDestino.hasError('pattern')">
+                    Revisa que el formato sea IPv4
+                  </div>
+                  <div class="errorsValidate" *ngIf="formAclExtendida.controls.ipDestino.touched && formAclExtendida.controls.ipDestino.hasError('required')">
+                    El campo es requierido
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input type="number" placeholder="Group" formControlName="group" required>
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.group.touched && formAclExtendida.controls.group.hasError('pattern')">
+                      Solo se aceptan numeros
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.group.touched && formAclExtendida.controls.group.hasError('min')">
+                      El valor minimo debe ser 100
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.group.touched && formAclExtendida.controls.group.hasError('required')">
+                      El campo es requierido
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input type="number" placeholder="Puerto" formControlName="puerto" required>
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.puerto.touched && formAclExtendida.controls.puerto.hasError('pattern')">
+                      Solo de admiten numeros
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.puerto.touched && formAclExtendida.controls.puerto.hasError('required')">
+                      El campo es requierido
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <select class="form-control" formControlName="cableEntrada" required>
+                        <option value="null">Selecciona un cable</option>
+                        <option [value]="item" *ngFor="let item of listClables">
+                          {{item}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.puerto.touched && formAclExtendida.controls.puerto.hasError('pattern')">
+
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.puerto.touched && formAclExtendida.controls.puerto.hasError('required')">
+                      El campo es requierido
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  <div class="col-md-12">
+                    <button class="btn btn-sm btn-primary" (click)="in_out2=!in_out2">
+                      <p class="material-icons" style="margin-bottom:-20px" *ngIf="in_out2">toggle_off</p>
+                      <p class="material-icons" style="margin-bottom:-20px" *ngIf="!in_out2">toggle_on</p>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-sm-1 pt-2">
+                  <div class="col-md-12">
+                    <b class="display-4" style="font-size: 150%;" *ngIf="in_out2">out</b>
+                    <b class="display-4" style="font-size: 150%;" *ngIf="!in_out2">in</b>
+                  </div>
+                </div>
                 <div class="col-sm-2">
-                  <button class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Guardar"><p
-                    class="material-icons">save</p></button>
+                  <button (click)="guradarAclExtendida()" class="btn btn-outline-success ml-3" data-toggle="tooltip" data-placement="top" title="Guardar">
+                    <p class="material-icons">save</p>
+                  </button>
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 pt-4">
-              <table class="table">
-                <thead>
-                <tr>
-                  <th scope="col">Dirección origen</th>
-                  <th scope="col">Dirección destino</th>
-                  <th scope="col">Opciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of listACLlist">
-                  <td>{{item}}</td>
-                  <td>
-                    <button (click)="eliminar(item)" class="btn btn-outline-danger" data-toggle="tooltip"
-                            data-placement="top" title="Eliminar">
-                      <p class="material-icons">delete</p></button>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
+
           </form>
+          <div class="col-md-12">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-4 pt-4 ">
+                  <p class="display-4 text-center" style="font-size:150%">Comandos</p>
+                  <div class="ex3">
+                    <p style="margin-top: 1px"></p>
+                    <p style="line-height : 2%;" *ngFor=" let comand of globalComands2">{{comand}}</p>
+                  </div>
+                </div>
+                <div class="col-sm-8 pt-4">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">Dirección origen</th>
+                      <th scope="col">Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of listACLlist2">
+                      <td>{{item}}</td>
+                      <td>
+<!--                        <button (click)="eliminar(item)" data-toggle="modal" data-target="#myModal" class="btn btn-outline-danger" data-toggle="tooltip"-->
+<!--                                data-placement="top" title="Eliminar">-->
+<!--                          <p class="material-icons">delete</p></button>-->
+                        <button type="button" (click)="itemReference=item" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
+                          <p class="material-icons">delete</p>
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!--              BODY-->
 
       </div>
     </div>
   </div>
+</div>
+
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Eliminar ACL - Extendida</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+        <form [formGroup]="formEliminar">
+         Ingresa el group
+          <input formControlName="group" class="form-control" type="number" required>
+        </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger text-white" data-dismiss="modal">X</button>
+          <button type="button" (click)="eliminarExtentida()" class="btn btn-success btn-sm" style="height: 40px" data-dismiss="modal"><p class="material-icons">save</p></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
