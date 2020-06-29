@@ -55,10 +55,24 @@
                     <div class="col-md-4">
                     </div>
                     <div class="col-md-4">
+                      <div class="col-sm-12 pt-1 my-1 text-center">
+                        <div style="color:#002f5d">
+                          <p *ngIf="!showPasswords"> Ver contraseñas</p>
+                          <p *ngIf="showPasswords"> Ocultar contraseñas</p>
+                          <button class="btn" style="height: 40px" (click)="this.showPasswords=!showPasswords">
+                          <span *ngIf="!showPasswords">
+                            <p class="material-icons">visibility_off</p>
+                          </span>
+                            <span *ngIf="showPasswords">
+                            <p class="material-icons">visibility</p>
+                          </span>
+                          </button>
+                        </div>
 
-                      <div class="col-sm-12 pt-1 my-1">
+                      </div>
+                      <div class="col-sm-12">
                         <label class="sr-only">
-                          Enabled
+                          Enable
                         </label>
                         <div class="input-group">
                           <div class="input-group-prepend">
@@ -97,7 +111,26 @@
                           <input type="text" class="form-control" formControlName="line_console_0" disabled="true">
                         </div>
                       </div>
-
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Escribe la contraseña anterior
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="{{showPasswords?'text':'password'}}" class="form-control" formControlName="last_password" required
+                                 placeholder="Escribe la contraseña anterior"
+                                 data-toggle="tooltip"
+                                 data-placement="top" title="password">
+                        </div>
+                        <div class="errorsValidate"
+                             *ngIf="this.formConsole.controls.last_password.touched && this.formConsole.controls.last_password.hasError('required')">
+                          El campo es requerido
+                        </div>
+                      </div>
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
                           Password
@@ -108,14 +141,43 @@
                               <p class="material-icons" style="height:9px">code</p>
                             </div>
                           </div>
-                          <input type="text" class="form-control" formControlName="password" required
+                          <input type="{{showPasswords?'text':'password'}}" class="form-control" formControlName="password" required
                                  placeholder="password"
                                  data-toggle="tooltip"
                                  data-placement="top" title="password"
                           >
                         </div>
+                        <div class="errorsValidate"
+                             *ngIf="this.formConsole.controls.password.touched && this.formConsole.controls.password.hasError('required')">
+                          El campo es requerido
+                        </div>
                       </div>
 
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Confirmar Password
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="{{showPasswords?'text':'password'}}" class="form-control" formControlName="confirm_password" required
+                                 placeholder="Confirmar password"
+                                 data-toggle="tooltip"
+                                 data-placement="top" title="password"
+                          >
+                        </div>
+                        <div class="errorsValidate"
+                             *ngIf="this.formConsole.controls.confirm_password.touched && this.formConsole.controls.confirm_password.hasError('required')">
+                          El campo es requerido
+                        </div>
+                        <div class="errorsValidate"
+                             *ngIf="this.formConsole.controls.confirm_password.touched && this.formConsole.controls.password.value!=this.formConsole.controls.confirm_password.value">
+                          Las contraseñas no coinciden
+                        </div>
+                      </div>
 
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
@@ -149,7 +211,7 @@
                                 data-toggle="tooltip"
                                 data-placement="top" title="Guardar"
                         >
-                          <p class="material-icons" style="height: 9px">save</p>
+                          <p class="material-icons" (click)="actualizarLineConsole()" style="height: 9px">save</p>
                         </button>
                       </div>
                     </div>
@@ -157,6 +219,7 @@
                 </form>
 
               </div>
+<!-- ----------------------------------------------------------------------------------------------------------- -->
               <div id="VTY" class="col-md-12 pt-4 justify-content-center" *ngIf="ventana">
                 <form [formGroup]="formVty">
                   <div class="row">
@@ -166,7 +229,21 @@
                     <div class="col-md-4">
                     </div>
                     <div class="col-md-4">
+                      <div class="col-sm-12 pt-1 my-1 text-center">
+                        <div style="color:#002f5d">
+                          <p *ngIf="!showPasswords2"> Ver contraseñas</p>
+                          <p *ngIf="showPasswords2"> Ocultar contraseñas</p>
+                          <button class="btn" style="height: 40px" (click)="this.showPasswords2=!showPasswords2">
+                          <span *ngIf="!showPasswords2">
+                            <p class="material-icons">visibility_off</p>
+                          </span>
+                            <span *ngIf="showPasswords2">
+                            <p class="material-icons">visibility</p>
+                          </span>
+                          </button>
+                        </div>
 
+                      </div>
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
                           Enabled
@@ -180,7 +257,6 @@
                           <input type="text" class="form-control" formControlName="enabled" disabled="true">
                         </div>
                       </div>
-
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
                           Configure terminal
@@ -194,7 +270,6 @@
                           <input type="text" class="form-control" formControlName="config_terminal" disabled="true">
                         </div>
                       </div>
-
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
                           Line console 0
@@ -211,32 +286,56 @@
                       <div class="col-sm-12 ">
                         <div class="container-fluid">
                           <div class="row content-center">
-                            <div class="col-sm-2 text-center">
-                              <p class="display-4" style="font-size:140%;color:#002f5d">0</p>
-                                <img *ngIf="this.formVty.controls.cero.value" (click)="this.formVty.controls.cero.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
-                                <img *ngIf="!this.formVty.controls.cero.value" (click)="this.formVty.controls.cero.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
+                            <div class="col-sm-6 text-center">
+                              <label class="sr-only">
+                                Escribe la contraseña anterior
+                              </label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text">
+                                    <p class="material-icons" style="height:9px">code</p>
+                                  </div>
+                                </div>
+                                <input class="form-control" formControlName="valorMinimo" [min]="0" required
+                                       placeholder="0"
+                                       data-toggle="tooltip"
+                                       data-placement="top" title="0">
+                              </div>
+                              <div class="errorsValidate"
+                                   *ngIf="this.formVty.controls.valorMinimo.touched && this.formVty.controls.valorMinimo.hasError('required')">
+                                El campo es requerido
+                              </div>
+                              <div class="errorsValidate"
+                                   *ngIf="this.formVty.controls.valorMinimo.touched && this.formVty.controls.valorMinimo.hasError('min')">
+                                El valor minimo debe ser 0
+                              </div>
+                              <div class="errorsValidate"
+                                   *ngIf="this.formVty.controls.valorMinimo.touched && this.formVty.controls.valorMinimo.hasError('pattern')">
+                               El formato solo admite numeros
+                              </div>
                             </div>
-                            <div class="col-sm-2 text-center">
-                              <p class="display-4" style="font-size:140%;color:#002f5d">1</p>
-                              <img *ngIf="this.formVty.controls.uno.value" (click)="this.formVty.controls.uno.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
-                              <img *ngIf="!this.formVty.controls.uno.value" (click)="this.formVty.controls.uno.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
+                            <div class="col-sm-6 text-center">
+                              <label class="sr-only">
+                                Escribe la contraseña anterior
+                              </label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text">
+                                    <p class="material-icons" style="height:9px">code</p>
+                                  </div>
+                                </div>
+                                <input class="form-control" formControlName="valorMax"
+                                       data-toggle="tooltip"
+                                       data-placement="top" title="0">
+                              </div>
+                              <div class="errorsValidate"
+                                   *ngIf="(this.formVty.controls.valorMax.value<=this.formVty.controls.valorMinimo.value) && this.formVty.controls.valorMax.value!=null && this.formVty.controls.valorMax.value!='' ">
+                                El valor minimo debe ser {{(formVty.controls.valorMinimo.value*1+1)}}
+                              </div>
+                              <div class="errorsValidate"*ngIf="this.formVty.controls.valorMax.touched && this.formVty.controls.valorMax.hasError('pattern')">
+                                El formato solo admite numeros
+                              </div>
                             </div>
-                            <div class="col-sm-2 text-center">
-                              <p class="display-4" style="font-size:140%;color:#002f5d">2</p>
-                              <img *ngIf="this.formVty.controls.dos.value" (click)="this.formVty.controls.dos.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
-                              <img *ngIf="!this.formVty.controls.dos.value" (click)="this.formVty.controls.dos.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
-                            </div>
-                            <div class="col-sm-2 text-center">
-                              <p class="display-4" style="font-size:140%;color:#002f5d">3</p>
-                              <img *ngIf="this.formVty.controls.tres.value" (click)="this.formVty.controls.tres.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
-                              <img *ngIf="!this.formVty.controls.tres.value" (click)="this.formVty.controls.tres.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
-                            </div>
-                            <div class="col-sm-2 text-center">
-                              <p class="display-4" style="font-size:140%;color:#002f5d">4</p>
-                              <img *ngIf="this.formVty.controls.cuatro.value" (click)="this.formVty.controls.cuatro.setValue(false)" src="https://image.flaticon.com/icons/png/512/1827/1827880.png" class="img-fluid" style="width: 500%">
-                              <img *ngIf="!this.formVty.controls.cuatro.value" (click)="this.formVty.controls.cuatro.setValue(true)" src="https://image.flaticon.com/icons/png/512/483/483347.png" class="img-fluid" style="width: 500%">
-                            </div>
-
                           </div>
                         </div>
                       </div>
@@ -251,15 +350,42 @@
                               <p class="material-icons" style="height:9px">code</p>
                             </div>
                           </div>
-                          <input type="text" class="form-control" formControlName="password" required
+                          <input type="{{showPasswords2?'text':'password'}}" class="form-control" formControlName="password" required
                                  placeholder="password"
                                  data-toggle="tooltip"
                                  data-placement="top" title="password"
                           >
                         </div>
+                        <div class="errorsValidate"
+                             *ngIf="this.formVty.controls.password.touched && this.formVty.controls.password.hasError('required')">
+                          El campo es requerido
+                        </div>
                       </div>
-
-
+                      <div class="col-sm-12 pt-1 my-1">
+                        <label class="sr-only">
+                          Confirmar Password
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height:9px">code</p>
+                            </div>
+                          </div>
+                          <input type="{{showPasswords2?'text':'password'}}" class="form-control" formControlName="confirm_password" required
+                                 placeholder="Confirmar password"
+                                 data-toggle="tooltip"
+                                 data-placement="top" title="password"
+                          >
+                        </div>
+                        <div class="errorsValidate"
+                             *ngIf="this.formVty.controls.confirm_password.touched && this.formVty.controls.confirm_password.hasError('required')">
+                          El campo es requerido
+                        </div>
+                        <div class="errorsValidate"
+                             *ngIf="this.formVty.controls.confirm_password.touched && this.formVty.controls.password.value!=this.formVty.controls.confirm_password.value">
+                          Las contraseñas no coinciden
+                        </div>
+                      </div>
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
                           Login
@@ -273,7 +399,6 @@
                           <input type="text" class="form-control" formControlName="login" disabled="true">
                         </div>
                       </div>
-
                       <div class="col-sm-12 pt-1 my-1">
                         <label class="sr-only">
                           Exit
@@ -291,6 +416,7 @@
                         <button class="btn btn-success"
                                 data-toggle="tooltip"
                                 data-placement="top" title="Guardar"
+                                (click)="actualizarVTY()"
                         >
                           <p class="material-icons" style="height: 9px">save</p>
                         </button>
