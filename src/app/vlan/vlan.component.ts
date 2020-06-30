@@ -60,18 +60,18 @@ export class VlanComponent implements OnInit {
   constructor(public ruta: Router, public formBuildder: FormBuilder) {
     this.formVLAN = formBuildder.group({
       vlanNumero: [null,Validators.compose([Validators.required, Validators.pattern("[0-9]*")]),],
-      vlanNombre: [null,Validators.compose([Validators.required,Validators.pattern("[a-zA-Z0-9_-]*"),]),],});
+      vlanNombre: [null,Validators.compose([Validators.required,Validators.pattern("[a-zA-Z0-9_-]*"),Validators.minLength(2)]),],});
     this.formPuertos = formBuildder.group({
       vlanNumero: [null,Validators.compose([Validators.required, Validators.pattern("[0-9]*")])],
       vlanRangoUno: [null,Validators.compose([Validators.required,Validators.pattern("^fa[0-9]/[0-9]*$"),]),],
       vlanRangoDos: [null,Validators.compose([Validators.required,Validators.pattern("^fa[0-9]/[0-9]*$"),]),],
     });
     this.formRuteo = formBuildder.group({
-      vlanNumero: [null,Validators.compose([Validators.required, Validators.pattern("[0-9]*")])],
+      vlanNumero: [null,Validators.compose([Validators.required, Validators.nullValidator, Validators.pattern("[0-9]*")])],
       vlanIp: [null, Validators.compose([Validators.required, 
-        Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
+        Validators.pattern("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")])],
       vlanMascara: [null, Validators.compose([Validators.required,
-        Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])]
+        Validators.pattern("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")])]
     });
   }
 
@@ -201,6 +201,8 @@ export class VlanComponent implements OnInit {
 
   enviarDatosAlBackSvi() {
     if (this.formRuteo.valid) {
+      this.comandosSvi.push(this.comando.config_terminal);
+      this.comandosSvi.push(this.comando.vlan_ruteo_routing);
       this.comandosSvi.push(this.comando.vlan_ruteo_vlan + this.formRuteo.controls.vlanNumero.value);
       this.comandosSvi.push(this.comando.vlan_ruteo_ip + this.formRuteo.controls.vlanIp.value 
         + " " + this.formRuteo.controls.vlanMascara.value);

@@ -113,23 +113,13 @@
                             required
                           />
                         </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="
-                            formVLAN.controls.vlanNumero.touched &&
-                            formVLAN.controls.vlanNumero.hasError('pattern')
-                          "
-                        >
+                        <div class="errorsValidate" *ngIf="formVLAN.controls.vlanNumero.touched &&
+                            formVLAN.controls.vlanNumero.hasError('pattern')">
                           Revisa que el formato sea números
                         </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="
-                            formVLAN.controls.vlanNumero.touched &&
-                            formVLAN.controls.vlanNumero.hasError('required')
-                          "
-                        >
-                          El campo es requierido
+                        <div class="errorsValidate" *ngIf="formVLAN.controls.vlanNumero.touched &&
+                            formVLAN.controls.vlanNumero.hasError('required')">
+                          El campo es requerido
                         </div>
                       </div>
                       <div class="col-sm-8 pt-1 my-1">
@@ -144,32 +134,20 @@
                               </p>
                             </div>
                           </div>
-                          <input
-                            type="text"
-                            placeholder="nombre"
-                            required
-                            class="form-control"
-                            formControlName="vlanNombre"
-                            minlength="3"
-                          />
+                          <input type="text" placeholder="nombre" required class="form-control"
+                            formControlName="vlanNombre" />
                         </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="
-                            formVLAN.controls.vlanNombre.touched &&
-                            formVLAN.controls.vlanNombre.hasError('pattern')
-                          "
-                        >
-                          Revisa que el formato sea números
+                        <div class="errorsValidate" *ngIf="formVLAN.controls.vlanNombre.touched &&
+                            formVLAN.controls.vlanNombre.hasError('pattern')">
+                          Revisa que el formato contenga letras
                         </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="
-                            formVLAN.controls.vlanNombre.touched &&
-                            formVLAN.controls.vlanNombre.hasError('required')
-                          "
-                        >
-                          El campo es requierido
+                        <div class="errorsValidate" *ngIf="formVLAN.controls.vlanNombre.touched &&
+                            formVLAN.controls.vlanNombre.hasError('required')">
+                          El campo es requerido
+                        </div>
+                        <div class="errorsValidate" *ngIf="formVLAN.controls.vlanNombre.touched &&
+                            formVLAN.controls.vlanNombre.hasError('minLength')">
+                          El nombre no puede ser menor a 3 caracteres
                         </div>
                       </div>
                     </form>
@@ -288,7 +266,7 @@
                         <div
                           class="errorsValidate"
                           *ngIf="formPuertos.controls.vlanNumero.touched && formPuertos.controls.vlanNumero.hasError('required')">
-                          El campo es requierido
+                          El campo es requerido
                         </div>
                       </div>
                       <div class="col-sm-8 pt-1 my-1">
@@ -315,7 +293,7 @@
                         <div
                           class="errorsValidate"
                           *ngIf="formPuertos.controls.vlanRangoUno.touched && formPuertos.controls.vlanRangoUno.hasError('required')">
-                          El campo es requierido
+                          El campo es requerido
                         </div>
                       </div>
                       <div class="col-sm-8 pt-1 my-1" *ngIf="!radioButton">
@@ -343,7 +321,7 @@
                         <div
                           class="errorsValidate"
                           *ngIf="formPuertos.controls.vlanRangoDos.touched && formPuertos.controls.vlanRangoDos.hasError('required')">
-                          El campo es requierido
+                          El campo es requerido
                         </div>
                       </div>
                     </form>
@@ -391,6 +369,7 @@
                       <tr>
                         <th scope="col">VLAN</th>
                         <th scope="col">Rango</th>
+                        <th scope="col">Modo</th>
                         <th scope="col">Opciones</th>
                       </tr>
                     </thead>
@@ -399,6 +378,9 @@
                         <td>{{ rango.puerto_vlan }}</td>
                         <td>
                           {{ rango.puerto_rango }} - {{ rango.puerto_rangoDos }}
+                        </td>
+                        <td>
+                          Modo acceso
                         </td>
                         <td>
                           <button
@@ -466,6 +448,11 @@
                           class="errorsValidate"
                           *ngIf="formRuteo.controls.vlanNumero.touched && formRuteo.controls.vlanNumero.hasError('required')">
                           El campo es requierido
+                        </div>
+                        <div
+                          class="errorsValidate"
+                          *ngIf="formRuteo.controls.vlanNumero.hasError('nullValidator')">
+                          Este campo no puede estar vacio
                         </div>
                         </div>
                         <div class="col-sm-8 pt-1 my-1">
