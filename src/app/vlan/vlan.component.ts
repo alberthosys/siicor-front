@@ -68,7 +68,7 @@ export class VlanComponent implements OnInit {
     });
     this.formRuteo = formBuildder.group({
       vlanNumero: [null,Validators.compose([Validators.required, Validators.pattern("[0-9]*")])],
-      vlanIp: [null, Validators.compose([Validators.required, 
+      vlanIp: [null, Validators.compose([Validators.required,
         Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
       vlanMascara: [null, Validators.compose([Validators.required,
         Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])]
@@ -99,7 +99,7 @@ export class VlanComponent implements OnInit {
         // this.ngOnInit();
       }
     })
-    
+
   }
 
   // Asignar puertos Tab 2
@@ -161,7 +161,7 @@ export class VlanComponent implements OnInit {
         this.comandosModeAcc.push(this.comando.vlan_rango_mode_acc);
         this.comandosModeAcc.push(this.comando.vlan_rango_acc_vlan + this.formPuertos.controls.vlanNumero.value);
         this.comandosModeAcc.push(this.comando.exit);
-      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid 
+      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid
         && this.formPuertos.controls.vlanRangoUno.valid){
         this.comandosModeAcc.push(this.comando.vlan_sin_rango +
             this.formPuertos.controls.vlanRangoUno.value);
@@ -183,7 +183,7 @@ export class VlanComponent implements OnInit {
         this.comandosModeAcc.push(this.comando.vlan_rango_mode_trunk);
         this.comandosModeAcc.push(this.comando.vlan_rango_trunk_native + this.formPuertos.controls.vlanNumero.value);
         this.comandosModeAcc.push(this.comando.exit);
-      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid 
+      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid
         && this.formPuertos.controls.vlanRangoUno.valid){
         this.comandosModeAcc.push(this.comando.vlan_sin_rango +
             this.formPuertos.controls.vlanRangoUno.value);
@@ -202,7 +202,7 @@ export class VlanComponent implements OnInit {
   enviarDatosAlBackSvi() {
     if (this.formRuteo.valid) {
       this.comandosSvi.push(this.comando.vlan_ruteo_vlan + this.formRuteo.controls.vlanNumero.value);
-      this.comandosSvi.push(this.comando.vlan_ruteo_ip + this.formRuteo.controls.vlanIp.value 
+      this.comandosSvi.push(this.comando.vlan_ruteo_ip + this.formRuteo.controls.vlanIp.value
         + " " + this.formRuteo.controls.vlanMascara.value);
       this.comandosSvi.push(this.comando.exit);
     } else {
