@@ -14,4 +14,8 @@ export class Routers extends Universal {
   permit_any: string = " permit any";
   ip_acess_group: string = "ip access-group ";
   host:string=" host ";
+  ip_address:string="ip address ";
+  clock_rate:string="clock rate ";
+  no_shutdown:string="no shutdown";
+  encapsulation_dot1q:string="encapsulation dot1q "
 }

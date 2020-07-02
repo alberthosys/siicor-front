@@ -1,0 +1,479 @@
+<app-header [title]="'Configuración'"></app-header>
+
+<div class="container-fluid" style="width: 102.4%">
+  <div class="row">
+    <div class="col-md-2">
+      <app-menu></app-menu>
+    </div>
+    <div class="col-md-10" style="margin-left: -1.6%;">
+      <div class="container-fluid">
+        <div class="row">
+          <!--         MENU-->
+          <div class="col-md-12 justify-content-center">
+            <div class="row">
+              <div class="col-md-12 pt-4 text-center" style="background-color:#002f5d;color:white; ">
+                <b class="display-4" style="font-size: 150%;">
+                  Direccionamiento
+                </b>
+                <pre></pre>
+              </div>
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-2 pt-4">
+                <button (click)="this.ventana=false;" class="btn btn-outline-dark">
+                      <span>
+                        <img class="img img-fluid" style="width:30%"
+                             src="https://image.flaticon.com/icons/svg/438/438901.svg">
+                      </span>
+                  <span>
+                      Interfaces
+                      </span>
+                </button>
+              </div>
+              <div class="col-md-2 pt-4">
+                <button (click)="this.ventana=true;" class="btn btn-outline-dark">
+                      <span>
+                        <img class="img img-fluid" style="width:30%"
+                             src="https://image.flaticon.com/icons/svg/860/860220.svg">
+                      </span>
+                  <span>
+                      Sub-Interfaces
+                      </span>
+                </button>
+              </div>
+              <div class="col-md-12 pt-4 text-center">
+                <b class="display-4" *ngIf="!ventana" style="font-size: 180%;color:#009574">Interfaces</b>
+                <b class="display-4" *ngIf="ventana" style="font-size: 180%;color:#009574">Sub-Interfaces</b>
+              </div>
+            </div>
+          </div>
+          <!--          MENU-->
+          <!--              BODY-->
+          <div id="Interfaces" class="col-md-12 pt-4 justify-content-center" *ngIf="!ventana">
+            <form [formGroup]="formInterfaces">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <select (click)="selecSerial()" (change)="selecSerial()" class="form-control"
+                                formControlName="cableEntrada" required>
+                          <option value="null">Selecciona un cable</option>
+                          <option [value]="item" *ngFor="let item of listCables">
+                            {{item}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.cableEntrada.touched && this.formInterfaces.controls.cableEntrada.hasError('required')">
+                        El campo es requerido
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.cableEntrada.touched && this.formInterfaces.controls.cableEntrada.hasError('pattern')">
+                        El formato debe ser fa0/0 | gig0/0 | se0/0
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <input class="form-control" placeholder="Ingresa la IP" formControlName="ipEntrada" required>
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.ipEntrada.touched && this.formInterfaces.controls.ipEntrada.hasError('required')">
+                        El campo es requerido
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.ipEntrada.touched && this.formInterfaces.controls.ipEntrada.hasError('pattern')">
+                        El formato debe ser IPv4
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <input class="form-control" placeholder="Ingresa la mascara de red" formControlName="mask"
+                               required>
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.mask.touched && this.formInterfaces.controls.mask.hasError('required')">
+                        El campo es requerido
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.mask.touched && this.formInterfaces.controls.mask.hasError('pattern')">
+                        El formato debe ser IPv4
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="showClockRate" class="col-sm-3">
+                    <div class="col-sm-6 pt-1 my-1">
+                      <button class="btn btn-sm btn-primary" (click)="showClockRate2=!showClockRate2">
+                        <p class="material-icons" style="margin-bottom:-20px" *ngIf="!showClockRate2">toggle_off</p>
+                        <p class="material-icons" style="margin-bottom:-20px" *ngIf="showClockRate2">toggle_on</p>
+                      </button>
+                    </div>
+                    <div class="col-sm-6 pt-1 my-1" style="color:#002f5d">
+                      <b *ngIf="!showClockRate2">Clock rate desactivado</b>
+                      <b *ngIf="showClockRate2">Clock rate activado</b>
+                    </div>
+                  </div>
+                  <div *ngIf="showClockRate2" class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <input type="number" class="form-control" placeholder="Ingresa Clock rate"
+                               formControlName="clockrate" required>
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.clockrate.touched && this.formInterfaces.controls.clockrate.hasError('required')">
+                        El campo es requerido
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.clockrate.touched && this.formInterfaces.controls.clockrate.hasError('pattern')">
+                        El formato debe ser IPv4
+                      </div>
+                      <div class="errorsValidate"
+                           *ngIf="this.formInterfaces.controls.clockrate.touched && this.formInterfaces.controls.clockrate.hasError('min')">
+                        El numero minimo debe ser 64000
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <button class="btn btn-outline-success" (click)="gudardarInterface()">
+                      <p class="material-icons" style="height: 15px;">save</p>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="col-md-12">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-4 pt-4 ">
+                    <p class="display-4 text-center">Comandos</p>
+                    <div class="ex3">
+                      <pre></pre>
+                      <p *ngFor=" let comand of globalComands">{{comand}}</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-8 pt-4">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th scope="col">Interfaz</th>
+                        <th scope="col">Dirección ip</th>
+                        <th scope="col">Mascara de red</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let item of listInterfaces">
+                        <td>{{item.cable}}</td>
+                        <td>{{item.ip}}</td>
+                        <td>{{item.mask}}</td>
+                        <td>
+                          <button (click)="eliminarInterface(item)" class="btn btn-outline-danger" data-toggle="tooltip"
+                                  data-placement="top" title="Eliminar">
+                            <p class="material-icons">delete</p></button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="Sub-Interfaces" class="col-md-12 pt-4 justify-content-center" *ngIf="ventana">
+          <form [formGroup]="formSubInterfaces">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input type="number" class="form-control" placeholder="Vlan" formControlName="vlan" required>
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.vlan.touched && this.formSubInterfaces.controls.vlan.hasError('required')">
+                      El campo es requerido
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.vlan.touched && this.formSubInterfaces.controls.vlan.hasError('pattern')">
+                      El formato solo admite numeros
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <select (click)="selecSerial()" (change)="selecSerial()" class="form-control"
+                              formControlName="cableEntrada" required>
+                        <option value="null">Rango inicial</option>
+                        <option [value]="item" *ngFor="let item of listCables">
+                          {{item}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.cableEntrada.touched && this.formSubInterfaces.controls.cableEntrada.hasError('required')">
+                      El campo es requerido
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.cableEntrada.touched && this.formSubInterfaces.controls.cableEntrada.hasError('pattern')">
+                      El formato debe ser fa0/0 | gig0/0 | se0/0
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <select (click)="selecSerial()" (change)="selecSerial()" class="form-control"
+                              formControlName="cableEntrada2" required>
+                        <option value="null">Rango final</option>
+                        <option [value]="item" *ngFor="let item of listCables">
+                          {{item}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.cableEntrada2.touched && this.formSubInterfaces.controls.cableEntrada2.hasError('required')">
+                      El campo es requerido
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.cableEntrada2.touched && this.formSubInterfaces.controls.cableEntrada2.hasError('pattern')">
+                      El formato debe ser fa0/0 | gig0/0 | se0/0
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input class="form-control" placeholder="Ingresa la IP" formControlName="ipEntrada" required>
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.ipEntrada.touched && this.formSubInterfaces.controls.ipEntrada.hasError('required')">
+                      El campo es requerido
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.ipEntrada.touched && this.formSubInterfaces.controls.ipEntrada.hasError('pattern')">
+                      El formato debe ser IPv4
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="col-sm-12 pt-1 my-1">
+                    <label class="sr-only">
+                      Enabled
+                    </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <p class="material-icons" style="height:9px">code</p>
+                        </div>
+                      </div>
+                      <input class="form-control" placeholder="Ingresa la mascara de red" formControlName="mask"
+                             required>
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.mask.touched && this.formSubInterfaces.controls.mask.hasError('required')">
+                      El campo es requerido
+                    </div>
+                    <div class="errorsValidate"
+                         *ngIf="this.formSubInterfaces.controls.mask.touched && this.formSubInterfaces.controls.mask.hasError('pattern')">
+                      El formato debe ser IPv4
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3 pt-2">
+                  <button class="btn btn-outline-success" (click)="gudardarSubInterface()">
+                    <p class="material-icons" style="height: 15px;">save</p>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="col-md-12">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-4 pt-4 ">
+                  <p class="display-4 text-center" >Comandos</p>
+                  <div class="ex3">
+                    <pre></pre>
+                    <p *ngFor=" let comand of globalComands2">{{comand}}</p>
+                  </div>
+                </div>
+                <div class="col-sm-8 pt-4">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">Sub-Interfaces</th>
+                      <th scope="col">Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of listSubInterfaces">
+                      <td>{{item}}</td>
+                      <td>
+                        <button (click)="selectCable=item" type="button" class="btn btn-outline-danger"
+                                data-toggle="modal" data-target="#myModal">
+                          <p class="material-icons">delete</p>
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--              BODY-->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Eliminar SubInterface</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+<form [formGroup]="formEliminarSubInt">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="col-sm-12 pt-1 my-1">
+                <label class="sr-only">
+                  Enabled
+                </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <p class="material-icons" style="height:9px">code</p>
+                    </div>
+                  </div>
+                  <input class="form-control" placeholder="IP" formControlName="ipEntrada" required>
+                </div>
+                <div class="errorsValidate"
+                     *ngIf="this.formEliminarSubInt.controls.ipEntrada.touched && this.formEliminarSubInt.controls.ipEntrada.hasError('required')">
+                  El campo es requerido
+                </div>
+                <div class="errorsValidate"
+                     *ngIf="this.formEliminarSubInt.controls.ipEntrada.touched && this.formEliminarSubInt.controls.ipEntrada.hasError('pattern')">
+                  El formato debe ser IPv4
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="col-sm-12 pt-1 my-1">
+                <label class="sr-only">
+                  Enabled
+                </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <p class="material-icons" style="height:9px">code</p>
+                    </div>
+                  </div>
+                  <input class="form-control" placeholder="Marcara" formControlName="mask"
+                         required>
+                </div>
+                <div class="errorsValidate"
+                     *ngIf="this.formEliminarSubInt.controls.mask.touched && this.formEliminarSubInt.controls.mask.hasError('required')">
+                  El campo es requerido
+                </div>
+                <div class="errorsValidate"
+                     *ngIf="this.formEliminarSubInt.controls.mask.touched && this.formEliminarSubInt.controls.mask.hasError('pattern')">
+                  El formato debe ser IPv4
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger text-white" data-dismiss="modal">X</button>
+        <button type="button" (click)="eliminarSubInterface()" class="btn btn-success btn-sm" style="height: 40px" data-dismiss="modal"><p class="material-icons">save</p></button>
+      </div>
+
+    </div>
+  </div>
+</div>

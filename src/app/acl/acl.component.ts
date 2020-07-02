@@ -14,7 +14,7 @@ export class AclComponent implements OnInit {
   public sesion = new Sesion();
   public alerta = new Alert();
   public comandos = new Routers();
-  public ventana: boolean = true;
+  public ventana: boolean = false;
   public formAclEstandar: FormGroup;
   public formAclExtendida: FormGroup;
   public in_out: boolean = false;
