@@ -170,68 +170,70 @@
                   </form>
                   </div>
                 </div>
-                <div class="col-md-4 pt-4">
-                  <p class="display-4 text-center" style="font-size: 150%;">
+                <div class="row">
+                  <div class="col-md-4 pt-4">
+                    <p class="display-4 text-center" style="font-size: 150%;">
                     Comandos
-                  </p>
-                  <div class="ex3">
-                    <p style="margin-top: 1px;"></p>
-                    <p
-                      style="line-height: 2%;"
-                      *ngFor="let comand of comandosEigrp"
-                    >
-                      {{ comand }}
                     </p>
-                  </div>
-                </div>
-                <div class="col-sm-12 pt-4">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">No. EIGRP</th>
-                        <th scope="col">Red</th>
-                        <th scope="col">Opciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        *ngFor="let no of listaEigrpAsignadosModel; index as i"
+                    <div class="ex3">
+                      <p style="margin-top: 1px;"></p>
+                      <p
+                        style="line-height: 2%;"
+                        *ngFor="let comand of comandosEigrp"
                       >
-                        <td>{{ listaEigrpAsignadosModel[i].router_eigrp }}</td>
-                        <td>{{ listaEigrpAsignadosModel[i].network }}</td>
-                        <td>
-                          <div class="btn-group">
-                            <button
-                              type="button"
-                              class="btn btn-outline-danger dropdown-toggle"
-                              data-toggle="dropdown"
-                              title="Eliminar"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              <i class="material-icons" style="height: 9px;">
-                                delete
-                              </i>
-                            </button>
-                            <div class="dropdown-menu">
+                        {{ comand }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-8 pt-4">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">No. EIGRP</th>
+                          <th scope="col">Red</th>
+                          <th scope="col">Opciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="let no of listaEigrpAsignadosModel; index as i"
+                        >
+                          <td>{{ listaEigrpAsignadosModel[i].router_eigrp }}</td>
+                          <td>{{ listaEigrpAsignadosModel[i].network }}</td>
+                          <td>
+                            <div class="btn-group">
                               <button
-                                class="dropdown-item"
-                                (click)="eliminarEnrutamientoEigrp(i)"
+                                type="button"
+                                class="btn btn-outline-danger dropdown-toggle"
+                                data-toggle="dropdown"
+                                title="Eliminar"
+                                aria-haspopup="true"
+                                aria-expanded="false"
                               >
-                                Enrutamiento EIGRP
+                                <i class="material-icons" style="height: 9px;">
+                                  delete
+                                </i>
                               </button>
-                              <button
-                                class="dropdown-item"
-                                (click)="eliminarDatosEigrp(i)"
-                              >
-                                solo la red
-                              </button>
+                              <div class="dropdown-menu">
+                                <button
+                                  class="dropdown-item"
+                                  (click)="eliminarEnrutamientoEigrp(i)"
+                                >
+                                  Enrutamiento EIGRP
+                                </button>
+                                <button
+                                  class="dropdown-item"
+                                  (click)="eliminarDatosEigrp(i)"
+                                >
+                                  solo la red
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <div
@@ -336,6 +338,7 @@
                     </form>
                   </div>
                 </div>
+                <div class="row">
                 <div class="col-md-4 pt-4">
                   <p class="display-4 text-center" style="font-size: 150%;">
                     Comandos
@@ -350,7 +353,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="col-sm-12 pt-4">
+                <div class="col-sm-8 pt-4">
                   <table class="table">
                     <thead>
                       <tr>
@@ -397,6 +400,7 @@
                     </tbody>
                   </table>
                 </div>
+              </div>
               </div>
               <!--   BODY-->
             </div>
