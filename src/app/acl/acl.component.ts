@@ -14,7 +14,7 @@ export class AclComponent implements OnInit {
   public sesion = new Sesion();
   public alerta = new Alert();
   public comandos = new Routers();
-  public ventana: boolean = true;
+  public ventana: boolean = false;
   public formAclEstandar: FormGroup;
   public formAclExtendida: FormGroup;
   public in_out: boolean = false;
@@ -117,6 +117,8 @@ export class AclComponent implements OnInit {
     let comand: string = "no " + acl;
     console.log("ELiminar->" + comand)
     this.globalComands.push(comand)
+    this.alerta.alertSuccess("Se ha eliminado exitosamente !")
+
   }
   eliminarExtentida(){
     console.log("IP->",this.itemReference)
@@ -124,6 +126,7 @@ export class AclComponent implements OnInit {
     let comand: string = "no " +this.comandos.access_list+" "+this.formEliminar.controls.group.value+" permit "+split[2]+" "+split[3];
     console.log("1ELiminar->" + comand)
     this.globalComands2.push(comand)
+    this.alerta.alertSuccess("Se ha eliminado exitosamente !")
   }
 
 }

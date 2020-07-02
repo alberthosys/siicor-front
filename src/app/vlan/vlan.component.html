@@ -86,7 +86,7 @@
                     <b
                       class="display-4"
                       style="font-size: 180%; color: #009574;"
-                      >Creación de VLAN</b
+                    >Creación de VLAN</b
                     >
                   </div>
 
@@ -169,15 +169,12 @@
                   <!--                Editar-->
                   <!-- MOSTRAR COMANDOS-->
                   <div class="col-md-6 pt-4">
-                    <p class="display-4 text-center" style="font-size: 150%;">
+                    <p class="display-4 text-center">
                       Comandos
                     </p>
                     <div class="ex3">
-                      <p style="margin-top: 1px;"></p>
-                      <p
-                        style="line-height: 2%;"
-                        *ngFor="let comand of comandosVlan"
-                      >
+                      <pre></pre>
+                      <p *ngFor="let comand of comandosVlan">
                         {{ comand }}
                       </p>
                     </div>
@@ -187,27 +184,27 @@
                   <div class="col-md-12 pt-4">
                     <table class="table">
                       <thead>
-                        <tr>
-                          <th scope="col">Vlan</th>
-                          <th scope="col">Nombre</th>
-                          <th scope="col">Opciones</th>
-                        </tr>
+                      <tr>
+                        <th scope="col">Vlan</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let vlan of vlansEditar; index as i">
-                          <td>{{ vlan.vlan_numero }}</td>
-                          <td>{{ vlan.vlan_name_string }}</td>
-                          <td>
-                            <button
-                              class="btn btn-outline-danger"
-                              (click)="eliminarVlanCreada(i)"
-                            >
-                              <i class="material-icons" style="height: 9px;">
-                                delete
-                              </i>
-                            </button>
-                          </td>
-                        </tr>
+                      <tr *ngFor="let vlan of vlansEditar; index as i">
+                        <td>{{ vlan.vlan_numero }}</td>
+                        <td>{{ vlan.vlan_name_string }}</td>
+                        <td>
+                          <button
+                            class="btn btn-outline-danger"
+                            (click)="eliminarVlanCreada(i)"
+                          >
+                            <i class="material-icons" style="height: 9px;">
+                              delete
+                            </i>
+                          </button>
+                        </td>
+                      </tr>
                       </tbody>
                     </table>
                   </div>
@@ -225,18 +222,20 @@
                     <b
                       class="display-4"
                       style="font-size: 180%; color: #009574;"
-                      >Asignar Vlan a puertos</b
+                    >Asignar Vlan a puertos</b
                     >
                   </div>
 
                   <div class="pt-4 col-md-6" style="margin: 60px auto;">
                     <!-- Radio Button - Puertos-->
-                    <div class="form-check form-check-inline" >
-                      <input class="form-check-input" name="radioButton" [(ngModel)]="radioButton" type="radio" [value]="true" [checked]="radioButton">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" name="radioButton" [(ngModel)]="radioButton" type="radio"
+                             [value]="true" [checked]="radioButton">
                       <label class="form-check-label" for="inlineRadio1">Un puerto</label>
                     </div>
-                    <div class="form-check form-check-inline" >
-                      <input class="form-check-input" name="radioButton" [(ngModel)]="radioButton" type="radio" [value]="false" [checked]="!radioButton">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" name="radioButton" [(ngModel)]="radioButton" type="radio"
+                             [value]="false" [checked]="!radioButton">
                       <label class="form-check-label" for="inlineRadio2">Rango</label>
                     </div>
                     <br>
@@ -256,8 +255,9 @@
                               </p>
                             </div>
                           </div>
-                          <select class="form-control" name="miselect" style="width: 100px;" formControlName="vlanNumero"
-                            placeholder="VLAN 10" required>
+                          <select class="form-control" name="miselect" style="width: 100px;"
+                                  formControlName="vlanNumero"
+                                  placeholder="VLAN 10" required>
                             <option value="null">Selecciona una VLAN</option>
                             <option [value]="item" *ngFor="let item of lista">{{
                               item}}</option>
@@ -284,10 +284,11 @@
                               </p>
                             </div>
                           </div>
-                          <select class="form-control" name="miselect" style="width: 100px;" placeholder="fa0/1" formControlName="vlanRangoUno" required>
+                          <select class="form-control" name="miselect" style="width: 100px;" placeholder="fa0/1"
+                                  formControlName="vlanRangoUno" required>
                             <option value="null">Selecciona un cable</option>
                             <option [value]="item"
-                              *ngFor="let item of lista_puerto">{{ item }}</option>
+                                    *ngFor="let item of lista_puerto">{{ item }}</option>
                           </select>
                         </div>
                         <div
@@ -311,11 +312,12 @@
                               </p>
                             </div>
                           </div>
-                          <select class="form-control" name="miselect" style="width: 100px;" formControlName="vlanRangoDos"
-                             placeholder="fa0/5" required>
-                             <option value="null">Selecciona un cable</option>
+                          <select class="form-control" name="miselect" style="width: 100px;"
+                                  formControlName="vlanRangoDos"
+                                  placeholder="fa0/5" required>
+                            <option value="null">Selecciona un cable</option>
                             <option [value]="item"
-                              *ngFor="let item of lista_puerto">{{ item }}</option>
+                                    *ngFor="let item of lista_puerto">{{ item }}</option>
                           </select>
                         </div>
                         <div
@@ -331,12 +333,14 @@
                       </div>
                     </form>
                     <!-- Radio Button - modo(acceso-troncal)-->
-                    <div class="form-check form-check-inline" >
-                      <input class="form-check-input" name="radioButtonModo" [(ngModel)]="radioButtonModo" type="radio" [value]="true" [checked]="radioButtonModo">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" name="radioButtonModo" [(ngModel)]="radioButtonModo" type="radio"
+                             [value]="true" [checked]="radioButtonModo">
                       <label class="form-check-label" for="inlineRadio3">Modo acceso</label>
                     </div>
-                    <div class="form-check form-check-inline" >
-                      <input class="form-check-input" name="radioButtonModo" [(ngModel)]="radioButtonModo" type="radio" [value]="false" [checked]="!radioButtonModo">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" name="radioButtonModo" [(ngModel)]="radioButtonModo" type="radio"
+                             [value]="false" [checked]="!radioButtonModo">
                       <label class="form-check-label" for="inlineRadio4">Modo troncal</label>
                     </div>
                     <!-- Radio Button - modo(acceso-troncal)-->
@@ -352,13 +356,13 @@
                   </div>
                   <!-- MOSTRAR COMANDOS-->
                   <div class="col-md-6 pt-4">
-                    <p class="display-4 text-center" style="font-size: 150%;">
+                    <p class="display-4 text-center">
                       Comandos
                     </p>
                     <div class="ex3">
-                      <p style="margin-top: 1px;"></p>
+                      <pre></pre>
                       <p
-                        style="line-height: 2%;"
+
                         *ngFor="let comand of comandosModeAcc"
                       >
                         {{ comand }}
@@ -417,34 +421,34 @@
                     <b
                       class="display-4"
                       style="font-size: 180%; color: #009574;"
-                      >Ruteo entre VLANs</b
+                    >Ruteo entre VLANs</b
                     >
                   </div>
 
                   <div
                     class="pt-4 col-md-6" style="margin: 60px auto">
-                    <form [formGroup] = "formRuteo">
-                        <div class="col-sm-8 pt-1 my-1">
-                          <label class="sr-only">
-                            name
-                          </label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
+                    <form [formGroup]="formRuteo">
+                      <div class="col-sm-8 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
                             </div>
-                            <select class="form-control" name="miselect"
-                              style="width: 100px;" formControlName="vlanNumero"
-                              placeholder="VLAN 10" required>
-                              <option value="null">Seleccione una VLAN</option>
-                              <option [value]="item" *ngFor="let item of lista"
-                                >{{ item }}</option>
-                            </select>
                           </div>
-                          <div
+                          <select class="form-control" name="miselect"
+                                  style="width: 100px;" formControlName="vlanNumero"
+                                  placeholder="VLAN 10" required>
+                            <option value="null">Seleccione una VLAN</option>
+                            <option [value]="item" *ngFor="let item of lista"
+                            >{{ item }}</option>
+                          </select>
+                        </div>
+                        <div
                           class="errorsValidate"
                           *ngIf="formRuteo.controls.vlanNumero.touched && formRuteo.controls.vlanNumero.hasError('pattern')">
                           Revisa que el formato sea números
@@ -472,16 +476,17 @@
                                 </p>
                               </div>
                             </div>
-                            <input
-                              class="form-control"
-                              [maxLength]="15"
-                              type="text"
-                              formControlName = "vlanIp"
-                              placeholder="Dirección ip"
-                              required
-                            />
                           </div>
-                          <div
+                          <input
+                            class="form-control"
+                            [maxLength]="15"
+                            type="text"
+                            formControlName="vlanIp"
+                            placeholder="Dirección ip"
+                            required
+                          />
+                        </div>
+                        <div
                           class="errorsValidate"
                           *ngIf="formRuteo.controls.vlanIp.touched && formRuteo.controls.vlanIp.hasError('pattern')">
                           Revisa que el formato sea IPv4
@@ -491,29 +496,29 @@
                           *ngIf="formRuteo.controls.vlanIp.touched && formRuteo.controls.vlanIp.hasError('required')">
                           El campo es requerido
                         </div>
-                        </div>
-                        <div class="col-sm-8 pt-1 my-1">
-                          <label class="sr-only">
-                            name
-                          </label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <p class="material-icons" style="height: 9px;">
-                                  code
-                                </p>
-                              </div>
+                     
+                      <div class="col-sm-8 pt-1 my-1">
+                        <label class="sr-only">
+                          name
+                        </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <p class="material-icons" style="height: 9px;">
+                                code
+                              </p>
                             </div>
-                            <input
-                              class="form-control"
-                              [maxLength]="15"
-                              type="text"
-                              formControlName = "vlanMascara"
-                              placeholder="Máscara"
-                              required
-                            />
                           </div>
-                          <div
+                          <input
+                            class="form-control"
+                            [maxLength]="15"
+                            type="text"
+                            formControlName="vlanMascara"
+                            placeholder="Máscara"
+                            required
+                          />
+                        </div>
+                        <div
                           class="errorsValidate"
                           *ngIf="formRuteo.controls.vlanMascara.touched && formRuteo.controls.vlanMascara.hasError('pattern')">
                           Revisa que el formato sea la máscara de la IP
@@ -523,62 +528,61 @@
                           *ngIf="formRuteo.controls.vlanMascara.touched && formRuteo.controls.vlanMascara.hasError('required')">
                           El campo es requerido
                         </div>
-                        </div>
+                      </div>
                     </form>
-                  <div class="col-md-3 pt-4">
-                    <button
-                      class="btn btn-outline-success"
-                      (click)="enviarDatosAlBackSvi()"
-                      title="Guardar">
-                      <i class="material-icons" style="height: 9px;">save</i>
-                    </button>
-                  </div>
+                    <div class="col-md-3 pt-4">
+                      <button
+                        class="btn btn-outline-success"
+                        (click)="enviarDatosAlBackSvi()"
+                        title="Guardar">
+                        <i class="material-icons" style="height: 9px;">save</i>
+                      </button>
+                    </div>
                   </div>
                   <!-- MOSTRAR COMANDOS-->
-                <div class="col-md-6 pt-4">
-                  <p class="display-4 text-center" style="font-size: 150%;">
-                    Comandos
-                  </p>
-                  <div class="ex3">
-                    <p style="margin-top: 1px;"></p>
-                    <p
-                      style="line-height: 2%;"
-                      *ngFor="let comand of comandosSvi"
-                    >
-                      {{ comand }}
+                  <div class="col-md-6 pt-4">
+                    <p class="display-4 text-center">
+                      Comandos
                     </p>
+                    <div class="ex3">
+                      <pre></pre>
+                      <p
+                        *ngFor="let comand of comandosSvi"
+                      >
+                        {{ comand }}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <!-- MOSTRAR COMANDOS-->
+                  <!-- MOSTRAR COMANDOS-->
                 </div>
 
                 <div class="col-sm-12 pt-4">
                   <table class="table">
                     <thead>
-                      <tr>
-                        <th scope="col">VLAN</th>
-                        <th scope="col">Ip</th>
-                        <th scope="col">Opciones</th>
-                      </tr>
+                    <tr>
+                      <th scope="col">VLAN</th>
+                      <th scope="col">Ip</th>
+                      <th scope="col">Opciones</th>
+                    </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ruteos of ruteoEstablecido; index as i">
-                        <td>10</td>
-                        <td>192.168.10.1 255.255.255.0</td>
-                        <td>
-                          <button
-                            class="btn btn-outline-danger"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            (click)="eliminarRuteoCreado(i)"
-                            title="Eliminar"
-                          >
-                            <i class="material-icons" style="height: 9px;">
-                              delete
-                            </i>
-                          </button>
-                        </td>
-                      </tr>
+                    <tr *ngFor="let ruteos of ruteoEstablecido; index as i">
+                      <td>10</td>
+                      <td>192.168.10.1 255.255.255.0</td>
+                      <td>
+                        <button
+                          class="btn btn-outline-danger"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          (click)="eliminarRuteoCreado(i)"
+                          title="Eliminar"
+                        >
+                          <i class="material-icons" style="height: 9px;">
+                            delete
+                          </i>
+                        </button>
+                      </td>
+                    </tr>
                     </tbody>
                   </table>
                 </div>

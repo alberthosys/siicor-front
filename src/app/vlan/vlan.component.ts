@@ -99,7 +99,7 @@ export class VlanComponent implements OnInit {
         // this.ngOnInit();
       }
     })
-    
+
   }
 
   // Asignar puertos Tab 2
@@ -161,7 +161,7 @@ export class VlanComponent implements OnInit {
         this.comandosModeAcc.push(this.comando.vlan_rango_mode_acc);
         this.comandosModeAcc.push(this.comando.vlan_rango_acc_vlan + this.formPuertos.controls.vlanNumero.value);
         this.comandosModeAcc.push(this.comando.exit);
-      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid 
+      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid
         && this.formPuertos.controls.vlanRangoUno.valid){
         this.comandosModeAcc.push(this.comando.vlan_sin_rango +
             this.formPuertos.controls.vlanRangoUno.value);
@@ -183,7 +183,7 @@ export class VlanComponent implements OnInit {
         this.comandosModeAcc.push(this.comando.vlan_rango_mode_trunk);
         this.comandosModeAcc.push(this.comando.vlan_rango_trunk_native + this.formPuertos.controls.vlanNumero.value);
         this.comandosModeAcc.push(this.comando.exit);
-      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid 
+      }else if(this.radioButton && this.formPuertos.controls.vlanNumero.valid
         && this.formPuertos.controls.vlanRangoUno.valid){
         this.comandosModeAcc.push(this.comando.vlan_sin_rango +
             this.formPuertos.controls.vlanRangoUno.value);
@@ -204,7 +204,7 @@ export class VlanComponent implements OnInit {
       this.comandosSvi.push(this.comando.config_terminal);
       this.comandosSvi.push(this.comando.vlan_ruteo_routing);
       this.comandosSvi.push(this.comando.vlan_ruteo_vlan + this.formRuteo.controls.vlanNumero.value);
-      this.comandosSvi.push(this.comando.vlan_ruteo_ip + this.formRuteo.controls.vlanIp.value 
+      this.comandosSvi.push(this.comando.vlan_ruteo_ip + this.formRuteo.controls.vlanIp.value
         + " " + this.formRuteo.controls.vlanMascara.value);
       this.comandosSvi.push(this.comando.exit);
     } else {
