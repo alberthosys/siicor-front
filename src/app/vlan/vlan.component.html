@@ -463,8 +463,8 @@
                           *ngIf="formRuteo.controls.vlanNumero.hasError('nullValidator')">
                           Este campo no puede estar vacio
                         </div>
-                        </div>
-                        <div class="col-sm-8 pt-1 my-1">
+                      </div>
+                      <div class="col-sm-8 pt-1 my-1">
                           <label class="sr-only">
                             name
                           </label>
@@ -476,7 +476,6 @@
                                 </p>
                               </div>
                             </div>
-                          </div>
                           <input
                             class="form-control"
                             [maxLength]="15"
@@ -486,7 +485,7 @@
                             required
                           />
                         </div>
-                        <div
+                          <div
                           class="errorsValidate"
                           *ngIf="formRuteo.controls.vlanIp.touched && formRuteo.controls.vlanIp.hasError('pattern')">
                           Revisa que el formato sea IPv4
@@ -496,6 +495,8 @@
                           *ngIf="formRuteo.controls.vlanIp.touched && formRuteo.controls.vlanIp.hasError('required')">
                           El campo es requerido
                         </div>
+                      </div>
+                        
                      
                       <div class="col-sm-8 pt-1 my-1">
                         <label class="sr-only">
