@@ -64,7 +64,7 @@
                             <p class="material-icons" style="height:9px">code</p>
                           </div>
                         </div>
-                        <input #ipEntradaEstandar type="text" placeholder="IP Origen" formControlName="ipEntrada" required>
+                        <input #ipEntradaEstandar class="form-control" type="text" placeholder="IP Origen" formControlName="ipEntrada" required>
                       </div>
                       <div class="errorsValidate" *ngIf="formAclEstandar.controls.ipEntrada.touched && formAclEstandar.controls.ipEntrada.hasError('pattern')">
                         Revisa que el formato sea IPv4
@@ -85,7 +85,7 @@
                             <p class="material-icons" style="height:9px">code</p>
                           </div>
                         </div>
-                        <input type="number" placeholder="Group" formControlName="group" required>
+                        <input class="form-control" type="number" placeholder="Group" formControlName="group" required>
                         <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.group.touched && this.formAclEstandar.controls.group.hasError('required')">
                           El campo es requerido
                         </div>
@@ -93,7 +93,10 @@
                           El formato solo admite números
                         </div>
                         <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.group.touched && this.formAclEstandar.controls.group.hasError('min')">
-                          El valor minimo debe ser 100
+                          El valor mínimo debe ser 1
+                        </div>
+                        <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.group.touched && this.formAclEstandar.controls.group.hasError('max')">
+                          El valor máximo debe ser 99
                         </div>
                       </div>
                     </div>
@@ -141,7 +144,8 @@
                   <div class="col-sm-1">
                     <div class="col-sm-12">
                       <button (click)="guardar()" class="btn btn-outline-success" data-toggle="tooltip"
-                              data-placement="top" title="Guardar"><p class="material-icons">save</p></button>
+                              data-placement="top" title="Guardar"><p class="material-icons" style="height: 9px;">
+                                save</p></button>
                     </div>
                   </div>
                 </div>
@@ -171,7 +175,7 @@
                         <td>
                           <button (click)="eliminar(item)" class="btn btn-outline-danger" data-toggle="tooltip"
                                   data-placement="top" title="Eliminar">
-                            <p class="material-icons">delete</p></button>
+                            <p class="material-icons" style="height: 9px;">delete</p></button>
                         </td>
                       </tr>
                       </tbody>
@@ -197,7 +201,7 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input type="text" placeholder="IP Origen" formControlName="ipEntrada" required>
+                      <input class="form-control" type="text" placeholder="IP Origen" formControlName="ipEntrada" required>
                     </div>
                     <div class="errorsValidate" *ngIf="formAclExtendida.controls.ipEntrada.touched && formAclExtendida.controls.ipEntrada.hasError('pattern')">
                       Revisa que el formato sea IPv4
@@ -219,7 +223,7 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input type="text" placeholder="Mascara" formControlName="mask" required>
+                      <input class="form-control" type="text" placeholder="Mascara" formControlName="mask" required>
                     </div>
                     <div class="errorsValidate" *ngIf="formAclExtendida.controls.mask.touched && formAclExtendida.controls.mask.hasError('pattern')">
                       Revisa que el formato sea IPv4
@@ -266,7 +270,7 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input type="text" placeholder="IP Destino" formControlName="ipDestino" required>
+                      <input class="form-control" type="text" placeholder="IP Destino" formControlName="ipDestino" required>
                     </div>
                   </div>
                   <div class="errorsValidate" *ngIf="formAclExtendida.controls.ipDestino.touched && formAclExtendida.controls.ipDestino.hasError('pattern')">
@@ -287,13 +291,16 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input type="number" placeholder="Group" formControlName="group" required>
+                      <input class="form-control" type="number" placeholder="Group" formControlName="group" required>
                     </div>
                     <div class="errorsValidate" *ngIf="formAclExtendida.controls.group.touched && formAclExtendida.controls.group.hasError('pattern')">
                       Solo se aceptan numeros
                     </div>
                     <div class="errorsValidate" *ngIf="formAclExtendida.controls.group.touched && formAclExtendida.controls.group.hasError('min')">
-                      El valor minimo debe ser 100
+                      El valor mínimo debe ser 100
+                    </div>
+                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.group.touched && formAclExtendida.controls.group.hasError('max')">
+                      El valor máximo debe ser 199
                     </div>
                     <div class="errorsValidate" *ngIf="formAclExtendida.controls.group.touched && formAclExtendida.controls.group.hasError('required')">
                       El campo es requerido
@@ -311,7 +318,7 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input type="number" placeholder="Puerto" formControlName="puerto" required>
+                      <input class="form-control" type="number" placeholder="Puerto" formControlName="puerto" required>
                     </div>
                     <div class="errorsValidate" *ngIf="formAclExtendida.controls.puerto.touched && formAclExtendida.controls.puerto.hasError('pattern')">
                       Solo de admiten numeros
@@ -363,7 +370,7 @@
                 </div>
                 <div class="col-sm-2">
                   <button (click)="guradarAclExtendida()" class="btn btn-outline-success ml-3" data-toggle="tooltip" data-placement="top" title="Guardar">
-                    <p class="material-icons">save</p>
+                    <p class="material-icons" style="height: 9px;">save</p>
                   </button>
                 </div>
               </div>
@@ -396,7 +403,7 @@
 <!--                                data-placement="top" title="Eliminar">-->
 <!--                          <p class="material-icons">delete</p></button>-->
                         <button type="button" (click)="itemReference=item" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
-                          <p class="material-icons">delete</p>
+                          <p class="material-icons" style="height: 9px;">delete</p>
                         </button>
                       </td>
                     </tr>

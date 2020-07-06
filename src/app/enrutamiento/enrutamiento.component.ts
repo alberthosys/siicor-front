@@ -100,6 +100,7 @@ export class EnrutamientoComponent implements OnInit {
     if(this.formEigrp.valid){
     this.comandosEigrp.push(this.routerComand.router_eigrp + this.formEigrp.controls.asn.value);
     this.comandosEigrp.push(this.routerComand.network + this.formEigrp.controls.redIp.value);
+    this.comandosEigrp.push(this.routerComand.no_auto_summary);
     this.comandosEigrp.push(this.routerComand.exit);
     }else {
       this.alerta.alertError("Revisa que todos los campos se hayan llenado correctamente")
@@ -122,7 +123,8 @@ export class EnrutamientoComponent implements OnInit {
   }
 
   eliminarEnrutamientoEigrp(posicion: number) { 
-    alertConfirm.fire({html:"Esta seguro que desea eliminar el enrutamiento EIGRP "+ this.listaEigrpAsignadosModel[posicion].router_eigrp}).then((response)=>{
+    alertConfirm.fire({html:"Se eliminarán todas las redes que contenga el enrutamiento "+this.listaEigrpAsignadosModel[posicion].router_eigrp+". ¿Está seguro que desea eliminar el enrutamiento?"})
+    .then((response)=>{
       if(response.value){
         this.comandosEigrp.push(
           this.routerComand.no_router_eigrp +
@@ -165,7 +167,7 @@ export class EnrutamientoComponent implements OnInit {
   }
 
   eliminarEnrutamientoRip(posicion: number) {
-    alertConfirm.fire({html:"Esta seguro que desea eliminar el enrutamiento RIP"}).then((resolve)=>{
+    alertConfirm.fire({html:"Se eliminarán todas las redes que contenga el enrutamiento RIP. ¿Está seguro que desea eliminar el enrutamiento?"}).then((resolve)=>{
       if(resolve.value){
         this.comandosRip.push(this.routerComand.no_router_rip);
         console.log("RIP eliminar ", this.comandosRip);

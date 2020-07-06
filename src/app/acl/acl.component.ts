@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Sesion} from "../Sesion/sesion";
-import {Alert} from "../Alerts/Alert";
+import {Alert, alertConfirm} from "../Alerts/Alert";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Routers} from "../ModelosComando/Routers";
@@ -33,7 +33,7 @@ export class AclComponent implements OnInit {
   ) {
     this.formAclEstandar = formBuilder.group({
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
-      group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(100)])],
+      group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(1), Validators.max(99)])],
       cableEntrada: [null, Validators.compose([Validators.required, Validators.pattern("^(fa|gig)[0-9]/[0-9]$")])]
     });
     this.formAclExtendida = formBuilder.group({
@@ -41,7 +41,7 @@ export class AclComponent implements OnInit {
       mask: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
       protocolo: [null, Validators.compose([Validators.required])],
       ipDestino: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
-      group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(100)])],
+      group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(100), Validators.max(199)])],
       cableEntrada: [null, Validators.compose([Validators.required, Validators.pattern("^(fa|gig)[0-9]/[0-9]$")])],
       puerto: [null, Validators.compose([Validators.required, Validators.pattern("[0-9]*")])]
     });
@@ -114,19 +114,26 @@ export class AclComponent implements OnInit {
   }
 
   eliminar(acl: string) {
-    let comand: string = "no " + acl;
-    console.log("ELiminar->" + comand)
-    this.globalComands.push(comand)
-    this.alerta.alertSuccess("Se ha eliminado exitosamente !")
-
+    alertConfirm.fire({html:"Se eliminarán todas las sentencias asociadas a esta lista de acceso. ¿Está seguro que desea eliminar este grupo?"}).then((response)=>{
+      if(response.value){
+        let comand: string = "no " + acl;
+        console.log("ELiminar->" + comand)
+        this.globalComands.push(comand)
+        this.alerta.alertSuccess("Se ha eliminado exitosamente !")
+      }
+    });
   }
   eliminarExtentida(){
-    console.log("IP->",this.itemReference)
-    let split:string[]=this.itemReference.split(" ");
-    let comand: string = "no " +this.comandos.access_list+" "+this.formEliminar.controls.group.value+" permit "+split[2]+" "+split[3];
-    console.log("1ELiminar->" + comand)
-    this.globalComands2.push(comand)
-    this.alerta.alertSuccess("Se ha eliminado exitosamente !")
+    alertConfirm.fire({html:"Se eliminarán todas las sentencias asociadas a esta lista de acceso. ¿Está seguro que desea eliminar este grupo?"}).then((response)=>{
+      if(response.value){
+        console.log("IP->",this.itemReference)
+        let split:string[]=this.itemReference.split(" ");
+        let comand: string = "no " +this.comandos.access_list+" "+this.formEliminar.controls.group.value+" permit "+split[2]+" "+split[3];
+        console.log("1ELiminar->" + comand)
+        this.globalComands2.push(comand)
+        this.alerta.alertSuccess("Se ha eliminado exitosamente !")
+      }
+    });
   }
 
 }

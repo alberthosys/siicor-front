@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Sesion} from "../Sesion/sesion";
-import {Alert} from "../Alerts/Alert";
+import {Alert, alertConfirm} from "../Alerts/Alert";
 import {Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
 import {VlanModel} from "../Modelos/VlanModel";
@@ -101,14 +101,18 @@ export class DireccionamientoComponent implements OnInit {
   }
 
   eliminarInterface(interfaces: Datos) {
-    let comands: string[] = [];
-    comands.push(this.routerComands.int + interfaces.cable);
-    comands.push("no " + this.routerComands.ip_address + interfaces.ip + " " + interfaces.mask);
-    comands.push(this.routerComands.exit);
-    comands.forEach((comand) => {
-      this.globalComands.push(comand)
-    })
-    this.alerta.alertSuccess("Se ha eliminado exitosamente !")
+    alertConfirm.fire({html:"Esta seguro que desea eliminar la red Ip de esta subinterface"}).then((response)=>{
+      if(response.value){
+        let comands: string[] = [];
+        comands.push(this.routerComands.int + interfaces.cable);
+        comands.push("no " + this.routerComands.ip_address + interfaces.ip + " " + interfaces.mask);
+        comands.push(this.routerComands.exit);
+        comands.forEach((comand) => {
+          this.globalComands.push(comand)
+        })
+        this.alerta.alertSuccess("Se ha eliminado exitosamente !")
+      }
+    });
   }
 
   gudardarSubInterface() {
@@ -130,19 +134,23 @@ export class DireccionamientoComponent implements OnInit {
     })
   }
   eliminarSubInterface(){
-    let comands: string[] = [];
-    if (this.formEliminarSubInt.valid) {
-      comands.push(this.routerComands.int + this.selectCable);
-      comands.push("no "+this.routerComands.ip_address + this.formEliminarSubInt.controls.ipEntrada.value + " " + this.formEliminarSubInt.controls.mask.value);
-      comands.push(this.routerComands.exit);
-      this.alerta.alertSuccess("Se ha eliminado exitosamente !")
-    } else {
-      this.alerta.alertError("Revisa que todos los campos se hayan llenado correctamente")
-    }
-    console.log(comands)
-    comands.forEach((comand) => {
-      this.globalComands2.push(comand);
-    })
+    alertConfirm.fire({html:"Esta seguro que desea eliminar la subInterface"}).then((response)=>{
+      if(response.value){
+        let comands: string[] = [];
+        if (this.formEliminarSubInt.valid) {
+          comands.push(this.routerComands.int + this.selectCable);
+          comands.push("no "+this.routerComands.ip_address + this.formEliminarSubInt.controls.ipEntrada.value + " " + this.formEliminarSubInt.controls.mask.value);
+          comands.push(this.routerComands.exit);
+          this.alerta.alertSuccess("Se ha eliminado exitosamente !")
+        } else {
+          this.alerta.alertError("Revisa que todos los campos se hayan llenado correctamente")
+        }
+        console.log(comands)
+        comands.forEach((comand) => {
+          this.globalComands2.push(comand);
+        })
+      }
+    });
   }
 }
 
