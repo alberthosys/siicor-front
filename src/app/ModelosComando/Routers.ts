@@ -10,10 +10,10 @@ export class Routers extends Universal {
   no_router_eigrp: string = "no router eigrp ";
   no_router_rip: string = "no router rip";
   access_list: string = "access-list ";
-  deny_host: string = " deny host ";
   permit_any: string = " permit any";
   ip_acess_group: string = "ip access-group ";
   host:string=" host ";
+  any:string=" any ";
   ip_address:string="ip address ";
   clock_rate:string="clock rate ";
   no_shutdown:string="no shutdown";

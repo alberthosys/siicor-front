@@ -14,10 +14,13 @@ export class AclComponent implements OnInit {
   public sesion = new Sesion();
   public alerta = new Alert();
   public comandos = new Routers();
-  public ventana: boolean = false;
+  public ventana: boolean = true;
   public formAclEstandar: FormGroup;
   public formAclExtendida: FormGroup;
   public in_out: boolean = false;
+  public permit_deny: boolean = false;
+  public permit_deny2: boolean = false;
+  public host_any:boolean=false;
   public in_out2: boolean = false;
   public listClables: string[] = [];
   public globalComands: string[] = [];
@@ -41,6 +44,7 @@ export class AclComponent implements OnInit {
       mask: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
       protocolo: [null, Validators.compose([Validators.required])],
       ipDestino: [null, Validators.compose([Validators.required, Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
+      mask2: [null, Validators.compose([Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$")])],
       group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(100), Validators.max(199)])],
       cableEntrada: [null, Validators.compose([Validators.required, Validators.pattern("^(fa|gig)[0-9]/[0-9]$")])],
       puerto: [null, Validators.compose([Validators.required, Validators.pattern("[0-9]*")])]
@@ -72,8 +76,8 @@ export class AclComponent implements OnInit {
   guardar() {
     let listComands: string[] = [];
     if (this.formAclEstandar.valid) {
-      listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + this.comandos.deny_host + this.formAclEstandar.controls.ipEntrada.value);
-      listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + this.comandos.permit_any);
+      listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value +" "+( this.permit_deny?'permit':'deny')+ this.comandos.host + this.formAclEstandar.controls.ipEntrada.value);
+      // listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + this.comandos.permit_any);
       listComands.push(this.comandos.int + this.formAclEstandar.controls.cableEntrada.value);
       listComands.push(this.comandos.ip_acess_group + this.formAclEstandar.controls.group.value + " " + (this.in_out ? "out" : "in"));
       listComands.push(this.comandos.exit)
@@ -99,9 +103,21 @@ export class AclComponent implements OnInit {
         wildcard += "."
       })
       wildcard = wildcard.substring(0, wildcard.length - 1)
-      comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.in_out ? " out " : " in ") + this.formAclExtendida.controls.protocolo.value + " " + this.formAclExtendida.controls.ipEntrada.value + " " + wildcard + this.comandos.host + this.formAclExtendida.controls.ipDestino.value + " " + this.formAclExtendida.controls.puerto.value);
+      let widlcard2:string=null;
+      let splitMask2: number[]=[]
+      if(this.formAclExtendida.controls.mask2.value.toString().length>5){
+        splitMask=this.formAclExtendida.controls.mask2.value.split(".");
+        splitMask.forEach((result) => {
+          console.log(result)
+          widlcard2 += (255 - result)
+          widlcard2 += "."
+        })
+        widlcard2 = wildcard.substring(0, widlcard2.length - 1)
+      }
+
+      comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? " permit " : " deny ")+"ip " + this.formAclExtendida.controls.protocolo.value + " " + this.formAclExtendida.controls.ipEntrada.value + " " + wildcard + (!this.host_any?this.comandos.host:this.comandos.any )+ this.formAclExtendida.controls.ipDestino.value + " " +(widlcard2?widlcard2+' ':'')+ this.formAclExtendida.controls.puerto.value);
       comands.push(this.comandos.int + this.formAclExtendida.controls.cableEntrada.value);
-      comands.push(this.comandos.ip_acess_group + this.formAclExtendida.controls.group.value + " " + (this.in_out ? "out " : "in "));
+      comands.push(this.comandos.ip_acess_group + this.formAclExtendida.controls.group.value + " " + (this.in_out2 ? "out " : "in "));
       comands.push(this.comandos.exit);
       console.log("COMANDOS->", comands)
       comands.forEach((cmd)=>{
