@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Sesion } from "../Sesion/sesion";
-import { Alert } from "../Alerts/Alert";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {Sesion} from "../Sesion/sesion";
+import {Alert} from "../Alerts/Alert";
 
 @Component({
   selector: "app-home",
@@ -21,13 +21,9 @@ export class HomeComponent implements OnInit {
     public ruta: Router
   ) {
     this.form = this.build.group({
-      ip: [
-        null,
-        Validators.compose([
-          Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$"),
-          Validators.required,
-        ]),
-      ],
+      ip: [null, Validators.compose([Validators.pattern("((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$"),Validators.required,])],
+      usuario:[null,Validators.compose([Validators.required])],
+      clave:[null,Validators.compose([Validators.required])]
     });
   }
 
@@ -46,6 +42,8 @@ export class HomeComponent implements OnInit {
     if (this.form.valid) {
       localStorage.setItem("localip", this.form.controls.ip.value);
       this.ruta.navigate(["/configuracion"]);
+    }else{
+      this.alerta.alertError("Revisa que todos los campos se hayan llenado correctamente")
     }
   }
 }

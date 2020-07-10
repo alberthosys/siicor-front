@@ -13,22 +13,52 @@
             <br/>
             <img src="../../assets/imagenes/logoUTEZ.jpg" style="width: 40%;height:40%">
             <br/>
-            <div style="margin-top: 5%;margin-bottom: 20%" class="input-group form-group">
+            <div class="input-group form-group">
+              <div class="input-group-prepend bg-white" style="padding-top: 1%;margin-left:20%">
+                 <span class="material-icons">
+                signal_wifi_4_bar
+                 </span>
+              </div>
+              <input [maxLength]="15" #element (input)="element.value=element.value.trim()"  required (keydown.enter)="buscarIP()" formControlName="ip" type="text" class="form-control input-sm" style="margin-left: 5%;margin-right: 20%" placeholder="Ip de tu dispositivo">
+            </div>
+            <div class="errorsValidate">
+              <p  *ngIf="form.controls.ip.touched && form.controls.ip.hasError('required')">
+                Se requiere ingresar la Ip
+              </p>
+            </div>
+            <div class="errorsValidate">
+              <p  *ngIf="form.controls.ip.touched && form.controls.ip.hasError('pattern')">
+                La Ip es invalida
+              </p>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend bg-white" style="padding-top: 1%;margin-left:20%">
+                 <span class="material-icons">
+                account_circle
+                 </span>
+              </div>
+              <input  #element2 (input)="element2.value=element2.value.trim()"  required (keydown.enter)="buscarIP()" formControlName="usuario" type="text" class="form-control input-sm" style="margin-left: 5%;margin-right: 20%" placeholder="Usuario">
+            </div>
+            <div>
+              <p class="errorsValidate" *ngIf="form.controls.usuario.touched && form.controls.usuario.hasError('required')">
+                Se requiere ingresar el usuario
+              </p>
+            </div>
+            <div class="input-group form-group">
               <div class="input-group-prepend bg-white" style="padding-top: 1%;margin-left:20%">
                  <span class="material-icons">
                 vpn_key
                  </span>
               </div>
-              <input [maxLength]="15" #element (input)="element.value=element.value.trim()" (click)="requiredIP=true" required (keydown.enter)="buscarIP()" formControlName="ip" type="text" class="form-control input-sm" style="margin-left: 5%;margin-right: 20%" placeholder="Ip de tu dispositivo">
+              <input  #element3 (input)="element3.value=element3.value.trim()"  required (keydown.enter)="buscarIP()" formControlName="clave" type="password" class="form-control input-sm" style="margin-left: 5%;margin-right: 20%" placeholder="Contraseña">
             </div>
-          </form>
+            <div class="errorsValidate">
+              <p  *ngIf="form.controls.clave.touched && form.controls.clave.hasError('required')">
+                Se requiere ingresar la clave
+              </p>
+            </div>
 
-          <p style="color:red;margin-top: -10%" *ngIf="form.controls.ip.touched && form.controls.ip.hasError('required')">
-            Se requiere ingresar la Ip
-          </p>
-          <p style="color:red;margin-top: -10%" *ngIf="form.controls.ip.touched && form.controls.ip.hasError('pattern')">
-            La Ip es invalida
-          </p>
+          </form>
 
           <button [disabled]="!form.valid" (click)="form.valid?buscarIP():null" class="btn btn-outline-success">Ingresar</button>
         </div>
