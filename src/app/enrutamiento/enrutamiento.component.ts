@@ -203,6 +203,21 @@ export class EnrutamientoComponent implements OnInit {
         );
         this.comandosEigrp.push(this.routerComand.exit);
         console.log('EIGRP eliminar ', this.comandosEigrp);
+
+        let comandsSend:string='';
+        this.comandosEigrp.forEach((cmd,index)=>{
+          comandsSend+=cmd;
+          comandsSend+=","
+        })
+        comandsSend=comandsSend.substring(0,comandsSend.length-1);
+        console.log("SEND->",comandsSend)
+
+        let url="https://90eb3d7cd16a.ngrok.io/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
+        console.log("url->",url)
+        this.api.consultaURLlibre(url).subscribe((response:any)=>{
+          console.log("response-register-eigrp",response);
+          this.ngOnInit();
+        })
       }
     });
   }
