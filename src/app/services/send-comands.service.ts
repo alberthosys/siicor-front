@@ -46,6 +46,8 @@ export class SendComandsService {
         catchError(SendComandsService.handleError)
       );
   }
+
+
 }
 
 const httpOptions = {

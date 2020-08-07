@@ -2,29 +2,29 @@
 
 <div class="container-fluid">
   <div class="row">
-        <div class="col-md-2 text-center">
-          <app-menu></app-menu>
-        </div>
-        <div class="col-md-10">
-            <div class="row">
-              <!--         MENU-->
-              <div class="col-md-12 justify-content-center">
-                <div class="row">
-                  <div
-                    class="col-md-12 pt-4 text-center"
-                    style="background-color: #002f5d; color: white;"
-                  >
-                    <b class="display-4" style="font-size: 150%;">
-                      Enrutamiento
-                    </b>
-                    <pre></pre>
-                  </div>
-                  <div class="col-md-4"></div>
-                  <div class="col-md-2 pt-4">
-                    <button
-                      (click)="this.ventana = false"
-                      class="btn btn-outline-dark"
-                    >
+    <div class="col-md-2 text-center">
+      <app-menu></app-menu>
+    </div>
+    <div class="col-md-10">
+      <div class="row">
+        <!--         MENU-->
+        <div class="col-md-12 justify-content-center">
+          <div class="row">
+            <div
+              class="col-md-12 pt-4 text-center"
+              style="background-color: #002f5d; color: white;"
+            >
+              <b class="display-4" style="font-size: 150%;">
+                Enrutamiento
+              </b>
+              <pre></pre>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-2 pt-4">
+              <button
+                (click)="this.ventana = false"
+                class="btn btn-outline-dark"
+              >
                       <span>
                         <img
                           class="img img-fluid"
@@ -32,16 +32,16 @@
                           src="https://image.flaticon.com/icons/svg/438/438901.svg"
                         />
                       </span>
-                      <span>
+                <span>
                         EIGRP
                       </span>
-                    </button>
-                  </div>
-                  <div class="col-md-2 pt-4">
-                    <button
-                      (click)="this.ventana = true"
-                      class="btn btn-outline-dark"
-                    >
+              </button>
+            </div>
+            <div class="col-md-2 pt-4">
+              <button
+                (click)="this.ventana = true"
+                class="btn btn-outline-dark"
+              >
                       <span>
                         <img
                           class="img img-fluid"
@@ -49,359 +49,356 @@
                           src="https://image.flaticon.com/icons/svg/860/860220.svg"
                         />
                       </span>
-                      <span>
+                <span>
                         RIP
                       </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <!--          MENU-->
-              <!--  BODY-->
-              <div
-                class="col-md-12 pt-4 justify-content-center"
-                *ngIf="!ventana"
-              >
-                <div class="row">
-                  <div class="col-md-12 text-center">
-                    <b
-                      class="display-4"
-                      style="font-size: 180%; color: #009574;"
-                      >Enrutamiento usando EIGRP</b
-                    >
-                  </div>
-                  <div class="col-md-4"></div>
-                  <div class="col-md-4 justify-content-center">
-                  <form [formGroup] = "formEigrp">
-                    <div class="col-sm-12 pt-1 my-1">
-                      <label class="sr-only">
-                        Valor ASN
-                      </label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <p class="material-icons" style="height: 9px;">
-                              code
-                            </p>
-                          </div>
-                        </div>
-                        <input
-                          type="number"
-                          class="form-control"
-                          required
-                          [maxLength]="65535"
-                          max="65535"
-                          min="1"
-                          placeholder="1-65535"
-                          formControlName="asn"
-                          data-toggle="tooltip"
-                          data-placement="top"
-                        />
-                      </div>
-                      <div
-                          class="errorsValidate"
-                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('pattern')">
-                          Revisa que el formato sea números
-                        </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('required')">
-                          El campo es requerido
-                        </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('max')">
-                          No número no puede exceder de 65535
-                        </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('min')">
-                          El número no puede ser menor a 1
-                        </div>
-                    </div>
-                    <div class="col-sm-12 pt-1 my-1">
-                      <label class="sr-only">
-                        Ip-Wildcard
-                      </label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <p class="material-icons" style="height: 9px;">
-                              code
-                            </p>
-                          </div>
-                        </div>
-                        <select class="form-control" formControlName="redIp">
-                          <option value= "null">Seleccione una red IP</option>
-                          <option
-                            [value]="item.network"
-                            *ngFor="let item of listaEigrpModel"
-                          >
-                            {{ item.network }}</option
-                          >
-                        </select>
-                      </div>
-                      <div
-                          class="errorsValidate"
-                          *ngIf="formEigrp.controls.redIp.touched && formEigrp.controls.redIp.hasError('pattern')">
-                          Revisa que el formato sea IPv4
-                        </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="formEigrp.controls.redIp.touched && formEigrp.controls.redIp.hasError('required')">
-                          El campo es requerido
-                        </div>
-                    </div>
-                    <div class="col-sm-12 pt-4 justify-content-center">
-                      <button
-                        class="btn btn-outline-success"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        (click)="enviarDatosEigrp()"
-                        title="Guardar"
-                      >
-                        <p class="material-icons" style="height: 9px;">
-                          save
-                        </p>
-                      </button>
-                    </div>
-                  </form>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4 pt-4">
-                    <p class="display-4 text-center" >
-                      Comandos
-                    </p>
-                    <div class="ex3">
-                      <p style="margin-top: 1px;"></p>
-                      <p
-                        style="line-height: 2%;"
-                        *ngFor="let comand of comandosEigrp"
-                      >
-                        {{ comand }}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-8 pt-4">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">No. EIGRP</th>
-                          <th scope="col">Red</th>
-                          <th scope="col">Opciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          *ngFor="let no of listaEigrpAsignadosModel; index as i"
-                        >
-                          <td>{{ listaEigrpAsignadosModel[i].router_eigrp }}</td>
-                          <td>{{ listaEigrpAsignadosModel[i].network }}</td>
-                          <td>
-                            <div class="btn-group">
-                              <button
-                                type="button"
-                                class="btn btn-outline-danger dropdown-toggle"
-                                data-toggle="dropdown"
-                                title="Eliminar"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
-                                <i class="material-icons" style="height: 9px;">
-                                  delete
-                                </i>
-                              </button>
-                              <div class="dropdown-menu">
-                                <button
-                                  class="dropdown-item"
-                                  (click)="eliminarEnrutamientoEigrp(i)"
-                                >
-                                  Enrutamiento EIGRP
-                                </button>
-                                <button
-                                  class="dropdown-item"
-                                  (click)="eliminarDatosEigrp(i)"
-                                >
-                                  solo la red
-                                </button>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-md-12 pt-4 justify-content-center"
-                *ngIf="ventana"
-              >
-                <div class="row">
-                  <div class="col-md-12 text-center">
-                    <b
-                      class="display-4"
-                      style="font-size: 180%; color: #009574;"
-                      >Enrutamiento usando RIP</b
-                    >
-                  </div>
-                  <div class="col-md-4"></div>
-                  <div class="col-md-4 justify-content-center">
-                    <form [formGroup] = "formRip">
-                    <div class="col-sm-12 pt-1 my-1">
-                      <label class="sr-only">
-                        Router rip
-                      </label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <p class="material-icons" style="height: 9px;">
-                              code
-                            </p>
-                          </div>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="router rip"
-                          disabled="true"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="col-sm-12 pt-1 my-1">
-                      <label class="sr-only">
-                        version
-                      </label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <p class="material-icons" style="height: 9px;">
-                              code
-                            </p>
-                          </div>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="version 2"
-                          disabled="true"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="col-sm-12 pt-1 my-1">
-                      <label class="sr-only">
-                        Ip
-                      </label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <p class="material-icons" style="height: 9px;">
-                              code
-                            </p>
-                          </div>
-                        </div>
-                        <select class="form-control" formControlName="redRip" required>
-                          <option value="null">Selecciona una red IP</option>
-                          <option [value]="item" *ngFor="let item of listaIp">
-                            {{ item }}</option>
-                        </select>
-                      </div>
-                      <div
-                          class="errorsValidate"
-                          *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('pattern')">
-                          Revisa que el formato sea IPv4
-                        </div>
-                        <div
-                          class="errorsValidate"
-                          *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('required')">
-                          El campo es requerido
-                        </div>
-                    </div>
-                    <div class="col-sm-12 pt-4 justify-content-center">
-                      <button
-                        class="btn btn-outline-success"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        (click)="enviarDatosRip()"
-                        title="Guardar"
-                      >
-                        <p class="material-icons" style="height: 9px;">
-                          save
-                        </p>
-                      </button>
-                    </div>
-                    </form>
-                  </div>
-                </div>
-                <div class="row">
-                <div class="col-md-4 pt-4">
-                  <p class="display-4 text-center" >
-                    Comandos
-                  </p>
-                  <div class="ex3">
-                    <pre></pre>
-                    <p
-
-                      *ngFor="let comand of comandosRip"
-                    >
-                      {{ comand }}
-                    </p>
-                  </div>
-                </div>
-                <div class="col-sm-8 pt-4">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Versión</th>
-                        <th scope="col">Red</th>
-                        <th scope="col">Opciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let ip of listaRipAsignadosModel; index as i">
-                        <td>Versión 2</td>
-                        <td>{{ ip.network }}</td>
-                        <td>
-                          <div class="btn-group">
-                            <button
-                              type="button"
-                              class="btn btn-outline-danger dropdown-toggle"
-                              data-toggle="dropdown"
-                              title="Eliminar"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              <i class="material-icons" style="height: 9px;">
-                                delete
-                              </i>
-                            </button>
-                            <div class="dropdown-menu">
-                              <button
-                                class="dropdown-item"
-                                (click)="eliminarEnrutamientoRip(i)"
-                              >
-                                Enrutamiento RIP
-                              </button>
-                              <button
-                                class="dropdown-item"
-                                (click)="eliminarDatosRip(i)"
-                              >
-                                solo la red
-                              </button>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              </div>
-              <!--   BODY-->
+              </button>
             </div>
+          </div>
         </div>
+        <!--          MENU-->
+        <!--  BODY-->
+        <div
+          class="col-md-12 pt-4 justify-content-center"
+          *ngIf="!ventana"
+        >
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <b
+                class="display-4"
+                style="font-size: 180%; color: #009574;"
+              >Enrutamiento usando EIGRP</b
+              >
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4 justify-content-center">
+              <form [formGroup]="formEigrp">
+                <div class="col-sm-12 pt-1 my-1">
+                  <label class="sr-only">
+                    Valor ASN
+                  </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <p class="material-icons" style="height: 9px;">
+                          code
+                        </p>
+                      </div>
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      required
+                      [maxLength]="65535"
+                      max="65535"
+                      min="1"
+                      placeholder="1-65535"
+                      formControlName="asn"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                    />
+                  </div>
+                  <div
+                    class="errorsValidate"
+                    *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('pattern')">
+                    Revisa que el formato sea números
+                  </div>
+                  <div
+                    class="errorsValidate"
+                    *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('required')">
+                    El campo es requerido
+                  </div>
+                  <div
+                    class="errorsValidate"
+                    *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('max')">
+                    No número no puede exceder de 65535
+                  </div>
+                  <div
+                    class="errorsValidate"
+                    *ngIf="formEigrp.controls.asn.touched && formEigrp.controls.asn.hasError('min')">
+                    El número no puede ser menor a 1
+                  </div>
+                </div>
+                <div class="col-sm-12 pt-1 my-1">
+                  <label class="sr-only">
+                    Ip-Wildcard
+                  </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <p class="material-icons" style="height: 9px;">
+                          code
+                        </p>
+                      </div>
+                    </div>
+                    <select class="form-control" formControlName="redIp">
+                      <option value="null">Seleccione una red IP</option>
+                      <option
+                        [value]="item"
+                        *ngFor="let item of listaIp">
+                        {{ item }}</option
+                      >
+                    </select>
+                  </div>
+<!--                  <div-->
+<!--                    class="errorsValidate"-->
+<!--                    *ngIf="formEigrp.controls.redIp.touched && formEigrp.controls.redIp.hasError('pattern')">-->
+<!--                    Revisa que el formato sea IPv4ssss-->
+<!--                  </div>-->
+                  <div
+                    class="errorsValidate"
+                    *ngIf="formEigrp.controls.redIp.touched && formEigrp.controls.redIp.hasError('required')">
+                    El campo es requerido
+                  </div>
+                </div>
+                <div class="col-sm-12 pt-4 justify-content-center">
+                  <button
+                    class="btn btn-outline-success"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    (click)="enviarDatosEigrp()"
+                    title="Guardar"
+                  >
+                    <p class="material-icons" style="height: 9px;">
+                      save
+                    </p>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pt-4">
+              <p class="display-4 text-center">
+                Comandos
+              </p>
+              <div class="ex3">
+                <p style="margin-top: 1px;"></p>
+                <p
+                  style="line-height: 2%;"
+                  *ngFor="let comand of comandosEigrp"
+                >
+                  {{ comand }}
+                </p>
+              </div>
+            </div>
+            <div class="col-md-8 pt-4">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">No. EIGRP</th>
+                  <th scope="col">Red</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let eigrp of listaEigrpModel; index as i">
+                  <td>{{ eigrp.router_eigrp }}</td>
+                  <td>{{ eigrp.network }}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger dropdown-toggle"
+                        data-toggle="dropdown"
+                        title="Eliminar"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete
+                        </i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <button
+                          class="dropdown-item"
+                          (click)="eliminarEnrutamientoEigrp(i)"
+                        >
+                          Enrutamiento EIGRP
+                        </button>
+                        <button
+                          class="dropdown-item"
+                          (click)="eliminarDatosEigrp(i)"
+                        >
+                          solo la red
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-md-12 pt-4 justify-content-center"
+          *ngIf="ventana"
+        >
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <b
+                class="display-4"
+                style="font-size: 180%; color: #009574;"
+              >Enrutamiento usando RIP</b
+              >
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4 justify-content-center">
+              <form [formGroup]="formRip">
+                <div class="col-sm-12 pt-1 my-1">
+                  <label class="sr-only">
+                    Router rip
+                  </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <p class="material-icons" style="height: 9px;">
+                          code
+                        </p>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="router rip"
+                      disabled="true"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-sm-12 pt-1 my-1">
+                  <label class="sr-only">
+                    version
+                  </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <p class="material-icons" style="height: 9px;">
+                          code
+                        </p>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="version 2"
+                      disabled="true"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-sm-12 pt-1 my-1">
+                  <label class="sr-only">
+                    Ip
+                  </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <p class="material-icons" style="height: 9px;">
+                          code
+                        </p>
+                      </div>
+                    </div>
+                    <select class="form-control" formControlName="redRip" required>
+                      <option value="null">Selecciona una red IP</option>
+                      <option [value]="item" *ngFor="let item of listaIp">
+                        {{ item }}</option>
+                    </select>
+                  </div>
+                  <div
+                    class="errorsValidate"
+                    *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('pattern')">
+                    Revisa que el formato sea IPv4
+                  </div>
+                  <div
+                    class="errorsValidate"
+                    *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('required')">
+                    El campo es requerido
+                  </div>
+                </div>
+                <div class="col-sm-12 pt-4 justify-content-center">
+                  <button
+                    class="btn btn-outline-success"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    (click)="enviarDatosRip()"
+                    title="Guardar"
+                  >
+                    <p class="material-icons" style="height: 9px;">
+                      save
+                    </p>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pt-4">
+              <p class="display-4 text-center">
+                Comandos
+              </p>
+              <div class="ex3">
+                <pre></pre>
+                <p
+
+                  *ngFor="let comand of comandosRip"
+                >
+                  {{ comand }}
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-8 pt-4">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">Versión</th>
+                  <th scope="col">Red</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let ip of listaRipAsignadosModel; index as i">
+                  <td>Versión 2</td>
+                  <td>{{ ip.network }}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger dropdown-toggle"
+                        data-toggle="dropdown"
+                        title="Eliminar"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="material-icons" style="height: 9px;">
+                          delete
+                        </i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <button
+                          class="dropdown-item"
+                          (click)="eliminarEnrutamientoRip(i)"
+                        >
+                          Enrutamiento RIP
+                        </button>
+                        <button
+                          class="dropdown-item"
+                          (click)="eliminarDatosRip(i)"
+                        >
+                          solo la red
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--   BODY-->
+      </div>
+    </div>
   </div>
 </div>
