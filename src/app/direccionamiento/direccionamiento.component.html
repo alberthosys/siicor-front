@@ -65,7 +65,7 @@
                         </div>
                         <select (click)="selecSerial()" (change)="selecSerial()" class="form-control"
                                 formControlName="cableEntrada" required>
-                          <option value="null">Selecciona un cable</option>
+                          <option value="null">Selecciona una interface</option>
                           <option [value]="item" *ngFor="let item of listCables">
                             {{item}}
                           </option>
@@ -77,7 +77,7 @@
                       </div>
                       <div class="errorsValidate"
                            *ngIf="this.formInterfaces.controls.cableEntrada.touched && this.formInterfaces.controls.cableEntrada.hasError('pattern')">
-                        El formato debe ser fa0/0 | gig0/0 | se0/0
+                        El formato debe ser fa0/0 | gi0/0 | se0/0
                       </div>
                     </div>
                   </div>
@@ -267,7 +267,7 @@
                     </div>
                     <div class="errorsValidate"
                          *ngIf="this.formSubInterfaces.controls.cableEntrada.touched && this.formSubInterfaces.controls.cableEntrada.hasError('pattern')">
-                      El formato debe ser fa0/0 | gig0/0 | se0/0
+                      El formato debe ser fa0/0 | gi0/0 | se0/0
                     </div>
                   </div>
                 </div>
@@ -296,7 +296,7 @@
                     </div>
                     <div class="errorsValidate"
                          *ngIf="this.formSubInterfaces.controls.cableEntrada2.touched && this.formSubInterfaces.controls.cableEntrada2.hasError('pattern')">
-                      El formato debe ser fa0/0 | gig0/0 | se0/0
+                      El formato debe ser fa0/0 | gi0/0 | se0/0
                     </div>
                   </div>
                 </div>

@@ -306,11 +306,7 @@
                         {{ item }}</option>
                     </select>
                   </div>
-                  <div
-                    class="errorsValidate"
-                    *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('pattern')">
-                    Revisa que el formato sea IPv4
-                  </div>
+                 
                   <div
                     class="errorsValidate"
                     *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('required')">

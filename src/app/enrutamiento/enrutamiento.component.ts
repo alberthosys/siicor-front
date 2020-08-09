@@ -34,13 +34,16 @@ export class EnrutamientoComponent implements OnInit {
       redIp: [null, Validators.compose([Validators.required])]
     });
     this.formRip = formBuilder.group({
-      redRip: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])]
+      redRip: [null, Validators.compose([Validators.required])]
+      // Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')
     });
   }
 
   ngOnInit() {
-    this.api.consultaURLlibre('https://90eb3d7cd16a.ngrok.io/WebServiceSICOR/webservicesicor/enviar/texto?comando={%27comando%27:%27enable,123,terminal%20length%20300,sh%20ip%20route%27}').subscribe(
+    this.api.consultaURLlibre('http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/texto?comando={%27comando%27:%27enable,123,terminal%20length%20400,sh%20ip%20route%27}').subscribe(
       (response: any) => {
+        this.listaEigrpModel.length = 0;
+        this.listaIp.length = 0;
         if (response.respuesta.estado === 'success') {
           let cadena = response.respuesta.cadena.trim();
           let ips = cadena.split(',');
@@ -151,12 +154,13 @@ export class EnrutamientoComponent implements OnInit {
     comandsSend=comandsSend.substring(0,comandsSend.length-1);
     console.log("SEND->",comandsSend)
 
-    let url="https://90eb3d7cd16a.ngrok.io/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
+    let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
     console.log("url->",url)
     this.api.consultaURLlibre(url).subscribe((response:any)=>{
        console.log("response-register-eigrp",response);
       this.ngOnInit();
     })
+    this.ngOnInit();
     console.log('EIGRP ', this.comandosEigrp);
   }
 
@@ -171,6 +175,21 @@ export class EnrutamientoComponent implements OnInit {
     } else {
       this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
     }
+    let comandsSend:string='';
+    this.comandosRip.forEach((cmd,index)=>{
+      comandsSend+=cmd;
+        comandsSend+=","
+    })
+    comandsSend=comandsSend.substring(0,comandsSend.length-1);
+    console.log("SEND->",comandsSend)
+
+    let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
+    console.log("url->",url)
+    this.api.consultaURLlibre(url).subscribe((response:any)=>{
+       console.log("response-register-rip",response);
+      this.ngOnInit();
+    }) 
+    this.ngOnInit();
     console.log('RIP ', this.comandosRip);
   }
 
@@ -183,6 +202,21 @@ export class EnrutamientoComponent implements OnInit {
             this.listaEigrpModel[posicion].router_eigrp).trim()
           );
           console.log('EIGRP eliminar ', this.comandosEigrp);
+          let comandsSend:string='';
+        this.comandosEigrp.forEach((cmd,index)=>{
+          comandsSend+=cmd;
+          comandsSend+=","
+        })
+        comandsSend=comandsSend.substring(0,comandsSend.length-1);
+        console.log("SEND->",comandsSend)
+
+        let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
+        console.log("url->",url)
+        this.api.consultaURLlibre(url).subscribe((response:any)=>{
+          console.log("response-register-eigrp",response);
+          this.ngOnInit();
+        })
+        this.ngOnInit();
         }
       });
   }
@@ -212,12 +246,13 @@ export class EnrutamientoComponent implements OnInit {
         comandsSend=comandsSend.substring(0,comandsSend.length-1);
         console.log("SEND->",comandsSend)
 
-        let url="https://90eb3d7cd16a.ngrok.io/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
+        let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
         console.log("url->",url)
         this.api.consultaURLlibre(url).subscribe((response:any)=>{
           console.log("response-register-eigrp",response);
           this.ngOnInit();
         })
+        this.ngOnInit();
       }
     });
   }
