@@ -73,6 +73,17 @@ export class EnrutamientoComponent implements OnInit {
               this.listaIp=tempListIP;
             })
           })
+          this.listaRipModel.forEach((rip)=>{
+            this.listaIp.forEach((ip:any)=>{
+              let tempListIP:string[]=[];
+              console.log("UNO:"+ip+"DOS->"+rip.network)
+              console.log(!ip.includes(rip.network))
+              if(ip.includes(rip.network)){
+                tempListIP.push(ip)
+              }
+              this.listaIp=tempListIP;
+            })
+          })
 
         }
       }
