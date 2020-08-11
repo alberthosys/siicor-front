@@ -306,7 +306,7 @@
                         {{ item }}</option>
                     </select>
                   </div>
-                 
+
                   <div
                     class="errorsValidate"
                     *ngIf="formRip.controls.redRip.touched && formRip.controls.redRip.hasError('required')">
@@ -354,9 +354,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let ip of listaRipAsignadosModel; index as i">
+                <tr *ngFor="let ip of listaRipModel; index as i">
                   <td>Versión 2</td>
-                  <td>{{ ip.network }}</td>
+                  <td>{{ ip }}</td>
                   <td>
                     <div class="btn-group">
                       <button

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Sesion} from '../Sesion/sesion';
 import {Alert} from '../Alerts/Alert';
 import {SendComandsService} from '../services/send-comands.service';
+import {URLServer} from '../URL/URLServer';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     public build: FormBuilder,
     public ruta: Router,
-    public api:SendComandsService
+    public api: SendComandsService
   ) {
     this.form = this.build.group({
       // tslint:disable-next-line:max-line-length
@@ -41,18 +42,21 @@ export class HomeComponent implements OnInit {
   }
 
   buscarIP() {
-    // this.api.post({userid:1},'https://jsonplaceholder.typicode.com/posts').subscribe((response:any)=>{
-    //   console.log("RESPONSE_>",response)
-    // })
-    // this.api.consultaURLlibre("https://da3dd404ec2a.ngrok.io/WebServiceSICOR/webservicesicor/enviar/texto?comando={%27comando%27:%27enable,123,show%20ip%20route%27}").subscribe((response:any)=>{
-    //   console.log(response)
-    // })
-    console.log(this.form.valid);
-    if (this.form.valid) {
-      localStorage.setItem('localip', this.form.controls.ip.value);
-      this.ruta.navigate(['/configuracion']);
-    } else {
-      this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
-    }
+    console.log('f', this.form.value);
+    localStorage.setItem('localip', btoa(JSON.stringify(this.form.value)));
+    this.api.consultar(URLServer.sesion, '').subscribe((response: any) => {
+      console.log(response);
+      if (response.respuesta.estado === 'success') {
+        this.ruta.navigate(['/configuracion']);
+      } else {
+        localStorage.clear();
+        this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
+      }
+    });
+
+    // console.log(this.form.valid);
+    // if (this.form.valid) {
+    // } else {
+    // }
   }
 }

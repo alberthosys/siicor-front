@@ -31,21 +31,25 @@ export class SendComandsService {
 
 
   configUrl = 'assets/config.json';
+  public enviroments="https://eb964cac3169.ngrok.io/"
 
-  consultar(url: string) {
-    return this.http.get(Configuracion.direccion + url);
+  public url = 'WebServiceSICOR/webservicesicor/enviar/';
+  public middleURl='?comando={%27comando%27:';
+  public endURL='}';
+
+  consultar(url: string,datas:string) {
+    let userLocalStorage:User=JSON.parse(atob(localStorage.getItem("localip")))
+    let comando={
+      user:userLocalStorage,
+      comando:"enable,123,configure terminal,"+datas
+    }
+    console.log("comandos->",comando)
+    let urlSEND=this.enviroments+this.url+url+this.middleURl+JSON.stringify(comando).replace("'",'"')+this.endURL;
+    console.log("URL->",urlSEND)
+    return this.http.get(urlSEND);
   }
 
-  consultaURLlibre(url: string) {
-    return this.http.get(url);
-  }
 
-  post(object: any, url): Observable<any> {
-    return this.http.post<any>(url, object, httpOptions)
-      .pipe(
-        catchError(SendComandsService.handleError)
-      );
-  }
 
 
 }
@@ -56,3 +60,9 @@ const httpOptions = {
     Authorization: 'my-auth-token'
   })
 };
+
+export class User {
+  ip:string;
+  usuario:string;
+  clave:string;
+}

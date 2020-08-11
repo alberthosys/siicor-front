@@ -7,6 +7,7 @@ import {Routers} from '../ModelosComando/Routers';
 import {EigrpModel} from '../Modelos/EigrpModel';
 import {RipModel} from '../Modelos/RipModel';
 import {SendComandsService} from '../services/send-comands.service';
+import {URLServer} from '../URL/URLServer';
 
 @Component({
   selector: 'app-enrutamiento',
@@ -21,9 +22,7 @@ export class EnrutamientoComponent implements OnInit {
   public formEigrp: FormGroup;
   public formRip: FormGroup;
   public listaEigrpModel: EigrpModel[] = [];
-  public listaEigrpAsignadosModel: EigrpModel[] = [];
   public listaRipModel: RipModel[] = [];
-  public listaRipAsignadosModel: RipModel[] = [];
   public comandosEigrp: string[] = [];
   public comandosRip: string[] = [];
   public listaIp: string[] = [];
@@ -40,13 +39,22 @@ export class EnrutamientoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.api.consultaURLlibre('http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/texto?comando={%27comando%27:%27enable,123,terminal%20length%20400,sh%20ip%20route%27}').subscribe(
+    this.listaRipModel=[];
+    this.listaEigrpModel=[];
+    this.listaRipModel=[]
+    this.api.consultar(URLServer.texto,"").subscribe(
       (response: any) => {
-        this.listaEigrpModel.length = 0;
-        this.listaIp.length = 0;
+
+        console.log("RESP-ERUTAMIENTO->",response)
         if (response.respuesta.estado === 'success') {
           let cadena = response.respuesta.cadena.trim();
           let ips = cadena.split(',');
+          if(response.respuesta.cadenaRipExistente.length>0){
+            response.respuesta.cadenaRipExistente.forEach((ip:any)=>{
+              console.log("RIPIP->",ip)
+              this.listaRipModel.push(ip)
+            })
+          }
 
           ips.forEach((ip: any) => {
             console.log('S->', ip);
@@ -56,7 +64,7 @@ export class EnrutamientoComponent implements OnInit {
               let router_eigrp=temp[0].trim().split(" ");
               let network=temp[1].trim().split(":");
               this.listaEigrpModel.push({"router_eigrp":router_eigrp[1].trim(),"network":network[1].split()})
-            } else if(ip!="") {
+            } else if(ip!="" && ip!="//") {
               let temp=ip.split("/");
               this.listaIp.push(temp[0]+" 255.255.255.0");
             }
@@ -73,6 +81,8 @@ export class EnrutamientoComponent implements OnInit {
               this.listaIp=tempListIP;
             })
           })
+
+          console.log("RIP-LIST->",this.listaRipModel)
           this.listaRipModel.forEach((rip)=>{
             this.listaIp.forEach((ip:any)=>{
               let tempListIP:string[]=[];
@@ -84,6 +94,8 @@ export class EnrutamientoComponent implements OnInit {
               this.listaIp=tempListIP;
             })
           })
+          console.log("LIST->",this.listaIp)
+
 
         }
       }
@@ -109,33 +121,33 @@ export class EnrutamientoComponent implements OnInit {
     //   router_eigrp: '20',
     //   network: '192.168.50.0',
     // });
-    for (let i = 0; i < this.listaEigrpModel.length; i++) {
-      for (let l of this.listaEigrpAsignadosModel) {
-        if (this.listaEigrpModel[i].network == l.network) {
-          this.listaEigrpModel.splice(i, 1);
-        }
-      }
-    }
-    this.listaRipModel.push({
-      network: '192.168.10.0',
-    });
-    this.listaRipModel.push({
-      network: '10.10.10.0',
-    });
-    this.listaRipAsignadosModel.push({
-      network: '10.10.20.0',
-    });
-    this.listaRipAsignadosModel.push({
-      network: '10.10.10.0',
-    });
+    // for (let i = 0; i < this.listaEigrpModel.length; i++) {
+    //   for (let l of this.listaEigrpAsignadosModel) {
+    //     if (this.listaEigrpModel[i].network == l.network) {
+    //       this.listaEigrpModel.splice(i, 1);
+    //     }
+    //   }
+    // }
+    // this.listaRipModel.push({
+    //   network: '192.168.10.0',
+    // });
+    // this.listaRipModel.push({
+    //   network: '10.10.10.0',
+    // });
+    // this.listaRipAsignadosModel.push({
+    //   network: '10.10.20.0',
+    // });
+    // this.listaRipAsignadosModel.push({
+    //   network: '10.10.10.0',
+    // });
 
-    for (let i = 0; i < this.listaRipModel.length; i++) {
-      for (let l of this.listaRipAsignadosModel) {
-        if (this.listaRipModel[i].network == l.network) {
-          this.listaRipModel.splice(i, 1);
-        }
-      }
-    }
+    // for (let i = 0; i < this.listaRipModel.length; i++) {
+    //   for (let l of this.listaRipAsignadosModel) {
+    //     if (this.listaRipModel[i].network == l.network) {
+    //       this.listaRipModel.splice(i, 1);
+    //     }
+    //   }
+    // }
     this.checksesion();
   }
 
@@ -167,20 +179,21 @@ export class EnrutamientoComponent implements OnInit {
 
     let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
     console.log("url->",url)
-    this.api.consultaURLlibre(url).subscribe((response:any)=>{
-       console.log("response-register-eigrp",response);
-      this.ngOnInit();
-    })
+    // this.api.consultaURLlibre(url).subscribe((response:any)=>{
+    //    console.log("response-register-eigrp",response);
+    //   this.ngOnInit();
+    // })
     this.ngOnInit();
     console.log('EIGRP ', this.comandosEigrp);
   }
 
   enviarDatosRip() {
     //let comandos: string[] = [];
+    let ip=this.formRip.controls.redRip.value.split(" ")[0]
     if (this.formRip.valid) {
       this.comandosRip.push(this.routerComand.router_rip);
       this.comandosRip.push(this.routerComand.version_rip);
-      this.comandosRip.push(this.routerComand.network + this.formRip.controls.redRip.value);
+      this.comandosRip.push(this.routerComand.network + ip);
       this.comandosRip.push(this.routerComand.no_auto_summary);
       this.comandosRip.push(this.routerComand.exit);
     } else {
@@ -196,10 +209,9 @@ export class EnrutamientoComponent implements OnInit {
 
     let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
     console.log("url->",url)
-    this.api.consultaURLlibre(url).subscribe((response:any)=>{
-       console.log("response-register-rip",response);
-      this.ngOnInit();
-    }) 
+    this.api.consultar(URLServer.envioDatos,comandsSend).subscribe((response:any)=>{
+      console.log("RESPONSE-rip")
+    })
     this.ngOnInit();
     console.log('RIP ', this.comandosRip);
   }
@@ -223,10 +235,10 @@ export class EnrutamientoComponent implements OnInit {
 
         let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
         console.log("url->",url)
-        this.api.consultaURLlibre(url).subscribe((response:any)=>{
-          console.log("response-register-eigrp",response);
-          this.ngOnInit();
-        })
+        // this.api.consultaURLlibre(url).subscribe((response:any)=>{
+        //   console.log("response-register-eigrp",response);
+        //   this.ngOnInit();
+        // })
         this.ngOnInit();
         }
       });
@@ -259,10 +271,10 @@ export class EnrutamientoComponent implements OnInit {
 
         let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
         console.log("url->",url)
-        this.api.consultaURLlibre(url).subscribe((response:any)=>{
-          console.log("response-register-eigrp",response);
-          this.ngOnInit();
-        })
+        // this.api.consultaURLlibre(url).subscribe((response:any)=>{
+        //   console.log("response-register-eigrp",response);
+        //   this.ngOnInit();
+        // })
         this.ngOnInit();
       }
     });
@@ -273,10 +285,20 @@ export class EnrutamientoComponent implements OnInit {
       if (response.value) {
         this.comandosRip.push(this.routerComand.router_rip);
         this.comandosRip.push(
-          this.routerComand.no_network +
-          this.listaRipAsignadosModel[posicion].network);
+          this.routerComand.no_network +this.listaRipModel[posicion]);
         this.comandosRip.push(this.routerComand.exit);
         console.log('RIP eliminar ', this.comandosRip);
+        let comandos:string=""
+        this.comandosRip.forEach((cmd:any)=>{
+          comandos+=cmd;
+          comandos+=",";
+        })
+        comandos=comandos.substring(0,comandos.length-1)
+      this.api.consultar(URLServer.envioDatos,comandos).subscribe((response:any)=>{
+        console.log("RESPONSE-DELETE-ONE-RIP->",response);
+      })
+        this.ngOnInit()
+
       }
     });
 
@@ -287,6 +309,15 @@ export class EnrutamientoComponent implements OnInit {
       if (resolve.value) {
         this.comandosRip.push(this.routerComand.no_router_rip);
         console.log('RIP eliminar ', this.comandosRip);
+        let comandos:string=""
+        this.comandosRip.forEach((cmd)=>{
+          comandos+=cmd;
+        })
+        this.api.consultar(URLServer.envioDatos,comandos).subscribe((response:any)=>{
+          console.log("RIP-DELETE;->",response)
+        })
+        this.ngOnInit()
+
       }
     });
   }
