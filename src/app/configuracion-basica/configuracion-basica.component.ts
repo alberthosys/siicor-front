@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {Routers} from "../ModelosComando/Routers";
 import {Switch} from "../ModelosComando/Switch";
 import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {URLServer} from '../URL/URLServer';
+import {SendComandsService} from '../services/send-comands.service';
 
 @Component({
   selector: 'app-configuracion-basica',
@@ -25,7 +27,8 @@ export class ConfiguracionBasicaComponent implements OnInit {
 
   constructor(
     public ruta: Router,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public api:SendComandsService
   ) {
     this.formConsole = formBuilder.group({
       enabled: [this.routerComand.enabled],
@@ -79,7 +82,8 @@ export class ConfiguracionBasicaComponent implements OnInit {
       this.alerta.alertError("Revisa que todos los campos esten correctos!")
       return
     }
-    if (this.formConsole.valid) {
+    let info:any= JSON.parse(atob(localStorage.getItem("localip")));
+    if (this.formConsole.valid && this.formConsole.controls.last_password.value===info.clave) {
       comands.push(this.formConsole.controls.last_password.value);
       comands.push(this.routerComand.enabled);
       comands.push(this.routerComand.config_terminal);
@@ -87,11 +91,19 @@ export class ConfiguracionBasicaComponent implements OnInit {
       comands.push(this.routerComand.password + this.formConsole.controls.password.value);
       comands.push(this.routerComand.login);
       comands.push(this.routerComand.exit);
+      let sendComands = '';
+      comands.forEach((cmd) => {
+        sendComands += cmd + ',';
+      });
+      sendComands = sendComands.substring(0, sendComands.length - 1);
+      this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
+        console.log('change-console', response);
+      });
+      // this.ngOnInit();
     } else {
       this.alerta.alertError("Revisa que todos los campos esten correctos!")
     }
 
-    console.log("comands->", comands)
   }
 
   actualizarVTY() {
@@ -110,6 +122,15 @@ export class ConfiguracionBasicaComponent implements OnInit {
       comands.push(this.routerComand.password + this.formConsole.controls.password.value);
       comands.push(this.routerComand.login);
       comands.push(this.routerComand.exit);
+      let sendComands = '';
+      comands.forEach((cmd) => {
+        sendComands += cmd + ',';
+      });
+      sendComands = sendComands.substring(0, sendComands.length - 1);
+      this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
+        console.log('change-console', response);
+      });
+      // this.ngOnInit();
     } else {
       this.alerta.alertError("Revisa que todos los campos esten correctos!")
     }
