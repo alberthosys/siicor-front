@@ -36,7 +36,7 @@ export class AclComponent implements OnInit {
   constructor(
     public ruta: Router,
     public formBuilder: FormBuilder,
-    public api:SendComandsService,
+    public api: SendComandsService,
   ) {
     this.formAclEstandar = formBuilder.group({
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
@@ -60,6 +60,11 @@ export class AclComponent implements OnInit {
 
   ngOnInit() {
     this.checksesion();
+    this.api.consultar(URLServer.seguridad,'').subscribe((response)=>{
+      console.log("RESP-ACC->",response)
+    })
+
+
     let response: any = {
       respuesta: {
         estado: 'success',
@@ -143,8 +148,12 @@ export class AclComponent implements OnInit {
         });
         widlcard2 = wildcard.substring(0, widlcard2.length - 1);
       }
-
-      comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value + ' ' + wildcard + (!this.host_any ? this.comandos.host : this.comandos.any) + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : '') +' eq '+ this.formAclExtendida.controls.puerto.value);
+      let protocolo = this.formAclExtendida.controls.protocolo.value;
+      if (protocolo.toLowerCase().includes('tcp') || protocolo.toLowerCase().includes('udp')) {
+        comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value + ' ' + wildcard + (!this.host_any ? this.comandos.host : this.comandos.any) + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : '') + ' eq ' + this.formAclExtendida.controls.puerto.value);
+      } else {
+        comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value+' '+wildcard + (!this.host_any ? this.comandos.host : this.comandos.any) + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : ''));
+      }
       comands.push(this.comandos.int + this.formAclExtendida.controls.cableEntrada.value);
       comands.push(this.comandos.ip_acess_group + this.formAclExtendida.controls.group.value + ' ' + (this.in_out2 ? 'out ' : 'in '));
       comands.push(this.comandos.exit);

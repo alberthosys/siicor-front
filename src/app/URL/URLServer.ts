@@ -3,5 +3,5 @@ export const URLServer = {
   'texto': 'texto',
   'sesion': 'sesion',
   'direccionamiento': 'direccionamiento',
-  'seguridad ': 'seguridad'
+  'seguridad': 'seguridad'
 };

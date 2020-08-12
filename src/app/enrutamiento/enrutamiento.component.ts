@@ -42,6 +42,7 @@ export class EnrutamientoComponent implements OnInit {
     this.listaRipModel=[];
     this.listaEigrpModel=[];
     this.listaRipModel=[]
+    this.listaIp=[];
     this.api.consultar(URLServer.texto,"").subscribe(
       (response: any) => {
 
@@ -159,7 +160,6 @@ export class EnrutamientoComponent implements OnInit {
   }
 
   enviarDatosEigrp() {
-    //let comandos: string[] = [];
     if (this.formEigrp.valid) {
       this.comandosEigrp.push(this.routerComand.router_eigrp + this.formEigrp.controls.asn.value);
       this.comandosEigrp.push(this.routerComand.network + this.formEigrp.controls.redIp.value);
@@ -168,7 +168,6 @@ export class EnrutamientoComponent implements OnInit {
     } else {
       this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
     }
-    //http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={comando:enable,123,configure terminal,router eigrp 2,net 192.168.0.0}
     let comandsSend:string='';
     this.comandosEigrp.forEach((cmd,index)=>{
       comandsSend+=cmd;
@@ -177,12 +176,10 @@ export class EnrutamientoComponent implements OnInit {
     comandsSend=comandsSend.substring(0,comandsSend.length-1);
     console.log("SEND->",comandsSend)
 
-    let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
-    console.log("url->",url)
-    // this.api.consultaURLlibre(url).subscribe((response:any)=>{
-    //    console.log("response-register-eigrp",response);
-    //   this.ngOnInit();
-    // })
+    this.api.consultar(URLServer.envioDatos,comandsSend).subscribe((response:any)=>{
+       console.log("response-register-eigrp",response);
+      this.ngOnInit();
+    })
     this.ngOnInit();
     console.log('EIGRP ', this.comandosEigrp);
   }
@@ -207,8 +204,6 @@ export class EnrutamientoComponent implements OnInit {
     comandsSend=comandsSend.substring(0,comandsSend.length-1);
     console.log("SEND->",comandsSend)
 
-    let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
-    console.log("url->",url)
     this.api.consultar(URLServer.envioDatos,comandsSend).subscribe((response:any)=>{
       console.log("RESPONSE-rip")
     })
@@ -232,13 +227,10 @@ export class EnrutamientoComponent implements OnInit {
         })
         comandsSend=comandsSend.substring(0,comandsSend.length-1);
         console.log("SEND->",comandsSend)
-
-        let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
-        console.log("url->",url)
-        // this.api.consultaURLlibre(url).subscribe((response:any)=>{
-        //   console.log("response-register-eigrp",response);
-        //   this.ngOnInit();
-        // })
+        this.api.consultar(URLServer.envioDatos,comandsSend).subscribe((response:any)=>{
+          console.log("response-register-eigrp",response);
+          this.ngOnInit();
+        })
         this.ngOnInit();
         }
       });
@@ -268,13 +260,10 @@ export class EnrutamientoComponent implements OnInit {
         })
         comandsSend=comandsSend.substring(0,comandsSend.length-1);
         console.log("SEND->",comandsSend)
-
-        let url="http://localhost:8080/WebServiceSICOR/webservicesicor/enviar/envioDatos?comando={%27comando%27:%27enable,123,configure terminal,"+comandsSend+"%27}";
-        console.log("url->",url)
-        // this.api.consultaURLlibre(url).subscribe((response:any)=>{
-        //   console.log("response-register-eigrp",response);
-        //   this.ngOnInit();
-        // })
+        this.api.consultar(URLServer.envioDatos,comandsSend).subscribe((response:any)=>{
+          console.log("response-register-eigrp",response);
+          this.ngOnInit();
+        })
         this.ngOnInit();
       }
     });

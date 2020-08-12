@@ -33,14 +33,14 @@ export class DireccionamientoComponent implements OnInit {
 
   constructor(public ruta: Router, public formBuilder: FormBuilder, public api: SendComandsService) {
     this.formInterfaces = this.formBuilder.group({
-      cableEntrada: [null, Validators.compose([Validators.required, Validators.pattern('^(FastEthernet|GigabitEthernet|Serial)[0-9]/[0-9]$')])],
+      cableEntrada: [null, Validators.compose([Validators.required])],
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
       mask: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
     });
     this.formSubInterfaces = this.formBuilder.group({
       vlan: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
-      cableEntrada: [null, Validators.compose([Validators.required, Validators.pattern('^(FastEthernet|GigabitEthernet|Serial)[0-9]/[0-9]$')])],
-      cableEntrada2: [null, Validators.compose([Validators.required, Validators.pattern('^(FastEthernet|GigabitEthernet|Serial)[0-9]/[0-9]$')])],
+      cableEntrada: [null, Validators.compose([Validators.required])],
+      cableEntrada2: [null, Validators.compose([Validators.required])],
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
       mask: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
     });
@@ -53,33 +53,28 @@ export class DireccionamientoComponent implements OnInit {
 
   ngOnInit() {
     this.checksesion();
-    // this.api.consultar(URLServer.direccionamiento,'').subscribe((response:any)=>{
-    //   //Consulta de los cables
-    // })
-    let response: any = {
-      'respuesta': {
-        'estado': 'success',
-        'interfaces': ['GigabitEthernet0/0', 'GigabitEthernet0/1'],
-        'subinterfaceIp': [],
-        'subinterfaces': [],
-        'interfaceIp': ['GigabitEthernet0/0 ip address 192.168.0.50 255.255.255.0 du', 'GigabitEthernet0/1 ip address 192.168.1.101 255.255.255.0 d'
-        ]
+    this.listCables=[];
+    this.listSubInterfaces=[];
+    this.listInterfaces=[];
+    this.api.consultar(URLServer.direccionamiento,'').subscribe((response:any)=>{
+      console.log("DIR.>",response)
+      if (response.respuesta.estado === 'success') {
+        this.listCables = [];
+        response.respuesta.interfaces.forEach((int) => {
+          this.listCables.push(int);
+        });
+        response.respuesta.subinterfaces.forEach((sb)=>{
+          this.listSubInterfaces.push(sb)
+        })
+        response.respuesta.interfaceIp.forEach((int)=>{
+          let save= int.split(" ");
+          this.listInterfaces.push({cable: save[0], ip: save[3], mask: save[4]});
+        })
       }
-    };
+    })
 
-    if (response.respuesta.estado === 'success') {
-      this.listCables = [];
-      response.respuesta.interfaces.forEach((int) => {
-        this.listCables.push(int);
-      });
-      response.respuesta.subinterfaces.forEach((sb)=>{
-        this.listSubInterfaces.push(sb)
-      })
-      response.respuesta.interfaceIp.forEach((int)=>{
-        let save= int.split(" ");
-        this.listInterfaces.push({cable: save[0], ip: save[3], mask: save[4]});
-      })
-    }
+
+
   }
 
   selecSerial() {
@@ -121,7 +116,7 @@ export class DireccionamientoComponent implements OnInit {
       this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
         console.log('RESPONSE-SAVE-DIR->', response);
       });
-      // this.ngOnInit();
+      this.ngOnInit();
     } else {
       this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
     }
@@ -149,7 +144,7 @@ export class DireccionamientoComponent implements OnInit {
         this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
           console.log('RESPONSE-SAVE-DIR-d->', response);
         });
-        // this.ngOnInit();
+        this.ngOnInit();
         this.alerta.alertSuccess('Se ha eliminado exitosamente !');
       }
     });
@@ -159,7 +154,8 @@ export class DireccionamientoComponent implements OnInit {
     let comands: string[] = [];
     if (this.formSubInterfaces.valid) {
       let cable2: string = this.formSubInterfaces.controls.cableEntrada2.value.toString();
-      cable2 = cable2.substring(cable2.length - 1, cable2.length);
+      cable2=cable2.replace(" ","");
+      cable2 = cable2.substring(cable2.length - 3, cable2.length);
       comands.push(this.routerComands.int + this.formSubInterfaces.controls.cableEntrada.value + '.' + cable2);
       comands.push(this.routerComands.encapsulation_dot1q + this.formSubInterfaces.controls.vlan.value);
       comands.push(this.routerComands.ip_address + this.formSubInterfaces.controls.ipEntrada.value + ' ' + this.formSubInterfaces.controls.mask.value);
@@ -173,7 +169,7 @@ export class DireccionamientoComponent implements OnInit {
       this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
         console.log('RESPONSE-SAVE-sub->', response);
       });
-      // this.ngOnInit();
+      this.ngOnInit();
     } else {
       this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
     }
@@ -183,13 +179,12 @@ export class DireccionamientoComponent implements OnInit {
     });
   }
 
-  eliminarSubInterface() {
+  eliminarSubInterface(item:string) {
     alertConfirm.fire({html: 'Esta seguro que desea eliminar la subInterface'}).then((response) => {
       if (response.value) {
         let comands: string[] = [];
-        if (this.formEliminarSubInt.valid) {
-          comands.push(this.routerComands.int + this.selectCable);
-          comands.push('no ' + this.routerComands.ip_address + this.formEliminarSubInt.controls.ipEntrada.value + ' ' + this.formEliminarSubInt.controls.mask.value);
+        if (true) {
+          comands.push("no interface "+item);
           comands.push(this.routerComands.exit);
           this.alerta.alertSuccess('Se ha eliminado exitosamente !');
           let sendComands = '';
@@ -200,7 +195,7 @@ export class DireccionamientoComponent implements OnInit {
           this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
             console.log('RESPONSE-SAVE-sub-d->', response);
           });
-          // this.ngOnInit();
+          this.ngOnInit();
         } else {
           this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
         }

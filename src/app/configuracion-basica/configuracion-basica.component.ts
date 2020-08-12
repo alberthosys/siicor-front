@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Sesion} from "../Sesion/sesion";
-import {Alert} from "../Alerts/Alert";
-import {Router} from "@angular/router";
-import {Routers} from "../ModelosComando/Routers";
-import {Switch} from "../ModelosComando/Switch";
-import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Sesion} from '../Sesion/sesion';
+import {Alert} from '../Alerts/Alert';
+import {Router} from '@angular/router';
+import {Routers} from '../ModelosComando/Routers';
+import {Switch} from '../ModelosComando/Switch';
+import {Form, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {URLServer} from '../URL/URLServer';
 import {SendComandsService} from '../services/send-comands.service';
 
@@ -28,7 +28,7 @@ export class ConfiguracionBasicaComponent implements OnInit {
   constructor(
     public ruta: Router,
     public formBuilder: FormBuilder,
-    public api:SendComandsService
+    public api: SendComandsService
   ) {
     this.formConsole = formBuilder.group({
       enabled: [this.routerComand.enabled],
@@ -55,38 +55,37 @@ export class ConfiguracionBasicaComponent implements OnInit {
       confirm_password: ['', Validators.compose([Validators.required])],
       login: [this.routerComand.login],
       exit: [this.routerComand.exit],
-    })
+    });
   }
 
 
   ngOnInit() {
-    this.checksesion()
-    console.log(this.routerComand.enabled)
-    console.log(this.routerComand.config_terminal)
-    console.log(this.routerComand.line_console_0)
-    console.log(this.routerComand.password + " cisco")
-    console.log(this.routerComand.login)
-    console.log(this.routerComand.exit)
+    this.checksesion();
+    console.log(this.routerComand.enabled);
+    console.log(this.routerComand.config_terminal);
+    console.log(this.routerComand.line_console_0);
+    console.log(this.routerComand.password + ' cisco');
+    console.log(this.routerComand.login);
+    console.log(this.routerComand.exit);
   }
 
   checksesion() {
     if (!this.sesion.getSesion()) {
-      this.alerta.alertError('¡ No se ha iniciado sesión !')
-      this.ruta.navigate([''])
+      this.alerta.alertError('¡ No se ha iniciado sesión !');
+      this.ruta.navigate(['']);
     }
   }
 
   actualizarLineConsole() {
     let comands: string[] = [];
     if (this.formConsole.controls.password.value != this.formConsole.controls.confirm_password.value) {
-      this.alerta.alertError("Revisa que todos los campos esten correctos!")
-      return
+      this.alerta.alertError('Revisa que todos los campos esten correctos!');
+      return;
     }
-    let info:any= JSON.parse(atob(localStorage.getItem("localip")));
-    if (this.formConsole.valid && this.formConsole.controls.last_password.value===info.clave) {
-      comands.push(this.formConsole.controls.last_password.value);
-      comands.push(this.routerComand.enabled);
-      comands.push(this.routerComand.config_terminal);
+    let info: any = JSON.parse(atob(localStorage.getItem('localip')));
+    alert(this.formConsole.controls.password.value);
+
+    if (this.formConsole.valid && this.formConsole.controls.last_password.value === info.clave) {
       comands.push(this.routerComand.line_console_0);
       comands.push(this.routerComand.password + this.formConsole.controls.password.value);
       comands.push(this.routerComand.login);
@@ -96,30 +95,29 @@ export class ConfiguracionBasicaComponent implements OnInit {
         sendComands += cmd + ',';
       });
       sendComands = sendComands.substring(0, sendComands.length - 1);
-      this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
-        console.log('change-console', response);
-      });
+      // this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
+      //   console.log('change-console', response);
+      // });
       // this.ngOnInit();
     } else {
-      this.alerta.alertError("Revisa que todos los campos esten correctos!")
+      this.alerta.alertError('Revisa que todos los campos esten correctos!');
     }
 
   }
 
   actualizarVTY() {
+
     let comands: string[] = [];
-  if(this.formVty.controls.valorMax.value!=null && this.formVty.controls.valorMax.value.trim()==''){
-    this.formVty.controls.valorMax.setValue(null);
-  }
-  if(this.formVty.controls.valorMax.value && this.formVty.controls.valorMinimo.value>=this.formVty.controls.valorMax.value){
-    this.alerta.alertError("Revisa que todos los campos esten correctos!")
-    return
-  }
+    if (this.formVty.controls.valorMax.value != null && this.formVty.controls.valorMax.value.trim() == '') {
+      this.formVty.controls.valorMax.setValue(null);
+    }
+    if (this.formVty.controls.valorMax.value && this.formVty.controls.valorMinimo.value >= this.formVty.controls.valorMax.value) {
+      this.alerta.alertError('Revisa que todos los campos esten correctos!');
+      return;
+    }
     if (this.formVty.valid) {
-      comands.push(this.routerComand.enabled);
-      comands.push(this.routerComand.config_terminal);
-      comands.push(this.routerComand.line_vty + (this.formVty.controls.valorMax.value? this.formVty.controls.valorMinimo.value + ' ' + this.formVty.controls.valorMax.value : this.formVty.controls.valorMinimo.value));
-      comands.push(this.routerComand.password + this.formConsole.controls.password.value);
+      comands.push(this.routerComand.line_vty + (this.formVty.controls.valorMax.value ? this.formVty.controls.valorMinimo.value + ' ' + this.formVty.controls.valorMax.value : this.formVty.controls.valorMinimo.value));
+      comands.push(this.routerComand.password + this.formVty.controls.password.value);
       comands.push(this.routerComand.login);
       comands.push(this.routerComand.exit);
       let sendComands = '';
@@ -130,11 +128,11 @@ export class ConfiguracionBasicaComponent implements OnInit {
       this.api.consultar(URLServer.envioDatos, sendComands).subscribe((response) => {
         console.log('change-console', response);
       });
-      // this.ngOnInit();
+      this.ngOnInit();
     } else {
-      this.alerta.alertError("Revisa que todos los campos esten correctos!")
+      this.alerta.alertError('Revisa que todos los campos esten correctos!');
     }
-    console.log(comands)
+    console.log(comands);
   }
 
 }

@@ -31,7 +31,7 @@ export class SendComandsService {
 
 
   configUrl = 'assets/config.json';
-  public enviroments="https://eb964cac3169.ngrok.io/"
+  public enviroments="https://c4a8651022dd.ngrok.io/"
 
   public url = 'WebServiceSICOR/webservicesicor/enviar/';
   public middleURl='?comando={%27comando%27:';

@@ -75,10 +75,7 @@
                            *ngIf="this.formInterfaces.controls.cableEntrada.touched && this.formInterfaces.controls.cableEntrada.hasError('required')">
                         El campo es requerido
                       </div>
-                      <div class="errorsValidate"
-                           *ngIf="this.formInterfaces.controls.cableEntrada.touched && this.formInterfaces.controls.cableEntrada.hasError('pattern')">
-                        El formato debe ser fa0/0 | gi0/0 | se0/0
-                      </div>
+
                     </div>
                   </div>
                   <div class="col-sm-3">
@@ -265,10 +262,7 @@
                          *ngIf="this.formSubInterfaces.controls.cableEntrada.touched && this.formSubInterfaces.controls.cableEntrada.hasError('required')">
                       El campo es requerido
                     </div>
-                    <div class="errorsValidate"
-                         *ngIf="this.formSubInterfaces.controls.cableEntrada.touched && this.formSubInterfaces.controls.cableEntrada.hasError('pattern')">
-                      El formato debe ser fa0/0 | gi0/0 | se0/0
-                    </div>
+
                   </div>
                 </div>
                 <div class="col-sm-3">
@@ -293,10 +287,6 @@
                     <div class="errorsValidate"
                          *ngIf="this.formSubInterfaces.controls.cableEntrada2.touched && this.formSubInterfaces.controls.cableEntrada2.hasError('required')">
                       El campo es requerido
-                    </div>
-                    <div class="errorsValidate"
-                         *ngIf="this.formSubInterfaces.controls.cableEntrada2.touched && this.formSubInterfaces.controls.cableEntrada2.hasError('pattern')">
-                      El formato debe ser fa0/0 | gi0/0 | se0/0
                     </div>
                   </div>
                 </div>
@@ -378,8 +368,7 @@
                     <tr *ngFor="let item of listSubInterfaces">
                       <td>{{item}}</td>
                       <td>
-                        <button (click)="selectCable=item" type="button" class="btn btn-outline-danger"
-                                data-toggle="modal" data-target="#myModal">
+                        <button class="btn btn-outline-danger" (click)="eliminarSubInterface(item)">
                           <p class="material-icons" style="height: 9px;">delete</p>
                         </button>
                       </td>
@@ -468,7 +457,7 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-danger text-white" data-dismiss="modal">X</button>
-        <button type="button" (click)="eliminarSubInterface()" class="btn btn-success btn-sm" style="height: 40px" data-dismiss="modal"><p class="material-icons">save</p></button>
+        <button type="button"  class="btn btn-success btn-sm" style="height: 40px" data-dismiss="modal"><p class="material-icons">save</p></button>
       </div>
 
     </div>
