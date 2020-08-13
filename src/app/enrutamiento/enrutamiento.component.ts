@@ -39,6 +39,7 @@ export class EnrutamientoComponent implements OnInit {
   }
 
   ngOnInit() {
+    alert("sads")
     this.listaRipModel = [];
     this.listaEigrpModel = [];
     this.listaRipModel = [];
@@ -57,7 +58,6 @@ export class EnrutamientoComponent implements OnInit {
             }
           });
           this.listaIp = tempListIP;
-
           response.respuesta.cadenaEigrpExistente.forEach((eigrp) => {
             eigrp = eigrp.replace('\n', ' ');
             eigrp = eigrp.replace('Networks:', ' ');
