@@ -39,7 +39,6 @@ export class EnrutamientoComponent implements OnInit {
   }
 
   ngOnInit() {
-    alert("sads")
     this.listaRipModel = [];
     this.listaEigrpModel = [];
     this.listaRipModel = [];
@@ -58,6 +57,7 @@ export class EnrutamientoComponent implements OnInit {
             }
           });
           this.listaIp = tempListIP;
+          console.log("aaaaa->",this.listaIp)
           response.respuesta.cadenaEigrpExistente.forEach((eigrp) => {
             eigrp = eigrp.replace('\n', ' ');
             eigrp = eigrp.replace('Networks:', ' ');
@@ -255,8 +255,9 @@ export class EnrutamientoComponent implements OnInit {
         console.log('RIP eliminar ', this.comandosRip);
         let comandos: string = '';
         this.comandosRip.forEach((cmd) => {
-          comandos += cmd;
+          comandos += cmd+",";
         });
+        comandos=comandos.substring(0,comandos.length-1);
         this.api.consultar(URLServer.envioDatos, comandos).subscribe((response: any) => {
           console.log('RIP-DELETE;->', response);
         });

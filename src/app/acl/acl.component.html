@@ -412,7 +412,7 @@
                     <b class="display-4" style="font-size: 150%;" *ngIf="!permit_deny2">deny</b>
                   </div>
                 </div>
-                <div class="col-sm-1">
+                <div class="col-sm-1" *ngIf="false">
                   <div class="col-md-12">
                     <button class="btn btn-sm btn-primary" (click)="host_any=!host_any">
                       <p class="material-icons" style="margin-bottom:-20px" *ngIf="host_any">toggle_off</p>
@@ -420,7 +420,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-sm-1 pt-2">
+                <div class="col-sm-1 pt-2" *ngIf="false">
                   <div class="col-md-12">
                     <b class="display-4" style="font-size: 150%;" *ngIf="host_any">any</b>
                     <b class="display-4" style="font-size: 150%;" *ngIf="!host_any">host</b>
