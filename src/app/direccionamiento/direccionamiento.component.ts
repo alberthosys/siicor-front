@@ -51,34 +51,32 @@ export class DireccionamientoComponent implements OnInit {
 
 
   ngOnInit() {
+    this.clear();
     this.checksesion();
-    this.listCables=[];
-    this.listSubInterfaces=[];
-    this.listInterfaces=[];
-    this.api.consultar(URLServer.direccionamiento,'').subscribe((response:any)=>{
-      console.log("DIR.>",response)
+    this.listCables = [];
+    this.listSubInterfaces = [];
+    this.listInterfaces = [];
+    this.api.consultar(URLServer.direccionamiento, '').subscribe((response: any) => {
+      console.log('DIR.>', response);
       if (response.respuesta.estado === 'success') {
         this.listCables = [];
         response.respuesta.interfaces.forEach((int) => {
           this.listCables.push(int);
         });
-        response.respuesta.subinterfaces.forEach((sb)=>{
-          this.listSubInterfaces.push(sb)
-        })
-        response.respuesta.interfaceIp.forEach((int)=>{
-          let save= int.split(" ");
+        response.respuesta.subinterfaces.forEach((sb) => {
+          this.listSubInterfaces.push(sb);
+        });
+        response.respuesta.interfaceIp.forEach((int) => {
+          let save = int.split(' ');
           this.listInterfaces.push({cable: save[0], ip: save[3], mask: save[4]});
-        })
+        });
       }
-    })
-
-
-
+    });
   }
 
   selecSerial() {
     let cable: string = this.formInterfaces.controls.cableEntrada.value;
-    if(cable){
+    if (cable) {
       if (cable.includes('se')) {
         this.showClockRate = true;
         this.formInterfaces.addControl('clockrate', new FormControl([null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(64000)])]));
@@ -175,12 +173,12 @@ export class DireccionamientoComponent implements OnInit {
     });
   }
 
-  eliminarSubInterface(item:string) {
+  eliminarSubInterface(item: string) {
     alertConfirm.fire({html: 'Esta seguro que desea eliminar la subInterface'}).then((response) => {
       if (response.value) {
         let comands: string[] = [];
         if (true) {
-          comands.push("no interface "+item);
+          comands.push('no interface ' + item);
           comands.push(this.routerComands.exit);
           this.alerta.alertSuccess('Se ha eliminado exitosamente !');
           let sendComands = '';
@@ -202,6 +200,20 @@ export class DireccionamientoComponent implements OnInit {
       }
     });
   }
+
+  public clear() {
+    this.formInterfaces.controls.cableEntrada.setValue(null);
+    this.formInterfaces.controls.ipEntrada.setValue(null);
+    this.formInterfaces.controls.mask.setValue(null);
+    this.formSubInterfaces.controls.vlan.setValue(null);
+    this.formSubInterfaces.controls.cableEntrada.setValue(null);
+    this.formSubInterfaces.controls.ipEntrada.setValue(null);
+    this.formSubInterfaces.controls.mask.setValue(null);
+    this.formEliminarSubInt.controls.ipEntrada.setValue(null);
+    this.formEliminarSubInt.controls.mask.setValue(null);
+
+  }
+
 }
 
 class Datos {

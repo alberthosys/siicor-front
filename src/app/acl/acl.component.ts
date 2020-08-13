@@ -57,13 +57,29 @@ export class AclComponent implements OnInit {
       group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(100)])]
     });
   }
+  public clear(){
+    this.formAclEstandar.controls.ipEntrada.setValue(null);
+    this.formAclEstandar.controls.group.setValue(null);
+    this.formAclEstandar.controls.cableEntrada.setValue(null);
+    this.formAclExtendida.controls.ipEntrada.setValue(null);
+    this.formAclExtendida.controls.mask.setValue(null);
+    this.formAclExtendida.controls.protocolo.setValue(null);
+    this.formAclExtendida.controls.ipDestino.setValue(null);
+    this.formAclExtendida.controls.mask2.setValue(null);
+    this.formAclExtendida.controls.group.setValue(null);
+    this.formAclExtendida.controls.cableEntrada.setValue(null);
+    this.formAclExtendida.controls.puerto.setValue(null);
+    this.formEliminar.controls.group.setValue(null);
+  }
 
   ngOnInit() {
+    this.clear();
     this.checksesion();
     this.listClables=[];
     this.listACLlist=[];
     this.listACLlist2=[];
     this.listProcolos=[];
+
     this.api.consultar(URLServer.seguridad,'').subscribe((response:any)=>{
       console.log("RESP-ACC->",response)
       if (response.respuesta.estado === 'success') {
@@ -188,7 +204,11 @@ export class AclComponent implements OnInit {
         let aclTemp:string[]=acl.split(" ");
         let comand: string = 'no ' + aclTemp[0]+"-"+aclTemp[1]+" "+aclTemp[2];
         console.log('ELiminar->' + comand);
-        this.globalComands.push(comand);
+        if(!this.ventana){
+          this.globalComands.push(comand);
+        }else{
+          this.globalComands2.push(comand);
+        }
         this.alerta.alertSuccess('Se ha eliminado exitosamente !');
         this.api.consultar(URLServer.envioDatos,comand).subscribe((response)=>{
           console.log("ResponseDeleteACL->",response)
@@ -196,21 +216,6 @@ export class AclComponent implements OnInit {
       }
     });
     this.ngOnInit();
-
-  }
-
-  eliminarExtentida() {
-    alertConfirm.fire({html: 'Se eliminarán todas las sentencias asociadas a esta lista de acceso. ¿Está seguro que desea eliminar este grupo?'}).then((response) => {
-      if (response.value) {
-        console.log('IP->', this.itemReference);
-        let split: string[] = this.itemReference.split(' ');
-        let comand: string = 'no ' + this.comandos.access_list + ' ' + this.formEliminar.controls.group.value + ' permit ' + split[2] + ' ' + split[3];
-        console.log('1ELiminar->' + comand);
-        this.globalComands2.push(comand);
-        this.alerta.alertSuccess('Se ha eliminado exitosamente !');
-      }
-      this.ngOnInit();
-    });
 
   }
 

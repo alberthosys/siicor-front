@@ -40,6 +40,7 @@ export class ConfiguracionBasicaComponent implements OnInit {
       login: [this.routerComand.login],
       exit: [this.routerComand.exit]
     });
+
     this.formVty = formBuilder.group({
       enabled: [this.routerComand.enabled],
       config_terminal: [this.routerComand.config_terminal],
@@ -56,6 +57,16 @@ export class ConfiguracionBasicaComponent implements OnInit {
       login: [this.routerComand.login],
       exit: [this.routerComand.exit],
     });
+  }
+
+  public clear() {
+    this.formConsole.controls.last_password.setValue(null);
+    this.formConsole.controls.password.setValue(null);
+    this.formConsole.controls.confirm_password.setValue(null);
+    this.formVty.controls.valorMinimo.setValue(null);
+    this.formVty.controls.valorMax.setValue(null);
+    this.formVty.controls.password.setValue(null);
+    this.formVty.controls.confirm_password.setValue(null);
   }
 
 
@@ -102,7 +113,7 @@ export class ConfiguracionBasicaComponent implements OnInit {
     } else {
       this.alerta.alertError('Revisa que todos los campos esten correctos!');
     }
-
+    this.clear();
   }
 
   actualizarVTY() {
@@ -133,6 +144,7 @@ export class ConfiguracionBasicaComponent implements OnInit {
       this.alerta.alertError('Revisa que todos los campos esten correctos!');
     }
     console.log(comands);
+    this.clear();
   }
 
 }
