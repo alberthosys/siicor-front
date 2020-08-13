@@ -23,7 +23,9 @@ export class HomeConfiguracionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dispositivoConsulta = {dispositivo: 'Router', hostname: 'D A T I C', version: 'TL-WN725N', fechaModificacion: '2020/05/12'};
+    let info= JSON.parse(atob(localStorage.getItem('info')));
+
+    this.dispositivoConsulta = {dispositivo: info.dispositivo, hostname: info.nombre, version: info.modelo, fechaModificacion: '2020/05/12'};
     this.form.controls.dispositivo.setValue(this.dispositivoConsulta.dispositivo);
     this.form.controls.hostname.setValue(this.dispositivoConsulta.hostname);
     this.form.controls.version.setValue(this.dispositivoConsulta.version);

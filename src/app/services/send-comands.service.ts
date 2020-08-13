@@ -31,7 +31,7 @@ export class SendComandsService {
 
 
   configUrl = 'assets/config.json';
-  public enviroments="http://localhost:8080/"
+  public enviroments="https://0e1808452826.ngrok.io/"
 
   public url = 'WebServiceSICOR/webservicesicor/enviar/';
   public middleURl='?comando={%27comando%27:';
@@ -42,6 +42,18 @@ export class SendComandsService {
     let comando={
       user:userLocalStorage,
       comando:"enable,123,configure terminal,"+datas
+    }
+    console.log("comandos->",comando)
+    let urlSEND=this.enviroments+this.url+url+this.middleURl+JSON.stringify(comando).replace("'",'"')+this.endURL;
+    console.log("URL->",urlSEND)
+    return this.http.get(urlSEND);
+  }
+
+
+  inicialSesion(url: string,datas:any) {
+    let comando={
+      user:datas,
+      comando:"enable,123,configure terminal"
     }
     console.log("comandos->",comando)
     let urlSEND=this.enviroments+this.url+url+this.middleURl+JSON.stringify(comando).replace("'",'"')+this.endURL;

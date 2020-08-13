@@ -43,10 +43,11 @@ export class HomeComponent implements OnInit {
 
   buscarIP() {
     console.log('f', this.form.value);
-    localStorage.setItem('localip', btoa(JSON.stringify(this.form.value)));
-    this.api.consultar(URLServer.sesion, '').subscribe((response: any) => {
+    this.api.inicialSesion(URLServer.sesion, this.form.value).subscribe((response: any) => {
       console.log(response);
       if (response.respuesta.estado === 'success') {
+        localStorage.setItem('localip', btoa(JSON.stringify(this.form.value)));
+        localStorage.setItem('info',btoa(JSON.stringify(response.respuesta)))
         this.ruta.navigate(['/configuracion']);
       } else {
         localStorage.clear();
