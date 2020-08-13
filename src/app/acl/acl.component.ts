@@ -115,6 +115,7 @@ export class AclComponent implements OnInit {
     this.listProcolos.push('ip');
     this.listProcolos.push('icmp');
     this.listProcolos.push('eigrp');
+    this.listClables.push("sd")
   }
 
   checksesion() {
@@ -132,10 +133,20 @@ export class AclComponent implements OnInit {
         mask = mask.replace(' ', '');
         mask = mask.trim();
       }
+
       if (mask == null || mask == '') {
         listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + ' ' + (this.permit_deny ? 'permit' : 'deny') + this.comandos.host + this.formAclEstandar.controls.ipEntrada.value);
       } else {
-        listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + ' ' + (this.permit_deny ? 'permit ' : 'deny ') + this.formAclEstandar.controls.ipEntrada.value + ' ' + mask);
+        let wildcard: string = '';
+        let maskTemp:number[]=mask.split(".");
+        maskTemp.forEach((result) => {
+          console.log(result);
+          wildcard += (255 - result);
+          wildcard += '.';
+        });
+        wildcard = wildcard.substring(0, wildcard.length - 1);
+
+        listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + ' ' + (this.permit_deny ? 'permit ' : 'deny ') + this.formAclEstandar.controls.ipEntrada.value + ' ' + wildcard);
       }
       listComands.push(this.comandos.int + this.formAclEstandar.controls.cableEntrada.value);
       listComands.push(this.comandos.ip_acess_group + this.formAclEstandar.controls.group.value + ' ' + (this.in_out ? 'out' : 'in'));
