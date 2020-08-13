@@ -115,7 +115,6 @@ export class AclComponent implements OnInit {
     this.listProcolos.push('ip');
     this.listProcolos.push('icmp');
     this.listProcolos.push('eigrp');
-    this.listClables.push("sd")
   }
 
   checksesion() {
