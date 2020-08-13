@@ -92,13 +92,10 @@
                             <p class="material-icons" style="height:9px">code</p>
                           </div>
                         </div>
-                        <input  class="form-control" type="text" placeholder="Mascara" formControlName="mask" required>
+                        <input  class="form-control" type="text" placeholder="Mascara" formControlName="mask">
                       </div>
                       <div class="errorsValidate" *ngIf="formAclEstandar.controls.mask.touched && formAclEstandar.controls.mask.hasError('pattern')">
                         Revisa que el formato sea IPv4
-                      </div>
-                      <div class="errorsValidate" *ngIf="formAclEstandar.controls.mask.touched && formAclEstandar.controls.mask.hasError('required')">
-                        El campo es requerido
                       </div>
                     </div>
                   </div>
