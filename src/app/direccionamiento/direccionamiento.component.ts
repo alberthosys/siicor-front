@@ -40,7 +40,6 @@ export class DireccionamientoComponent implements OnInit {
     this.formSubInterfaces = this.formBuilder.group({
       vlan: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
       cableEntrada: [null, Validators.compose([Validators.required])],
-      cableEntrada2: [null, Validators.compose([Validators.required])],
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
       mask: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
     });
@@ -153,10 +152,7 @@ export class DireccionamientoComponent implements OnInit {
   gudardarSubInterface() {
     let comands: string[] = [];
     if (this.formSubInterfaces.valid) {
-      let cable2: string = this.formSubInterfaces.controls.cableEntrada2.value.toString();
-      cable2=cable2.replace(" ","");
-      cable2 = cable2.substring(cable2.length - 3, cable2.length);
-      comands.push(this.routerComands.int + this.formSubInterfaces.controls.cableEntrada.value + '.' + cable2);
+      comands.push(this.routerComands.int + this.formSubInterfaces.controls.cableEntrada.value + '.' + this.formSubInterfaces.controls.vlan.value);
       comands.push(this.routerComands.encapsulation_dot1q + this.formSubInterfaces.controls.vlan.value);
       comands.push(this.routerComands.ip_address + this.formSubInterfaces.controls.ipEntrada.value + ' ' + this.formSubInterfaces.controls.mask.value);
       comands.push(this.routerComands.no_shutdown);

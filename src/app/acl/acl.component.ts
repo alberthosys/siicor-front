@@ -41,7 +41,7 @@ export class AclComponent implements OnInit {
     this.formAclEstandar = formBuilder.group({
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
       group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(1), Validators.max(99)])],
-      cableEntrada: [null, Validators.compose([Validators.required, Validators.pattern('^(FastEthernet|GigabitEthernet)[0-9]/[0-9]$')])]
+      cableEntrada: [null, Validators.compose([Validators.required])]
     });
     this.formAclExtendida = formBuilder.group({
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
@@ -50,8 +50,8 @@ export class AclComponent implements OnInit {
       ipDestino: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
       mask2: [null, Validators.compose([Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
       group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(100), Validators.max(199)])],
-      cableEntrada: [null, Validators.compose([Validators.required, Validators.pattern('^(FastEthernet|GigabitEthernet)[0-9]/[0-9]$')])],
-      puerto: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])]
+      cableEntrada: [null, Validators.compose([Validators.required])],
+      puerto: [null, Validators.compose([Validators.pattern('[0-9]*')])]
     });
     this.formEliminar = formBuilder.group({
       group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(100)])]
@@ -60,34 +60,38 @@ export class AclComponent implements OnInit {
 
   ngOnInit() {
     this.checksesion();
-    this.api.consultar(URLServer.seguridad,'').subscribe((response)=>{
+    this.listClables=[];
+    this.listACLlist=[];
+    this.listACLlist2=[];
+    this.listProcolos=[];
+    this.api.consultar(URLServer.seguridad,'').subscribe((response:any)=>{
       console.log("RESP-ACC->",response)
+      if (response.respuesta.estado === 'success') {
+        response.respuesta.interfaces.forEach((int) => {
+          this.listClables.push(int);
+        });
+        response.respuesta.standar.forEach((standar)=>{
+          standar=standar.replace("\t","");
+          standar=standar.replace("\n","");
+          standar=standar.trim();
+          this.listACLlist.push(standar);
+        })
+        response.respuesta.extended.forEach((extended)=>{
+          extended=extended.replace("\t","");
+          extended=extended.replace("\n","");
+          extended=extended.trim();
+          this.listACLlist2.push(extended);
+        })
+      }
+
     })
 
-
-    let response: any = {
-      respuesta: {
-        estado: 'success',
-        interfaces: ['GigabitEthernet0/0', 'GigabitEthernet0/1'],
-        standar: [],
-        extended: []
-      }
-    };
-    if (response.respuesta.estado === 'success') {
-      response.respuesta.interfaces.forEach((int) => {
-        this.listClables.push(int);
-      });
-    }
-    this.listClables.push('fa0/0');
-    this.listClables.push('fa0/1');
-    this.listClables.push('fa0/2');
-    this.listACLlist.push('access-list 3 deny host 1.1.1.1');
-    this.listACLlist2.push('10 permit tcp 192.1.1.1 0.0.0.0 host 10.10.10.10 eq www');
-    this.listProcolos.push('ip');
-    this.listProcolos.push('ismp');
-    this.listProcolos.push('rip');
-    this.listProcolos.push('eigrp');
+    this.listProcolos.push('tcp');
+    this.listProcolos.push('udp');
     this.listProcolos.push('ospf');
+    this.listProcolos.push('ip');
+    this.listProcolos.push('icmp');
+    this.listProcolos.push('eigrp');
   }
 
   checksesion() {
@@ -123,6 +127,7 @@ export class AclComponent implements OnInit {
       this.globalComands.push(save);
     });
     console.log('Comands->', listComands);
+    this.ngOnInit();
   }
 
   guradarAclExtendida() {
@@ -150,7 +155,7 @@ export class AclComponent implements OnInit {
       }
       let protocolo = this.formAclExtendida.controls.protocolo.value;
       if (protocolo.toLowerCase().includes('tcp') || protocolo.toLowerCase().includes('udp')) {
-        comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value + ' ' + wildcard + (!this.host_any ? this.comandos.host : this.comandos.any) + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : '') + ' eq ' + this.formAclExtendida.controls.puerto.value);
+        comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value + ' ' + wildcard + " " + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : '') + ' eq ' + this.formAclExtendida.controls.puerto.value);
       } else {
         comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value+' '+wildcard + (!this.host_any ? this.comandos.host : this.comandos.any) + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : ''));
       }
@@ -173,18 +178,25 @@ export class AclComponent implements OnInit {
     } else {
       this.alerta.alertError('Revisa que todos los campos se hayan llenado correctamente');
     }
+    this.ngOnInit();
 
   }
 
   eliminar(acl: string) {
     alertConfirm.fire({html: 'Se eliminarán todas las sentencias asociadas a esta lista de acceso. ¿Está seguro que desea eliminar este grupo?'}).then((response) => {
       if (response.value) {
-        let comand: string = 'no ' + acl;
+        let aclTemp:string[]=acl.split(" ");
+        let comand: string = 'no ' + aclTemp[0]+"-"+aclTemp[1]+" "+aclTemp[2];
         console.log('ELiminar->' + comand);
         this.globalComands.push(comand);
         this.alerta.alertSuccess('Se ha eliminado exitosamente !');
+        this.api.consultar(URLServer.envioDatos,comand).subscribe((response)=>{
+          console.log("ResponseDeleteACL->",response)
+        })
       }
     });
+    this.ngOnInit();
+
   }
 
   eliminarExtentida() {
@@ -197,7 +209,9 @@ export class AclComponent implements OnInit {
         this.globalComands2.push(comand);
         this.alerta.alertSuccess('Se ha eliminado exitosamente !');
       }
+      this.ngOnInit();
     });
+
   }
 
 }

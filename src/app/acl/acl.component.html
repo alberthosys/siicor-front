@@ -121,9 +121,7 @@
                       <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.cableEntrada.touched && this.formAclEstandar.controls.cableEntrada.hasError('required')">
                         El campo es requerido
                       </div>
-                      <div class="errorsValidate" *ngIf="this.formAclEstandar.controls.cableEntrada.touched && this.formAclEstandar.controls.cableEntrada.hasError('pattern')">
-                        El formato debe ser fa0/0 o gi0/0
-                      </div>
+
                     </div>
                   </div>
                   <div class="col-sm-1">
@@ -342,7 +340,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3" *ngIf="this.formAclExtendida.controls.protocolo.value==='tcp' ||this.formAclExtendida.controls.protocolo.value==='udp' ">
                   <div class="col-sm-12 pt-1 my-1">
                     <label class="sr-only">
                       Enabled
@@ -353,13 +351,10 @@
                           <p class="material-icons" style="height:9px">code</p>
                         </div>
                       </div>
-                      <input class="form-control" type="text" placeholder="Puerto" formControlName="puerto" required>
+                      <input class="form-control" type="text" placeholder="Puerto" formControlName="puerto" >
                     </div>
                     <div class="errorsValidate" *ngIf="formAclExtendida.controls.puerto.touched && formAclExtendida.controls.puerto.hasError('pattern')">
                       Solo de admiten numeros
-                    </div>
-                    <div class="errorsValidate" *ngIf="formAclExtendida.controls.puerto.touched && formAclExtendida.controls.puerto.hasError('required')">
-                      El campo es requerido
                     </div>
                   </div>
                 </div>
@@ -466,7 +461,7 @@
 <!--                        <button (click)="eliminar(item)" data-toggle="modal" data-target="#myModal" class="btn btn-outline-danger" data-toggle="tooltip"-->
 <!--                                data-placement="top" title="Eliminar">-->
 <!--                          <p class="material-icons">delete</p></button>-->
-                        <button type="button" (click)="itemReference=item" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="btn btn-outline-danger" (click)="eliminar(item)">
                           <p class="material-icons" style="height: 9px;">delete</p>
                         </button>
                       </td>

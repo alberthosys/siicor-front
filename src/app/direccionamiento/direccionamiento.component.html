@@ -252,7 +252,7 @@
                       </div>
                       <select (click)="selecSerial()" (change)="selecSerial()" class="form-control"
                               formControlName="cableEntrada" required>
-                        <option value="null">Rango inicial</option>
+                        <option value="null">Interface</option>
                         <option [value]="item" *ngFor="let item of listCables">
                           {{item}}
                         </option>
@@ -263,31 +263,6 @@
                       El campo es requerido
                     </div>
 
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="col-sm-12 pt-1 my-1">
-                    <label class="sr-only">
-                      Enabled
-                    </label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <p class="material-icons" style="height:9px">code</p>
-                        </div>
-                      </div>
-                      <select (click)="selecSerial()" (change)="selecSerial()" class="form-control"
-                              formControlName="cableEntrada2" required>
-                        <option value="null">Rango final</option>
-                        <option [value]="item" *ngFor="let item of listCables">
-                          {{item}}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="errorsValidate"
-                         *ngIf="this.formSubInterfaces.controls.cableEntrada2.touched && this.formSubInterfaces.controls.cableEntrada2.hasError('required')">
-                      El campo es requerido
-                    </div>
                   </div>
                 </div>
                 <div class="col-sm-3">
