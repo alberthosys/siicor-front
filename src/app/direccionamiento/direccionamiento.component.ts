@@ -156,6 +156,7 @@ export class DireccionamientoComponent implements OnInit {
     if (this.formSubInterfaces.valid) {
       comands.push("interface "+ this.formSubInterfaces.controls.cableEntrada.value);
       comands.push("no ip address");
+      comands.push("no shutdown");
       comands.push(this.routerComands.int + this.formSubInterfaces.controls.cableEntrada.value + '.' + this.formSubInterfaces.controls.vlan.value);
       comands.push(this.routerComands.encapsulation_dot1q + this.formSubInterfaces.controls.vlan.value);
       comands.push(this.routerComands.ip_address + this.formSubInterfaces.controls.ipEntrada.value + ' ' + this.formSubInterfaces.controls.mask.value);
