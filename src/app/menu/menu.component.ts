@@ -57,6 +57,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
+
   redireccion(ruta) {
     if (ruta === '/') {
       localStorage.clear();
