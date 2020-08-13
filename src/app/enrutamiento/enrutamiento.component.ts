@@ -43,6 +43,9 @@ export class EnrutamientoComponent implements OnInit {
     this.formEigrp.controls.redIp.setValue(null);
     this.formRip.controls.redRip.setValue(null);
   }
+  public recargar(){
+    this.ngOnInit();
+  }
 
   ngOnInit() {
     this.clear();

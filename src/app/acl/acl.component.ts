@@ -40,6 +40,7 @@ export class AclComponent implements OnInit {
   ) {
     this.formAclEstandar = formBuilder.group({
       ipEntrada: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
+      mask: [null, Validators.compose([Validators.required, Validators.pattern('((^|\\.)((25[0-5]_*)|(2[0-4]\\d_*)|(1\\d\\d_*)|([1-9]?\\d_*))){4}_*$')])],
       group: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(1), Validators.max(99)])],
       cableEntrada: [null, Validators.compose([Validators.required])]
     });
@@ -71,7 +72,9 @@ export class AclComponent implements OnInit {
     this.formAclExtendida.controls.puerto.setValue(null);
     this.formEliminar.controls.group.setValue(null);
   }
-
+  public recargar(){
+    this.ngOnInit();
+  }
   ngOnInit() {
     this.clear();
     this.checksesion();
@@ -120,7 +123,7 @@ export class AclComponent implements OnInit {
   guardar() {
     let listComands: string[] = [];
     if (this.formAclEstandar.valid) {
-      listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + ' ' + (this.permit_deny ? 'permit' : 'deny') + this.comandos.host + this.formAclEstandar.controls.ipEntrada.value);
+      listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + ' ' + (this.permit_deny ? 'permit' : 'deny') + this.comandos.host + this.formAclEstandar.controls.ipEntrada.value+ " "+ this.formAclEstandar.controls.mask.value);
       // listComands.push(this.comandos.access_list + this.formAclEstandar.controls.group.value + this.comandos.permit_any);
       listComands.push(this.comandos.int + this.formAclEstandar.controls.cableEntrada.value);
       listComands.push(this.comandos.ip_acess_group + this.formAclEstandar.controls.group.value + ' ' + (this.in_out ? 'out' : 'in'));

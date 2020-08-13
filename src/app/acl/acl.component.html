@@ -16,6 +16,12 @@
                 </b>
                 <pre></pre>
               </div>
+              <div class="col-md-12 pt-3" style="align-content: center;text-align: center;">
+                <button class="btn btn-warning" style="height: 40px;width: 200px" data-toggle="tooltip"
+                        data-placement="top" title="Recargar" (click)="this.recargar()">
+                  <p class="material-icons">wifi_protected_setup</p>
+                </button>
+              </div>
               <div class="col-md-4">
               </div>
               <div class="col-md-2 pt-4">
@@ -52,6 +58,7 @@
             <form [formGroup]="formAclEstandar">
               <div class="container-fluid">
                 <div class="row">
+
                   <div class="col-sm-3">
                     <div class="col-sm-12 pt-1 my-1">
                       <label class="sr-only">
@@ -73,6 +80,29 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="col-sm-3">
+                    <div class="col-sm-12 pt-1 my-1">
+                      <label class="sr-only">
+                        Enabled
+                      </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <p class="material-icons" style="height:9px">code</p>
+                          </div>
+                        </div>
+                        <input  class="form-control" type="text" placeholder="Mascara" formControlName="mask" required>
+                      </div>
+                      <div class="errorsValidate" *ngIf="formAclEstandar.controls.mask.touched && formAclEstandar.controls.mask.hasError('pattern')">
+                        Revisa que el formato sea IPv4
+                      </div>
+                      <div class="errorsValidate" *ngIf="formAclEstandar.controls.mask.touched && formAclEstandar.controls.mask.hasError('required')">
+                        El campo es requerido
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="col-sm-3">
                     <div class="col-sm-12 pt-1 my-1">
                       <label class="sr-only">
