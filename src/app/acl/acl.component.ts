@@ -157,7 +157,7 @@ export class AclComponent implements OnInit {
       if (protocolo.toLowerCase().includes('tcp') || protocolo.toLowerCase().includes('udp')) {
         comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value + ' ' + wildcard + " " + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : '') + ' eq ' + this.formAclExtendida.controls.puerto.value);
       } else {
-        comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value+' '+wildcard + (!this.host_any ? this.comandos.host : this.comandos.any) + this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : ''));
+        comands.push(this.comandos.access_list + this.formAclExtendida.controls.group.value + (this.permit_deny2 ? ' permit ' : ' deny ') + this.formAclExtendida.controls.protocolo.value + ' ' + this.formAclExtendida.controls.ipEntrada.value+' '+wildcard + " "+ this.formAclExtendida.controls.ipDestino.value + ' ' + (widlcard2 ? widlcard2 + ' ' : ''));
       }
       comands.push(this.comandos.int + this.formAclExtendida.controls.cableEntrada.value);
       comands.push(this.comandos.ip_acess_group + this.formAclExtendida.controls.group.value + ' ' + (this.in_out2 ? 'out ' : 'in '));
