@@ -164,6 +164,10 @@ export class DireccionamientoComponent implements OnInit {
       comands.push(this.routerComands.exit);
       let sendComands = '';
       comands.forEach((cmd) => {
+        cmd=cmd.replace("\n","");
+        cmd=cmd.replace("\r","");
+        cmd=cmd.replace("\t","");
+        cmd=cmd.trim();
         sendComands += cmd + ',';
       });
       sendComands = sendComands.substring(0, sendComands.length - 1);
